@@ -1,0 +1,8 @@
+body{
+    background:#fff;
+}
+.icon{
+    width:422px;
+    height: 422px;
+    background:url('../images/timg.jpg') no-repeat;
+}

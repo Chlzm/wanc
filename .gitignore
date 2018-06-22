@@ -1,0 +1,8 @@
+pc/dist/*
+node_modules
+.idea
+v1
+*.idea
+idea
+yarn.lock
+gdbaiyi.gaodun.com
