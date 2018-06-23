@@ -4,6 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length})
+const extractCSS = new ExtractTextPlugin('stylesheets/[name]-one.css');
+const extractLESS = new ExtractTextPlugin('stylesheets/[name]-two.css');
 module.exports = {
     entry: ['babel-polyfill','./src/index.js'],//入口配置
     output: {
@@ -26,11 +28,24 @@ module.exports = {
                 ]
             },{
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: ["css-loader?sourceMap=true"]
-                })
+                use: extractCSS.extract(['css-loader' ])
             },
+            {
+                test: /\.less$/,
+                // loader: 'style!css',
+                // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
+                use: extractLESS.extract([ 'css-loader', 'postcss-loader' ,'less-loader',])
+            },
+            {
+                test: /\.css$/,
+                // loader: 'style!css',
+                // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
+                use: [
+                    'postcss-loader'
+                ],
+                exclude : /node_modules/
+            },
+
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader?limit=8192&outputPath=images/',
@@ -55,7 +70,8 @@ module.exports = {
             // cache: true // 已被弃用
             verbose: true
         }),
-        new ExtractTextPlugin('css/vendor.[hash].css')
+        extractCSS,
+        extractLESS,
     ],
     externals:{
         'react': 'React',

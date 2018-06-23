@@ -1,8 +1,45 @@
-body{
-    background:#fff;
+* {
+    margin: 0;
+    padding: 0;
 }
-.icon{
-    width:422px;
-    height: 422px;
-    background:url('../images/timg.jpg') no-repeat;
+
+body {
+    background: #fff;
 }
+
+.home-banner img {
+    display: block;
+    width: 100%;
+}
+
+.home-module {
+    margin-top: 20px;
+    padding:0 30px;
+}
+
+.home-m-title {
+    height: 36px;
+    line-height: 36px;
+    font-size: 26px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.home-m-title em {
+    color: red;
+    overflow: hidden;
+}
+
+.home-m-title span.symbol {
+    color: #be2721;
+}
+
+.home-m-title span.text {
+    margin: 0 8px;
+    color: #333;
+}
+.home-m-content{
+    margin-top: 20px;
+}
+.home-m-content img{width:150px;}

@@ -26,14 +26,38 @@ module.exports = {
                 ]
             },
             {
-                test: /\.css/,
+                test: /\.css$/,
                 // loader: 'style!css',
                 // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
                 use: [
                     'style-loader',
                     'css-loader',
-                ]
+                ],
             },
+            {
+                test: /\.css$/,
+                // loader: 'style!css',
+                // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
+                use: [
+                    'postcss-loader'
+                ],
+                exclude : /node_modules/
+            },
+            {
+                test: /\.less$/,
+                // loader: 'style!css',
+                // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
+                use:  [{
+                    loader: "style-loader" // creates style nodes from JS strings
+                }, {
+                    loader: "css-loader" // translates CSS into CommonJS
+                },{
+                    loader: "postcss-loader"
+                }, {
+                    loader: "less-loader" // compiles Less to CSS
+                }]
+            },
+
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader?limit=8192',
@@ -50,7 +74,7 @@ module.exports = {
         port: 8080,//主机名
         historyApiFallback: true,
         hot: true,
-        open:true,
+        //open:true,
         compress: true//服务器返回给浏览器是否使用gzip压缩
     },
     devtool: 'source-map',
