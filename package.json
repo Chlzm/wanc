@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --config build/webpack.config.development.js",
+    "dev": "webpack-dev-server --mode development --progress --colors --config build/webpack.config.development.js",
     "build": "npm run clear && npm run build:server",
     "build:web": "webpack --mode development --config build/webpack.config.development.js",
-    "build:client": "npm run clear && webpack --mode production --config build/webpack.config.production.js",
+    "build:client": "npm run clear && webpack --mode production --progress --colors --config build/webpack.config.production.js",
     "build:server": "webpack --mode development --config build/webpack.config.server.js",
     "clear": "rimraf dist"
   },
