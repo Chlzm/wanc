@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { TabBar, ListView } from 'antd-mobile';
 export default class WCTabBar extends Component{
     constructor(props) {
         super(props);
@@ -8,11 +7,17 @@ export default class WCTabBar extends Component{
             hidden: false,
         };
     }
-
+    componentDidMount(){
+    }
+    goHomePage(){
+        this.props.history.push({
+            pathname: '/'
+        });
+    }
     render() {
         return (
             <div className="wc-tab-bar">
-                <div>
+                <div className={this.props.match.url == '/' ? 'active': ''} onClick={()=>this.goHomePage()}>
                     <i className="tab-icon icon-home">&nbsp;</i>
                     <div>广场</div>
                 </div>

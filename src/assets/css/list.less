@@ -1,0 +1,116 @@
+@import "./theme";
+
+.list-stat {
+    background: @white;
+    line-height: 70px;
+    padding: 20px;
+    .running-describe{
+        color:@color;
+        font-size: 28px;
+        padding-left: 80px;
+        background:url("../images/icon-smile.png") no-repeat 0 0;
+    }
+}
+
+.list-stat-title {
+    font-size: 34px;
+}
+
+.list-stat-count {
+    font-size: 32px;
+    color: #be2721;
+    b {
+        font-size: 38px;
+    }
+}
+.subscribe-list {
+    margin-top: 30px;
+    background: @white;
+    li {
+        display: flex;
+        padding: 20px 30px;
+        border-bottom: 1px solid #ccc;
+        justify-content: space-between;
+        &:last-child {
+            border: none;
+        }
+        &.disabled{
+            .sl-date{
+                background-color:#ccc;
+            }
+            .am-button-primary{
+                background-color:#ccc;
+            }
+        }
+        .sl-date {
+            width: 140px;
+            height: 140px;
+            background: @color;
+            color: @white;
+            line-height: 44px;
+            text-align: center;
+            & > div {
+                align-items: center;
+                align-content: flex-start;
+            }
+            .date {
+                font-size: 36px;
+                margin-top: 25px;
+            }
+            .year {
+                font-size: 26px;
+            }
+        }
+        .sl-time {
+            width: 300px;
+            margin: 0 25px;
+            line-height: 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .sl-hours {
+            font-size: 30px;
+            color: #333;
+            span {
+                font-size: 24px;
+                color: #666;
+            }
+        }
+        .sl-end {
+            font-size: 24px;
+            color: #666;
+        }
+        .sl-price {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            b {
+                display: block;
+                font-weight: normal;
+                font-size: 34px;
+                color: @color;
+            }
+            del {
+                font-size: 24px;
+                color: #999;
+                display: block;
+            }
+        }
+    }
+
+}
+.running-subscribe-count{
+    width:100%;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 30px;
+    font-szie: 26px;
+    color:@white;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 1;
+    background:url("../images/bg-transparent.png");
+}

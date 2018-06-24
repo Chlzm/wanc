@@ -4,8 +4,9 @@ const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length})
 const webpack = require('webpack');
+const theme = require('../package.json').theme;
 module.exports = {
-    entry: ['babel-polyfill','./src/index.js'],//入口配置
+    entry: ['babel-polyfill', './src/index.js'],//入口配置
     output: {
         path: path.join(__dirname, '../dist'),//只能写绝对路径，输出文件夹
         publicPath: "/",
@@ -20,7 +21,7 @@ module.exports = {
             {
                 test: /.(js)$/, //使用loader的目标文件。这里是.js
                 //loader: 'babel-loader',
-                use:'happypack/loader?id=babel',
+                use: 'happypack/loader?id=babel',
                 exclude: [
                     path.join(__dirname, '../node_modules')  // 由于node_modules都是编译过的文件，这里我们不让babel去处理其下面的js文件
                 ]
@@ -41,21 +42,20 @@ module.exports = {
                 use: [
                     'postcss-loader'
                 ],
-                exclude : /node_modules/
+                exclude: /node_modules/
             },
             {
                 test: /\.less$/,
                 // loader: 'style!css',
                 // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
-                use:  [{
-                    loader: "style-loader" // creates style nodes from JS strings
-                }, {
-                    loader: "css-loader" // translates CSS into CommonJS
-                },{
-                    loader: "postcss-loader"
-                }, {
-                    loader: "less-loader" // compiles Less to CSS
-                }]
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    "postcss-loader",
+                    {
+                        loader: "less-loader",
+                        options: {modifyVars: theme}
+                    }]
             },
 
             {
@@ -81,7 +81,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            filename: path.join(__dirname,'../dist/','index.html'),
+            filename: path.join(__dirname, '../dist/', 'index.html'),
             title: 'react/react-router/react-redux(react-saga)',
             //chunks:['bundle']
         }),
@@ -94,7 +94,7 @@ module.exports = {
         }),
         new webpack.HotModuleReplacementPlugin()
     ],
-    externals:{
+    externals: {
         'react': 'React',
         'react-dom': 'ReactDOM',
         'react-router-dom': 'ReactRouterDOM',
@@ -104,7 +104,7 @@ module.exports = {
         splitChunks: {
             minSize: 1,
             chunks: "initial",
-            name:"vendor"
+            name: "vendor"
         }
     }
 }

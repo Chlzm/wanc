@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as homeActions from '../actions/main'
-import {Flex, Carousel, WingBlank} from 'antd-mobile';
-import {Prompt, withRouter} from 'react-router-dom'
+import * as headerActions from '../actions/header'
+import {Flex, Carousel} from 'antd-mobile';
 import WCTabBar from '../components/TabBar';
+
 function matchStateToProps(state) {
     //...
     return {
@@ -14,11 +14,12 @@ function matchStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        ...homeActions
+        ...headerActions
     }, dispatch)
 }
 
-class Index extends Component {
+@connect(matchStateToProps, matchDispatchToProps)
+export default class Index extends Component {
     constructor(options) {
         super(options);
     }
@@ -29,11 +30,9 @@ class Index extends Component {
 
     }
 
-    goHome = () => {
-        this.props.history.push({
-            pathname: '/'
-        })
-        //console.log(this)
+
+    componentWillMount() {
+        this.props.setTitle("预约广场");
     }
 
     componentDidMount() {
@@ -46,28 +45,28 @@ class Index extends Component {
 
     render() {
         return (
-            <div className="mart70" >
+            <div className="mart70 home-wrap">
                 <div className="home-banner">
                     <Carousel
                         autoplay
                         infinite
-                        beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-                        afterChange={index => console.log('slide to', index)}
+                        /*beforeChange
+                        afterChange*/
                     >
                         {this.state.data.map(val => (
                             <a
                                 key={val}
                                 href="http://www.alipay.com"
-                                style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
+                                style={{display: 'inline-block', width: '100%', height: this.state.imgHeight}}
                             >
                                 <img
                                     src={require('../assets/images/car.jpg')}
                                     alt=""
-                                    style={{ width: '100%', verticalAlign: 'top' }}
+                                    style={{width: '100%', verticalAlign: 'top'}}
                                     onLoad={() => {
                                         // fire window resize event to change height
                                         window.dispatchEvent(new Event('resize'));
-                                        this.setState({ imgHeight: 'auto' });
+                                        this.setState({imgHeight: 'auto'});
                                     }}
                                 />
                             </a>
@@ -97,14 +96,15 @@ class Index extends Component {
                                 </a>
                             </Flex.Item>
                             <Flex.Item>
-                                <a href="javascript:void(0)"><img src={require('../assets/images/s01.jpg')} className="sub-item-image"/></a>
+                                <a href="javascript:void(0)"><img src={require('../assets/images/s01.jpg')}
+                                                                  className="sub-item-image"/></a>
                             </Flex.Item>
                         </Flex>
                     </div>
                 </div>
                 <div className="home-module">
                     <a href="javascript:void(0)" className="subscribe">
-                        <img src={require('../assets/images/s02.jpg')} />
+                        <img src={require('../assets/images/s02.jpg')}/>
                     </a>
                 </div>
                 <div className="home-module">
@@ -120,7 +120,7 @@ class Index extends Component {
                             </div>
                             <div className="item-sub-info">
                                 <h3>C200 E300L</h3>
-                                <p>试驾时间：2018-05-20  9:00-11:00</p>
+                                <p>试驾时间：2018-05-20 9:00-11:00</p>
                                 <p>试驾人数：8人以上&nbsp;&nbsp;（已约：<em>10人</em>）</p>
                                 <p>车辆来源：利星奔驰汽车销售 （南京溧水区店</p>
                             </div>
@@ -132,7 +132,7 @@ class Index extends Component {
                             </div>
                             <div className="item-sub-info">
                                 <h3>C200 E300L</h3>
-                                <p>试驾时间：2018-05-20  9:00-11:00</p>
+                                <p>试驾时间：2018-05-20 9:00-11:00</p>
                                 <p>试驾人数：8人以上&nbsp;&nbsp;（已约：<em>10人</em>）</p>
                                 <p>车辆来源：利星奔驰汽车销售 （南京溧水区店</p>
                             </div>
@@ -144,17 +144,15 @@ class Index extends Component {
                             </div>
                             <div className="item-sub-info">
                                 <h3>C200 E300L</h3>
-                                <p>试驾时间：2018-05-20  9:00-11:00</p>
+                                <p>试驾时间：2018-05-20 9:00-11:00</p>
                                 <p>试驾人数：8人以上&nbsp;&nbsp;（已约：<em>10人</em>）</p>
                                 <p>车辆来源：利星奔驰汽车销售 （南京溧水区店</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <WCTabBar></WCTabBar>
+                <WCTabBar {...this.props}></WCTabBar>
             </div>
         )
     }
 }
-
-export default withRouter(Index)

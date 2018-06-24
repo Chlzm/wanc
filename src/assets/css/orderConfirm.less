@@ -1,0 +1,112 @@
+@import "./theme";
+
+.order-confirm {
+    .order-subscribe-info {
+        display: flex;
+        padding: 30px;
+        background: @white;
+        .order-sub-img {
+            width: 190px;
+        }
+    }
+    .order-sub-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-left: 30px;
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            color: #333;
+        }
+        li {
+            display: flex;
+            color: #666;
+            line-height: 40px;
+            .order-s-label {
+                width: 140px;
+                white-space: nowrap;
+            }
+            em {
+                color: @color;
+            }
+        }
+    }
+    .order-confirm-price {
+        display: flex;
+        justify-content: space-between;
+        background: #fff;
+        border-top: 1px solid #ccc;
+        padding: 30px;
+        line-height: 44px;
+        p {
+            font-size: 34px;
+            color: @color;
+            text-align: right;
+            del {
+                font-size: 24px;
+                color: #999;
+            }
+        }
+        .order-count-time {
+            text-align: right;
+            line-height: 44px;
+        }
+        .order-c-tt {
+            font-size: 32px;
+            color: #333;
+        }
+        .order-count-value {
+            color: @color;
+            font-size: 28px;
+        }
+    }
+    .order-owner {
+        padding: 30px;
+        background: #fff;
+        margin-top: 30px;
+        li {
+            line-height: 60px;
+            display: flex;
+            color: #666;
+            font-size: 28px;
+            .order-owner-label {
+                text-align: right;
+                width: 210px;
+                white-space: nowrap;
+
+            }
+            .order-owner-content {
+                color: #999;
+            }
+        }
+    }
+    .order-confirm-submit {
+        background: @white;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        display: flex;
+        & > div {
+            flex: 1;
+        }
+        .order-price {
+            padding-left: 30px;
+            line-height: 100px;
+            font-size: 28px;
+            color: #666;
+            em {
+                color: @color;
+            }
+
+        }
+        .order-submit-button{
+            .am-button {
+                line-height: 100px;
+                height: 100px;
+            }
+        }
+    }
+}

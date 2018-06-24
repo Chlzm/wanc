@@ -1,0 +1,115 @@
+@import "./theme";
+
+.order-fill {
+    background: #f5f5f5;
+    .order-fill-info {
+        border-bottom: 1px solid #ccc;
+        background: @white;
+    }
+    .order-fill-des {
+        padding: 0 30px;
+        h1 {
+            margin: 0;
+            font-weight: normal;
+            font-size: 32px;
+            line-height: 60px;
+        }
+        ul {
+            padding-bottom: 20px;
+            li {
+                line-height: 44px;
+                color: #666;
+                font-size: 24px;
+                em {
+                    color: @color;
+                }
+            }
+        }
+
+    }
+    .order-fill-note {
+        padding: 30px;
+        background: @white;
+        p {
+            line-height: 44px;
+            color: @color;
+            background: url("../images/icon-smile.png") no-repeat;
+            padding-left: 50px;
+            background-size: 6%;
+        }
+    }
+    .order-fill-module {
+        margin-top: 20px;
+        .order-fill-title {
+            display: flex;
+            justify-content: space-between;
+            line-height: 70px;
+            background: @white;
+            padding: 0 30px;
+            & > div {
+                display: flex;
+                align-items: center;
+                vertical-align: middle;
+            }
+        }
+        .am-list-item {
+            .am-input-label {
+                font-size: 28px;
+                color: #666;
+            }
+            .am-input-control {
+                input {
+                    font-size: 28px;
+                }
+            }
+            .am-list-content {
+                font-size: 28px;
+                color: #666;
+            }
+            .am-list-extra {
+                flex: none !important;
+            }
+            .am-stepper-input {
+                font-size: 28px;
+                color: #666;
+            }
+            .am-stepper-handler {
+                color: #666;
+            }
+        }
+        .order-fill-least {
+        }
+    }
+    .order-fill-submit {
+        display: flex;
+        justify-content: space-between;
+        background: @white;
+        padding: 30px;
+        position:fixed;
+        width:100%;
+        box-sizing: border-box;
+        bottom: 0;
+        left:0;
+        z-index: 1;
+    }
+    .order-fill-price {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        line-height: 44px;
+        font-size: 34px;
+        color: @color;
+        del {
+            font-size: 24px;
+            color: #999;
+        }
+    }
+    .order-fill-sub-button{
+        width:170px;
+        .am-button{
+            height: 100%;
+            line-height: 88px;
+            font-size: 30px;
+        }
+    }
+}

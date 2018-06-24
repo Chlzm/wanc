@@ -25,12 +25,12 @@ export default class Index extends Component {
 
     state = {
         data: ['1', '2', '3'],
-        imgHeight: 176,
+        imgHeight: 370,
 
     }
 
     componentWillMount() {
-        this.props.setTitle('试驾场次预约');
+        this.props.setTitle('跑步预约');
     }
 
     componentDidMount() {
@@ -38,8 +38,11 @@ export default class Index extends Component {
 
     render() {
         return (
-            <div className="home-wrap">
+            <div>
                 <div className="home-banner">
+                    <div className="running-subscribe-count">
+                        已预约58场次，共39098090次
+                    </div>
                     <Carousel
                         autoplay
                         infinite
@@ -53,7 +56,7 @@ export default class Index extends Component {
                                 style={{display: 'inline-block', width: '100%', height: this.state.imgHeight}}
                             >
                                 <img
-                                    src={require('../assets/images/car.jpg')}
+                                    src={require('../assets/images/running.jpg')}
                                     alt=""
                                     style={{width: '100%', verticalAlign: 'top'}}
                                     onLoad={() => {
@@ -67,10 +70,7 @@ export default class Index extends Component {
                     </Carousel>
                 </div>
                 <div className="list-stat">
-                    <div className="list-stat-title">万驰赛车场试驾场次预约</div>
-                    <div className="list-stat-count">
-                        已预约场次<b> 58 </b>场次
-                    </div>
+                    <div className="running-describe">采用现场手机扫码方式入场</div>
                 </div>
                 <ul className="subscribe-list">
                     <li>

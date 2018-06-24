@@ -1,0 +1,59 @@
+@import "./theme";
+
+.wan-c-forget {
+    height: 100%;
+    padding: 0 30px;
+    li {
+        padding: 10px 0;
+    }
+    li.column {
+        display: flex;
+        justify-content: space-between;
+    }
+    .code-image {
+        line-height: 90px;
+        img {
+            display: block;
+            width: 200px;
+            border: 2px solid #ccc;
+        }
+        span {
+            color: @color;
+            padding-left: 20px;
+            border-left: 2px solid @color;
+            font-size: 28px;
+        }
+    }
+    .am-button {
+        height: 100px;
+        line-height: 100px;
+        font-size: 30px;
+    }
+    .am-list-line {
+        background: #eee;
+        padding-left: 20px;
+        input {
+            font-size: 28px;
+        }
+    }
+    .am-list-item {
+        &.am-input-item {
+            background: #eee;
+        }
+    }
+    .step2 {
+        .column{
+            background: #eee;
+        }
+        .am-list-line{
+            padding-left: 0;
+        }
+        .code-image{
+            padding-right: 20px;
+        }
+
+    }
+    .password-button{
+        margin-top: 30px;
+    }
+}

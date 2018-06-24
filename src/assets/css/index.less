@@ -1,3 +1,5 @@
+@import "./theme";
+
 * {
     margin: 0;
     padding: 0;
@@ -5,11 +7,34 @@
 
 html {
     height: 100%;
-    background: #f5f5f5;
 }
 
 body {
+    background-color: @white !important;
+    font-size: 28px !important;
+    color:#666 !important;
+}
 
+/*******header******/
+.am-navbar-light {
+    color: #333;
+}
+
+.wan-c-header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    box-shadow: 0 10px 20px #eee;
+}
+
+.wan-c-header + div {
+    margin-top: 120px;
+}
+
+.home-banner {
+    position: relative;
 }
 
 .home-banner img {
@@ -146,11 +171,48 @@ body {
     .icon-mine {
         background-image: url("../images/icon-mine.png");
     }
+    .active {
+        color: #be2721;
+    }
 }
 
 .mart70 {
     padding-bottom: 140px;
 }
-.slider-frame + div{
+
+.slider-frame + div {
     margin-bottom: 10px !important;
+}
+
+.wanc-button {
+    background-color: @color;
+    display: block;
+    border: none;
+    height: 40px;
+    line-height: 40px;
+}
+
+.am-button {
+    height: 60px;
+    line-height: 60px;
+    border-radius: 0;
+    font-size: 24px;
+}
+
+.am-button-primary {
+    background-color: @color;
+    border-color: @color !important;
+    &:before {
+        border: 1px solid @color !important;
+    }
+
+    &.am-button-active {
+        background-color: #d52d26;
+        color: @white;
+    }
+;
+}
+
+.home-wrap {
+    background: #f5f5f5;
 }
