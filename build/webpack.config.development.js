@@ -57,7 +57,9 @@ module.exports = {
                     'style-loader',
                     'css-loader',
                     "postcss-loader",
-                    "less-loader",
+                    {
+                        "loader": "less-loader",
+                    }
                    ],
                     exclude: /node_modules/
             },
@@ -70,7 +72,9 @@ module.exports = {
                     'css-loader',
                     {
                         loader: "less-loader",
-                        options: {modifyVars: theme}
+                        options: {
+                            modifyVars: theme,
+                        }
                     }],
                     include: /node_modules/
             },
