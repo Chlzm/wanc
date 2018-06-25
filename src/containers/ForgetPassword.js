@@ -43,6 +43,7 @@ export default class Index extends Component {
         let {location,match} = this.props;
         return (
             <div className="wan-c-forget">
+                <Button type="primary">ssss</Button>
                 <Switch key={location.pathname} location={location}>
                     <Route exact path={`${match.path}/step1`} component={StepF}></Route>
                     <Route exact path={`${match.path}/step2`} component={StepS}></Route>

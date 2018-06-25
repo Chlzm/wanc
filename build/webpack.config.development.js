@@ -32,7 +32,12 @@ module.exports = {
                 // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
                 use: [
                     'style-loader',
-                    'css-loader',
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modifyVars: theme
+                        }
+                    }
                 ],
             },
             {
@@ -52,12 +57,23 @@ module.exports = {
                     'style-loader',
                     'css-loader',
                     "postcss-loader",
+                    "less-loader",
+                   ],
+                    exclude: /node_modules/
+            },
+            {
+                test: /\.less$/,
+                // loader: 'style!css',
+                // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
+                use: [
+                    'style-loader',
+                    'css-loader',
                     {
                         loader: "less-loader",
                         options: {modifyVars: theme}
-                    }]
+                    }],
+                    include: /node_modules/
             },
-
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader?limit=8192',

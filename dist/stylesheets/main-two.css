@@ -1,4 +1,128 @@
-.am-tabs-default-bar-tab-active {
+.order-confirm .order-subscribe-info {
+  display: flex;
+  padding: 0.4rem;
+  background: #fff;
+}
+
+.order-confirm .order-subscribe-info .order-sub-img {
+  width: 2.533333rem;
+}
+
+.order-confirm .order-sub-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 0.4rem;
+}
+
+.order-confirm .order-sub-content h1 {
+  margin: 0;
+  font-size: 0.426667rem;
+  color: #333;
+}
+
+.order-confirm .order-sub-content li {
+  display: flex;
+  color: #666;
+  line-height: 0.533333rem;
+}
+
+.order-confirm .order-sub-content li .order-s-label {
+  width: 1.866667rem;
+  white-space: nowrap;
+}
+
+.order-confirm .order-sub-content li em {
+  color: #be2721;
+}
+
+.order-confirm .order-confirm-price {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  border-top: 0.013333rem solid #ccc;
+  padding: 0.4rem;
+  line-height: 0.586667rem;
+}
+
+.order-confirm .order-confirm-price p {
+  font-size: 0.453333rem;
+  color: #be2721;
+  text-align: right;
+}
+
+.order-confirm .order-confirm-price p del {
+  font-size: 0.32rem;
+  color: #999;
+}
+
+.order-confirm .order-confirm-price .order-count-time {
+  text-align: right;
+  line-height: 0.586667rem;
+}
+
+.order-confirm .order-confirm-price .order-c-tt {
+  font-size: 0.426667rem;
+  color: #333;
+}
+
+.order-confirm .order-confirm-price .order-count-value {
+  color: #be2721;
+  font-size: 0.373333rem;
+}
+
+.order-confirm .order-owner {
+  padding: 0.4rem;
+  background: #fff;
+  margin-top: 0.4rem;
+}
+
+.order-confirm .order-owner li {
+  line-height: 0.8rem;
+  display: flex;
+  color: #666;
+  font-size: 0.373333rem;
+}
+
+.order-confirm .order-owner li .order-owner-label {
+  text-align: right;
+  width: 2.8rem;
+  white-space: nowrap;
+}
+
+.order-confirm .order-owner li .order-owner-content {
+  color: #999;
+}
+
+.order-confirm .order-confirm-submit {
+  background: #fff;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+}
+
+.order-confirm .order-confirm-submit > div {
+  flex: 1;
+}
+
+.order-confirm .order-confirm-submit .order-price {
+  padding-left: 0.4rem;
+  line-height: 1.333333rem;
+  font-size: 0.373333rem;
+  color: #666;
+}
+
+.order-confirm .order-confirm-submit .order-price em {
+  color: #be2721;
+}
+
+.order-confirm .order-confirm-submit .order-submit-button .am-button {
+  line-height: 1.333333rem;
+  height: 1.333333rem;
+}.am-tabs-default-bar-tab-active {
   color: #be2721;
 }
 
@@ -204,7 +328,6 @@
 }.wan-c-forget {
   height: 100%;
   padding: 0 0.4rem;
-  background: #f5f5f5;
 }
 
 .wan-c-forget li {
@@ -222,7 +345,7 @@
 
 .wan-c-forget .code-image img {
   display: block;
-  width: 2.8rem;
+  width: 2.666667rem;
   border: 0.026667rem solid #ccc;
 }
 
@@ -237,6 +360,300 @@
   height: 1.333333rem;
   line-height: 1.333333rem;
   font-size: 0.4rem;
+}
+
+.wan-c-forget .am-list-line {
+  background: #eee;
+  padding-left: 0.266667rem;
+}
+
+.wan-c-forget .am-list-line input {
+  font-size: 0.373333rem;
+}
+
+.wan-c-forget .am-list-item.am-input-item {
+  background: #eee;
+}
+
+.wan-c-forget .step2 .column {
+  background: #eee;
+}
+
+.wan-c-forget .step2 .am-list-line {
+  padding-left: 0;
+}
+
+.wan-c-forget .step2 .code-image {
+  padding-right: 0.266667rem;
+}
+
+.wan-c-forget .password-button {
+  margin-top: 0.4rem;
+}.order-fill {
+  background: #f5f5f5;
+}
+
+.order-fill .order-fill-info {
+  border-bottom: 0.013333rem solid #ccc;
+  background: #fff;
+}
+
+.order-fill .order-fill-des {
+  padding: 0 0.4rem;
+}
+
+.order-fill .order-fill-des h1 {
+  margin: 0;
+  font-weight: normal;
+  font-size: 0.426667rem;
+  line-height: 0.8rem;
+}
+
+.order-fill .order-fill-des ul {
+  padding-bottom: 0.266667rem;
+}
+
+.order-fill .order-fill-des ul li {
+  line-height: 0.586667rem;
+  color: #666;
+  font-size: 0.32rem;
+}
+
+.order-fill .order-fill-des ul li em {
+  color: #be2721;
+}
+
+.order-fill .order-fill-note {
+  padding: 0.4rem;
+  background: #fff;
+}
+
+.order-fill .order-fill-note p {
+  line-height: 0.586667rem;
+  color: #be2721;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjE3QUYyMTQ3Nzc3MTFFODk2QUZDQzU0REUzQzVFMEMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjE3QUYyMTU3Nzc3MTFFODk2QUZDQzU0REUzQzVFMEMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCMTdBRjIxMjc3NzcxMUU4OTZBRkNDNTRERTNDNUUwQyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCMTdBRjIxMzc3NzcxMUU4OTZBRkNDNTRERTNDNUUwQyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Po419k0AAAERUExURfvx8f35+cAsJsdGQdJoZOu8utV1ceasqv77+8hHQv36+vbh4Pfm5fnq6cAuKOevrcM2MeKfnfXf3sI1L9mCfvfk48dFP/z19eOjoP3398Q6NeSmpNd8eNBkYP34+L8pI9NsaMU+OdJrZ8hJRMQ6NNBiXtVzb+u7ueGdmt+UkcIzLem1s+iysOGal/ns6/z29frv7v79/cEvKuzAv81aVdl/fP78/Nd5de7FxMExK+arqc9gW+ewrtFmYdNuau/KyM5cWOOhnuu9u+CXlMZDPum3teKgne3DwdVybu3Ewr8qJPnr6uWopfrw7/fj4th9ecZBPOq4ts5cV+y/vdqDgOaqqPjp6NuIhcM4Mr4nIf///wGPZtgAAABbdFJOU////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wCc+ri8AAABYUlEQVR42nyTZ3+CMBDGwx5SQIuD1qp1de897d57577/B2lIgAgoz4vwkPvnl+Ryh4DrRetLoi2pTnloEkVGeFrEsSY1Mw28izghUUkAwgzOSDY5UL3CI2SsRYDwhkfKMEPgCI+RzIAlPFZKADSa4wHRJEAt/Cl+84B2GZpDAmyGfgJxABWijAEq4TwAl9F0PuCgVj6goqnI7nkc+OpHTkI4XyIF6sjLhn6RSkabbqHCRRbYhxbd4pSMLvxkgVWw6SHpNddhNh2vwCO7Jk3UPNymgQEssETBAfk0ffhIxntQDVPNHusOGolNDAFk+moEEB4CVwN/m8fPBCjSLOhBwVyz1wZQ/li4ew+wQt0nKzlW0ifEWnM354oF8NyjU+2oaCW20itsBHW8W9oJD6LHZS/Ft5flSnxQnzeOKWcz2dYTraekWs/eSjevrrk83HX0THcTWcf1jut2Xpetocl/AQYANVI1ZE3VL5wAAAAASUVORK5CYII=) no-repeat;
+  padding-left: 0.666667rem;
+  background-size: 6%;
+}
+
+.order-fill .order-fill-module {
+  margin-top: 0.266667rem;
+}
+
+.order-fill .order-fill-module .order-fill-title {
+  display: flex;
+  justify-content: space-between;
+  line-height: 0.933333rem;
+  background: #fff;
+  padding: 0 0.4rem;
+}
+
+.order-fill .order-fill-module .order-fill-title > div {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.order-fill .order-fill-module .am-list-item .am-input-label {
+  font-size: 0.373333rem;
+  color: #666;
+}
+
+.order-fill .order-fill-module .am-list-item .am-input-control input {
+  font-size: 0.373333rem;
+}
+
+.order-fill .order-fill-module .am-list-item .am-list-content {
+  font-size: 0.373333rem;
+  color: #666;
+}
+
+.order-fill .order-fill-module .am-list-item .am-list-extra {
+  flex: none !important;
+}
+
+.order-fill .order-fill-module .am-list-item .am-stepper-input {
+  font-size: 0.373333rem;
+  color: #666;
+}
+
+.order-fill .order-fill-module .am-list-item .am-stepper-handler {
+  color: #666;
+}
+
+.order-fill .order-fill-submit {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  padding: 0.4rem;
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.order-fill .order-fill-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 0.586667rem;
+  font-size: 0.453333rem;
+  color: #be2721;
+}
+
+.order-fill .order-fill-price del {
+  font-size: 0.32rem;
+  color: #999;
+}
+
+.order-fill .order-fill-sub-button {
+  width: 2.266667rem;
+}
+
+.order-fill .order-fill-sub-button .am-button {
+  height: 100%;
+  line-height: 1.173333rem;
+  font-size: 0.4rem;
+}.order-confirm .order-subscribe-info {
+  display: flex;
+  padding: 0.4rem;
+  background: #fff;
+}
+
+.order-confirm .order-subscribe-info .order-sub-img {
+  width: 2.533333rem;
+}
+
+.order-confirm .order-sub-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 0.4rem;
+}
+
+.order-confirm .order-sub-content h1 {
+  margin: 0;
+  font-size: 0.426667rem;
+  color: #333;
+}
+
+.order-confirm .order-sub-content li {
+  display: flex;
+  color: #666;
+  line-height: 0.533333rem;
+}
+
+.order-confirm .order-sub-content li .order-s-label {
+  width: 1.866667rem;
+  white-space: nowrap;
+}
+
+.order-confirm .order-sub-content li em {
+  color: #be2721;
+}
+
+.order-confirm .order-pay-content {
+  justify-content: center;
+  line-height: 0.8rem;
+}
+
+.order-confirm .order-pay-content .order-pay-price {
+  color: #be2721;
+  font-size: 0.453333rem;
+}
+
+.order-confirm .order-pay-content .order-pay-text {
+  font-size: 0.426667rem;
+}
+
+.order-confirm .order-pay-count {
+  text-align: center;
+  line-height: 0.72rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 0.013333rem solid #ccc;
+  background: #fff;
+}
+
+.order-confirm .order-pay-count .order-pay-count-down {
+  color: #be2721;
+}
+
+.order-confirm .order-pay-count em {
+  display: inline-block;
+  background: #be2721;
+  color: #fff;
+  padding: 0 0.133333rem;
+  border-radius: 0.08rem;
+}
+
+.order-confirm .order-pay-method {
+  margin-top: 0.4rem;
+  background: #fff;
+}
+
+.order-confirm .order-pay-method .order-pay-m-title {
+  padding: 0.266667rem 0.533333rem;
+  border-bottom: 0.013333rem solid #ccc;
+}
+
+.order-confirm .order-pay-method ul li {
+  padding: 0.266667rem 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.013333rem solid #ccc;
+}
+
+.order-confirm .order-pay-method ul li img {
+  display: block;
+  width: 1.066667rem;
+  margin-right: 0.266667rem;
+}
+
+.order-confirm .order-pay-method .order-pay-m-left {
+  display: flex;
+  align-items: center;
+}
+
+.order-confirm .order-pay-method .order-pay-m-name {
+  line-height: 0.586667rem;
+}
+
+.order-confirm .order-pay-method .order-pay-m-name .op-name {
+  font-size: 0.346667rem;
+}
+
+.order-confirm .order-pay-method .order-pay-m-name .op-note {
+  font-size: 0.293333rem;
+  color: #999;
+}
+
+.order-pay {
+  background: #f5f5f5;
+}
+
+.order-pay .my-radio .am-radio {
+  padding: 0.106667rem;
+  border: 0.026667rem solid #ccc;
+  border-radius: 50%;
+  margin-right: 0.066667rem;
+}
+
+.order-pay .my-radio .am-radio .am-radio-inner {
+  left: 0.146667rem;
+}
+
+.order-pay .order-pay-submit {
+  padding: 0 1.2rem;
+  margin-top: 0.4rem;
+}
+
+.order-pay .order-pay-submit .am-button {
+  height: 1.333333rem;
+  line-height: 1.333333rem;
+  font-size: 0.48rem;
 }* {
   margin: 0;
   padding: 0;
@@ -244,6 +661,12 @@
 
 html {
   height: 100%;
+}
+
+body {
+  background-color: #fff !important;
+  font-size: 0.373333rem !important;
+  color: #666 !important;
 }
 
 /*******header******/
@@ -257,7 +680,7 @@ html {
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 999;
   box-shadow: 0 0.133333rem 0.266667rem #eee;
 }
 
@@ -267,6 +690,7 @@ html {
 
 .home-banner {
   position: relative;
+  overflow: hidden;
 }
 
 .home-banner img {
@@ -444,11 +868,6 @@ html {
   font-size: 0.32rem;
 }
 
-.am-button-primary {
-  background-color: #be2721;
-  border-color: #be2721 !important;
-}
-
 .am-button-primary:before {
   border: 0.013333rem solid #be2721 !important;
 }
@@ -456,128 +875,8 @@ html {
 .am-button-primary.am-button-active {
   background-color: #d52d26;
   color: #fff;
-}.order-confirm .order-subscribe-info {
-  display: flex;
-  padding: 0.4rem;
-  background: #fff;
 }
 
-.order-confirm .order-subscribe-info .order-sub-img {
-  width: 2.533333rem;
-}
-
-.order-confirm .order-sub-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-left: 0.4rem;
-}
-
-.order-confirm .order-sub-content h1 {
-  margin: 0;
-  font-size: 0.426667rem;
-  color: #333;
-}
-
-.order-confirm .order-sub-content li {
-  display: flex;
-  color: #666;
-  line-height: 0.533333rem;
-}
-
-.order-confirm .order-sub-content li .order-s-label {
-  width: 1.6rem;
-  white-space: nowrap;
-}
-
-.order-confirm .order-sub-content li em {
-  color: #be2721;
-}
-
-.order-confirm .order-confirm-price {
-  display: flex;
-  justify-content: space-between;
-  background: #fff;
-  border-top: 0.013333rem solid #ccc;
-  padding: 0.4rem;
-  line-height: 0.586667rem;
-}
-
-.order-confirm .order-confirm-price p {
-  font-size: 0.453333rem;
-  color: #be2721;
-  text-align: right;
-}
-
-.order-confirm .order-confirm-price p del {
-  font-size: 0.32rem;
-  color: #999;
-}
-
-.order-confirm .order-confirm-price .order-count-time {
-  text-align: right;
-  line-height: 0.586667rem;
-}
-
-.order-confirm .order-confirm-price .order-c-tt {
-  font-size: 0.426667rem;
-  color: #333;
-}
-
-.order-confirm .order-confirm-price .order-count-value {
-  color: #be2721;
-  font-size: 0.373333rem;
-}
-
-.order-confirm .order-owner {
-  padding: 0.4rem;
-  background: #fff;
-  margin-top: 0.4rem;
-}
-
-.order-confirm .order-owner li {
-  line-height: 0.8rem;
-  display: flex;
-  color: #666;
-  font-size: 0.373333rem;
-}
-
-.order-confirm .order-owner li .order-owner-label {
-  text-align: right;
-  width: 2.8rem;
-  white-space: nowrap;
-}
-
-.order-confirm .order-owner li .order-owner-content {
-  color: #999;
-}
-
-.order-confirm .order-confirm-submit {
-  background: #fff;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  display: flex;
-}
-
-.order-confirm .order-confirm-submit > div {
-  flex: 1;
-}
-
-.order-confirm .order-confirm-submit .order-price {
-  padding-left: 0.4rem;
-  line-height: 1.333333rem;
-  font-size: 0.373333rem;
-  color: #666;
-}
-
-.order-confirm .order-confirm-submit .order-price em {
-  color: #be2721;
-}
-
-.order-confirm .order-confirm-submit .order-submit-button .am-button {
-  line-height: 1.333333rem;
-  height: 1.333333rem;
+.home-wrap {
+  background: #f5f5f5;
 }

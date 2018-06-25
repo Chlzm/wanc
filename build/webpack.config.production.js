@@ -6,6 +6,7 @@ const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length})
 const extractCSS = new ExtractTextPlugin('stylesheets/[name]-one.css');
 const extractLESS = new ExtractTextPlugin('stylesheets/[name]-two.css');
+const theme = require('../package.json').theme;
 module.exports = {
     entry: ['babel-polyfill','./src/index.js'],//入口配置
     output: {
@@ -34,7 +35,27 @@ module.exports = {
                 test: /\.less$/,
                 // loader: 'style!css',
                 // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
-                use: extractLESS.extract([ 'css-loader', 'postcss-loader' ,'less-loader',])
+                use: extractLESS.extract([ 'css-loader' ,{
+                    loader : "less-loader",
+                    options: {
+                        javascriptEnabled: true,
+                        modifyVars: theme
+                    }
+                }]),
+                include: /node_modules/
+            },
+            {
+                test: /\.less$/,
+                // loader: 'style!css',
+                // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap=true!postcss-loader?sourceMap=true!less-loader?{"sourceMap":true}'),
+                use: extractLESS.extract([ 'css-loader', 'postcss-loader' ,{
+                    loader : "less-loader",
+                    options: {
+                        javascriptEnabled: true,
+                        modifyVars: theme
+                    }
+                }]),
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
