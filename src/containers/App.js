@@ -13,6 +13,7 @@ import Login from './Login'
 import ForgetPassword from './ForgetPassword'
 import OrderConfirm from './OrderComfirm';
 import OrderRunning from './OrderRunning';
+import OrderSuccess from './OrderSuccess';
 import OrderFill from './OrderFill';
 import OrderPay from './OrderPay';
 
@@ -54,6 +55,7 @@ export default class App extends React.Component {
                                     <Route exact path="/running" component={Running}></Route>
                                     <Route exact path="/order/car/:id" component={OrderConfirm}></Route>
                                     <Route exact path="/order/running/:id" component={OrderRunning}></Route>
+                                    <Route exact path="/order/success/:id" component={OrderSuccess}></Route>
                                     <Route exact path="/order/fill" component={OrderFill}></Route>
                                     <Route exact path="/order/pay" component={OrderPay}></Route>
                                     <Route component={NoMatch}/>
