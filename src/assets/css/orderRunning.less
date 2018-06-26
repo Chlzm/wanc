@@ -1,0 +1,53 @@
+@import "./theme";
+
+.order-running-state {
+    line-height: 60px;
+    font-size: 28px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+
+    li {
+        span {
+            color: #999;
+            &.highlight {
+                color: @color;
+            }
+        }
+    }
+}
+
+.order-running-agree {
+    .am-checkbox-agree {
+        .am-checkbox-agree-label {
+            font-size: 28px;
+            color: #666;
+            span {
+                font-size: 24px;
+                color: #999;
+            }
+        }
+    }
+}
+
+.order-running-other {
+    font-size: 28px;
+    line-height: 60px;
+    ol {
+        li {
+            line-height: 40px;
+            font-size: 24px;
+            color: #666;
+        }
+    }
+}
+
+.order-running-button {
+    margin-top: 20px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    .am-button {
+        font-size: 28px;
+    }
+}

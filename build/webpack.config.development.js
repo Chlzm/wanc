@@ -59,6 +59,9 @@ module.exports = {
                     "postcss-loader",
                     {
                         "loader": "less-loader",
+                        options: {
+                            sourceMap: true
+                        }
                     }
                    ],
                     exclude: /node_modules/
@@ -74,6 +77,8 @@ module.exports = {
                         loader: "less-loader",
                         options: {
                             modifyVars: theme,
+                            javascriptEnabled: true,
+                            sourceMap: true
                         }
                     }],
                     include: /node_modules/

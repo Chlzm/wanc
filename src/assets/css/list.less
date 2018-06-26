@@ -4,11 +4,11 @@
     background: @white;
     line-height: 70px;
     padding: 20px;
-    .running-describe{
-        color:@color;
+    .running-describe {
+        color: @color;
         font-size: 28px;
         padding-left: 80px;
-        background:url("../images/icon-smile.png") no-repeat 0 0;
+        background: url("../images/icon-smile.png") no-repeat 0 0;
     }
 }
 
@@ -23,6 +23,7 @@
         font-size: 38px;
     }
 }
+
 .subscribe-list {
     margin-top: 30px;
     background: @white;
@@ -34,13 +35,21 @@
         &:last-child {
             border: none;
         }
-        &.disabled{
-            .sl-date{
-                background-color:#ccc;
+        &.disabled {
+            .sl-date {
+                background-color: #ccc;
             }
-            .am-button-primary{
-                background-color:#ccc;
+            .am-button-primary {
+                border-color: #ccc;
+                background-color: #ccc;
+                &:before {
+                    border-color: #ccc !important;
+                }
             }
+        }
+        .am-button {
+            height: 60px;
+            line-height: 60px;
         }
         .sl-date {
             width: 140px;
@@ -101,16 +110,17 @@
     }
 
 }
-.running-subscribe-count{
-    width:100%;
+
+.running-subscribe-count {
+    width: 100%;
     height: 60px;
     line-height: 60px;
     padding: 0 30px;
     font-szie: 26px;
-    color:@white;
-    position:absolute;
-    top:0;
-    left:0;
+    color: @white;
+    position: absolute;
+    top: 0;
+    left: 0;
     z-index: 1;
-    background:url("../images/bg-transparent.png");
+    background: url("../images/bg-transparent.png");
 }

@@ -12,6 +12,7 @@ import Index from './Index'
 import Login from './Login'
 import ForgetPassword from './ForgetPassword'
 import OrderConfirm from './OrderComfirm';
+import OrderRunning from './OrderRunning';
 import OrderFill from './OrderFill';
 import OrderPay from './OrderPay';
 
@@ -43,7 +44,7 @@ export default class App extends React.Component {
                         let {location} = params;
                         return (
                             <div>
-                                {params.location.pathname == "/login" ? <div></div>:<Header {...params}></Header>}
+                                {params.location.pathname == "/login" ? <div></div> : <Header {...params}></Header>}
                                 <Switch key={location.pathname} location={location}>
                                     <Route exact path="/" component={Index}></Route>
                                     <Route exact path="/index" component={Index}></Route>
@@ -51,7 +52,8 @@ export default class App extends React.Component {
                                     <Route path="/forget" component={ForgetPassword}></Route>
                                     <Route exact path="/list" component={List}></Route>
                                     <Route exact path="/running" component={Running}></Route>
-                                    <Route exact path="/order/confirm/:id" component={OrderConfirm} ></Route>
+                                    <Route exact path="/order/car/:id" component={OrderConfirm}></Route>
+                                    <Route exact path="/order/running/:id" component={OrderRunning}></Route>
                                     <Route exact path="/order/fill" component={OrderFill}></Route>
                                     <Route exact path="/order/pay" component={OrderPay}></Route>
                                     <Route component={NoMatch}/>
