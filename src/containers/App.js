@@ -16,6 +16,7 @@ import OrderRunning from './OrderRunning';
 import OrderSuccess from './OrderSuccess';
 import OrderFill from './OrderFill';
 import OrderPay from './OrderPay';
+import Drive from './Drive';
 
 let history = createHistory();
 const store = configure({config: global.$GLOBALCONFIG})
@@ -58,6 +59,7 @@ export default class App extends React.Component {
                                     <Route exact path="/order/success/:id" component={OrderSuccess}></Route>
                                     <Route exact path="/order/fill" component={OrderFill}></Route>
                                     <Route exact path="/order/pay" component={OrderPay}></Route>
+                                    <Route exact path="/drive" component={Drive}></Route>
                                     <Route component={NoMatch}/>
                                 </Switch>
                             </div>
