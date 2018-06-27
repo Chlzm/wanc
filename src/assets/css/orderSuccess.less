@@ -8,11 +8,23 @@
 }
 
 .order-success {
-    margin-top:100px !important;
+    margin-top: 100px !important;
+    .order-sub-img {
+        img {
+            display: block;
+            width: 170px;
+        }
+    }
     .order-owner {
         h2 {
             font-size: 32px;
             color: #333;
+        }
+        em {
+            color: @color;
+            &.blue {
+                color: #5381f0;
+            }
         }
     }
     .order-running-other {
@@ -36,11 +48,11 @@
         position: relative;
         opacity: .5;
     }
-    .icon-join-success{
-        position:absolute;
+    .icon-join-success {
+        position: absolute;
         width: 116px;
         height: 99px;
-        background:url("../images/icon-success.jpg") no-repeat;
+        background: url("../images/icon-success.jpg") no-repeat;
         background-size: 100%;
         top: -30px;
         right: 85px;
