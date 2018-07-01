@@ -6,6 +6,7 @@ const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length})
 const extractCSS = new ExtractTextPlugin('stylesheets/[name]-one.css');
 const extractLESS = new ExtractTextPlugin('stylesheets/[name]-two.css');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const theme = require('../package.json').theme;
 module.exports = {
     entry: ['babel-polyfill','./src/index.js'],//入口配置
@@ -93,6 +94,10 @@ module.exports = {
         }),
         extractCSS,
         extractLESS,
+        new CopyWebpackPlugin([{
+            from: path.join(__dirname, '../src/static/'),
+            to: path.join(__dirname, '../dist/static/')
+        }])
     ],
     externals:{
         'react': 'React',

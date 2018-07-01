@@ -13,12 +13,28 @@ app.use( (req, res, next)=> {
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     next();
 });
+let i = 0;
 app.get('/api/uri1', (req, res) => {
-    setTimeout(()=>{
-        res.json({
-            ok: 1
-        })
-    },1000)
+    i++;
+    res.json({
+        data: [
+            {
+                img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
+                name: 'Jacky' + i,
+                no: '138****1234',
+            },
+            {
+                img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
+                name: 'Jacky'+ i,
+                no: '138****1234',
+            },
+            {
+                img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
+                name: 'Jacky'+ i,
+                no: '138****1234',
+            },
+        ]
+    })
 })
 app.get('/api/uri2', (req, res) => {
     setTimeout(()=>{

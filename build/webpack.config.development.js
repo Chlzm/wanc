@@ -95,7 +95,7 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist',//静态文件跟目录
-        host: 'localhost',//配置主机
+        host: '127.0.0.1',//配置主机
         port: 8080,//主机名
         historyApiFallback: true,
         hot: true,

@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import {Button, Carousel} from 'antd-mobile';
 import '../assets/css/list.less';
+
 function matchStateToProps(state) {
     //...
     return {

@@ -4,7 +4,6 @@ import {Provider} from 'react-redux';
 import configure from '../store/configureStoreSaga'
 import createHistory from 'history/createBrowserHistory'
 
-import Home from './Home'
 import Header from '../components/Header';
 import List from './List'
 import Running from './Running'
@@ -17,6 +16,7 @@ import OrderSuccess from './OrderSuccess';
 import OrderFill from './OrderFill';
 import OrderPay from './OrderPay';
 import Drive from './Drive';
+import AppliedPerson from './AppliedPerson';
 
 let history = createHistory();
 const store = configure({config: global.$GLOBALCONFIG})
@@ -60,6 +60,7 @@ export default class App extends React.Component {
                                     <Route exact path="/order/fill" component={OrderFill}></Route>
                                     <Route exact path="/order/pay" component={OrderPay}></Route>
                                     <Route exact path="/drive" component={Drive}></Route>
+                                    <Route exact path="/apply" component={AppliedPerson}></Route>
                                     <Route component={NoMatch}/>
                                 </Switch>
                             </div>
