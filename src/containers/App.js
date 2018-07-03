@@ -18,6 +18,7 @@ import OrderPay from './OrderPay';
 import Drive from './Drive';
 import AppliedPerson from './AppliedPerson';
 import UserCenter from './UserCenter'
+import OrderMine from './OrderMine'
 
 let history = createHistory();
 const store = configure({config: global.$GLOBALCONFIG})
@@ -63,6 +64,7 @@ export default class App extends React.Component {
                                     <Route exact path="/drive" component={Drive}></Route>
                                     <Route exact path="/apply" component={AppliedPerson}></Route>
                                     <Route exact path="/mine" component={UserCenter}></Route>
+                                    <Route exact path="/order/mine" component={OrderMine}></Route>
                                     <Route component={NoMatch}/>
                                 </Switch>
                             </div>

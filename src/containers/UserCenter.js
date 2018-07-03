@@ -32,7 +32,7 @@ export default class List1 extends React.Component {
 
     render() {
         return (
-            <div className="wan-c-user">
+            <div className="wan-c-user mart70">
                 <div className="user-head">
                     <img src={require('../assets/images/icon-tx.png')}/>
                     <div className="user-head-info">
