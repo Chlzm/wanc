@@ -9,15 +9,15 @@ export default class WCTabBar extends Component{
     }
     componentDidMount(){
     }
-    goHomePage(){
+    goPage(pathname){
         this.props.history.push({
-            pathname: '/'
+            pathname
         });
     }
     render() {
         return (
             <div className="wc-tab-bar">
-                <div className={this.props.match.url == '/' ? 'active': ''} onClick={()=>this.goHomePage()}>
+                <div className={this.props.match.url == '/' ? 'active': ''} onClick={()=>this.goPage('/')}>
                     <i className="tab-icon icon-home">&nbsp;</i>
                     <div>广场</div>
                 </div>
@@ -25,7 +25,7 @@ export default class WCTabBar extends Component{
                     <i className="tab-icon icon-order">&nbsp;</i>
                     <div>订单</div>
                 </div>
-                <div>
+                <div className={this.props.match.url == '/mine' ? 'active': ''} onClick={()=>this.goPage('/mine')}>
                     <i className="tab-icon icon-mine">&nbsp;</i>
                     <div>我的</div>
                 </div>

@@ -76,7 +76,7 @@ export default class Index extends Component {
                  if (s.positions.current > 50) {
                     self.setState({
                         visible: true,
-                        loadingText: '松开推荐'
+                        loadingText: '松开加载'
                     })
                 }else if (s.positions.current > 10) {
                      self.setState({
@@ -99,7 +99,9 @@ export default class Index extends Component {
 
                     //Show loader
 
-
+                    self.setState({
+                        loadingText: '加载中...'
+                    });
                     //Load slides
                     setTimeout(() => {
                         loadNewSlides.call(self);
@@ -113,17 +115,16 @@ export default class Index extends Component {
         function loadNewSlides() {
             getData().then(ret => {
                 this.setState({
-                    data: [...ret.data, ...this.state.data]
+                    data: [...ret.data, ...this.state.data],
+                    visible: false,
+                    loadingText: '下拉加载'
                 }, () => {
                     mySwiper.setWrapperTranslate(0, 0, 0)
                     mySwiper.params.onlyExternal = false;
 
                     //Update active slide
                     mySwiper.updateActiveSlide(0);
-                    this.setState({
-                        visible: false,
-                        loadingText: '下拉加载'
-                    })
+
                 })
             })
             return;
