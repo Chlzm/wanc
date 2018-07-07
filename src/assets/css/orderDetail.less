@@ -1,0 +1,184 @@
+@import "./theme";
+
+.order-detail {
+    .order-subscribe-info {
+        display: flex;
+        padding: 30px;
+        background: @white;
+        margin-top: 20px;
+        .order-sub-img {
+            width: 190px;
+        }
+    }
+    .order-sub-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-left: 30px;
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            color: #333;
+        }
+        li {
+            display: flex;
+            color: #666;
+            line-height: 40px;
+            .order-s-label {
+                width: 140px;
+                white-space: nowrap;
+            }
+            em {
+                color: @color;
+            }
+        }
+    }
+    .order-pay-content {
+        justify-content: center;
+        line-height: 60px;
+        .order-pay-price {
+            color: @color;
+            font-size: 34px;
+        }
+        .order-pay-text {
+            font-size: 32px;
+        }
+    }
+    .order-pay-count {
+        text-align: center;
+        line-height: 54px;
+        background: @white;
+        .order-detail-status {
+            color: @color;
+            font-size: 36px;
+        }
+        .order-pay-count-down {
+            color: @color;
+        }
+        em {
+            display: inline-block;
+            background: @color;
+            color: @white;
+            padding: 0 10px;
+            border-radius: 6px;
+        }
+    }
+    .order-detail-price {
+        padding: 20px 30px;
+        background: @white;
+        border-top: 1px solid #ccc;
+        li {
+            display: flex;
+            justify-content: space-between;
+            line-height: 50px;
+            &.price {
+                font-size: 30px;
+                span:last-child {
+                    color: @color;
+                }
+            }
+        }
+    }
+    .order-pay-method {
+        margin-top: 30px;
+        background: @white;
+        .order-pay-m-title {
+            padding: 20px 40px;
+            border-bottom: 1px solid #ccc;
+        }
+        ul {
+            li {
+                padding: 20px 30px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #ccc;
+                img {
+                    display: block;
+                    width: 80px;
+                    margin-right: 20px;
+                }
+            }
+        }
+        .order-pay-m-left {
+            display: flex;
+            align-items: center;
+        }
+        .order-pay-m-name {
+            line-height: 44px;
+            .op-name {
+                font-size: 26px;
+            }
+            .op-note {
+                font-size: 22px;
+                color: #999;
+            }
+        }
+    }
+    .order-detail-connect {
+        line-height: 50px;
+        text-align: left;
+        border-top: 1px solid #ccc;
+        padding: 10px 30px;
+        margin-top: 20px;
+    }
+    .order-owner {
+        padding: 30px;
+        background: #fff;
+        margin-top: 20px;
+        li {
+            line-height: 60px;
+            display: flex;
+            color: #666;
+            font-size: 28px;
+            h2 {
+                font-size: 32px;
+                color: #333;
+            }
+            .order-owner-label {
+                width: 155px;
+                white-space: nowrap;
+
+            }
+            .order-owner-content {
+                color: #999;
+                &.order-red {
+                    color: @color;
+                }
+            }
+        }
+    }
+    .order-detail-submit {
+        display: flex;
+        & > a {
+            flex: 1;
+            height: 100px;
+            line-height: 100px;
+        }
+    }
+}
+
+.order-pay {
+    background: #f5f5f5;
+    .my-radio {
+        .am-radio {
+            padding: 8px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            margin-right: 5px;
+            .am-radio-inner {
+                left: 11px;
+            }
+        }
+
+    }
+    .order-pay-submit {
+        padding: 0 90px;
+        margin-top: 30px;
+        .am-button {
+            height: 100px;
+            line-height: 100px;
+            font-size: 36px;
+        }
+    }
+}

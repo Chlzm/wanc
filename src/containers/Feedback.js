@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import * as headerActions from '../actions/header'
-import {InputItem, Button} from 'antd-mobile';
-import '../assets/css/forget.less';
+import {TextareaItem, Button} from 'antd-mobile';
+import '../assets/css/feedback.less';
 
-import StepF from '../components/forget/StepFirst';
-import StepS from '../components/forget/StepSecond';
 
 function matchStateToProps(state) {
     //...
@@ -31,10 +28,7 @@ export default class Index extends Component {
     state = {}
 
     componentWillMount(){
-        this.props.setTitle('找回密码');
-        // this.props.history.push({
-        //     pathname: '/forget/step1'
-        // })
+        this.props.setTitle('意见反馈');
     }
     componentDidMount() {
     }
@@ -42,11 +36,12 @@ export default class Index extends Component {
     render() {
         let {location,match} = this.props;
         return (
-            <div className="wan-c-forget">
-                <Switch key={location.pathname} location={location}>
-                    <Route exact path={`${match.path}/step1`} component={StepF}></Route>
-                    <Route exact path={`${match.path}/step2`} component={StepS}></Route>
-                </Switch>
+            <div className="wan-c-feedback">
+                <h1>感谢您的宝贵意见和建议，这将是我们不断改善与成长的动力！</h1>
+                <TextareaItem placeholder="请输入您想反馈的问题…" rows={5} count={120}></TextareaItem>
+                <div className="feedback-submit">
+                    <Button type="primary">提交</Button>
+                </div>
             </div>
         )
     }

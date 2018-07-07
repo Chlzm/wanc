@@ -19,7 +19,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class List1 extends React.Component {
+export default class OrderConfirm extends React.Component {
     constructor(options) {
         super(options);
     }
