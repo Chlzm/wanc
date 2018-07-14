@@ -6,6 +6,7 @@ import {Flex, Button, Carousel, Checkbox} from 'antd-mobile';
 import '../assets/css/orderConfirm.less';
 import '../assets/css/orderRunning.less';
 import * as runningAPI from "../api/running";
+import format from 'format-datetime';
 
 function matchStateToProps(state) {
     //...
@@ -27,15 +28,24 @@ export default class RunningDetail extends React.Component {
     }
 
     state = {
-        data: ['1', '2', '3'],
+        data: {},
+        typeMap: ['', '跑步预约详情', '自行车预约详情', '卡丁车预约详情', '赛道预约详情'],
         imgHeight: 90,
+        dayMap: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
 
     }
 
     componentWillMount() {
-        this.props.setTitle('跑步预约详情');
+        this.setTitle();
         this.getDetail();
     }
+
+    setTitle() {
+        let type = this.props.match.params.type;
+        let title = this.state.typeMap[type];
+        this.props.setTitle(title);
+    }
+
     /**
      *
      * @param type 1:跑步,2：自行车，3：卡丁车，4：塞道
@@ -45,67 +55,63 @@ export default class RunningDetail extends React.Component {
         let type = this.props.match.params.type;
         this[`getDetail${type}`] && this[`getDetail${type}`]();
     }
-    async getDetail1(){
+
+    async getDetail1() {
         let ret = await runningAPI.getRunningDetail({
             id: this.props.match.params.id
         });
+        this.setState({
+            data: ret.body,
+        });
     }
-    async getDetail2(){
+
+    async getDetail2() {
         let ret = await runningAPI.getBicycleDetail({
             id: this.props.match.params.id
         });
+        this.setState({
+            data: ret.body,
+        });
     }
-    async getDetail3(){
+
+    async getDetail3() {
         let ret = await runningAPI.getKartDetail({
             id: this.props.match.params.id
         });
+        this.setState({
+            data: ret.body,
+        });
     }
-    async getDetail4(){
+
+    async getDetail4() {
         let ret = await runningAPI.getTrackDetail({
             id: this.props.match.params.id
         });
+        this.setState({
+            data: ret.body,
+        });
     }
+
     render() {
+        let {data} = this.state;
         return (
             <div className="order-confirm">
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
-                        <Carousel
-                            autoplay
-                            infinite
-                            /*beforeChange
-                            afterChange*/
-                        >
-                            {this.state.data.map(val => (
-                                <a
-                                    key={val}
-                                    href="http://www.alipay.com"
-                                    style={{display: 'inline-block', width: '100%', height: this.state.imgHeight}}
-                                >
-                                    <img
-                                        src={require('../assets/images/test-car.png')}
-                                        alt=""
-                                        style={{width: '100%', verticalAlign: 'top'}}
-                                        onLoad={() => {
-                                            // fire window resize event to change height
-                                            window.dispatchEvent(new Event('resize'));
-                                            this.setState({imgHeight: 'auto'});
-                                        }}
-                                    />
-                                </a>
-                            ))}
-                        </Carousel>
+                        <img
+                            src={require('../assets/images/test-car.png')}
+                        />
                     </div>
                     <div className="order-sub-content">
-                        <h1>万驰跑步入场券</h1>
+                        <h1>{data.name}</h1>
                         <ul>
                             <li>
                                 <div className="order-s-label">
                                     试驾时间：
                                 </div>
                                 <div className="order-s-date">
-                                    2018-06-01 | 星期五 | 五天后
-                                    13:00-15:00 <em>（2个小时）</em>
+                                    {data.dateStr} | {this.state.dayMap[new Date(data.dateStr).getDay()]}
+                                    {data.startHour}-{data.endHour} {/*<em>（2个小时）</em>*/}
                                 </div>
                             </li>
                             <li>
@@ -113,7 +119,7 @@ export default class RunningDetail extends React.Component {
                                     场次编号：
                                 </div>
                                 <div className="order-s-date">
-                                    SJ201805200001
+                                    {data.code}
                                 </div>
                             </li>
                         </ul>
@@ -121,9 +127,9 @@ export default class RunningDetail extends React.Component {
                 </div>
                 <div className="order-confirm-price">
                     <div className="order-price">
-                        <p>¥3000.00</p>
+                        <p>¥{data.discountPrice}</p>
                         <p>
-                            <del>¥ 5000.00</del>
+                            <del>¥ {data.price}</del>
                         </p>
                     </div>
                     <div className="order-count-time">
@@ -134,11 +140,11 @@ export default class RunningDetail extends React.Component {
                     <ul className="order-running-state">
                         <li>
                             <label>预约截止时间：</label>
-                            <span>2018-05-18 24:00</span>
+                            <span>{data.applyEndTimeStr}</span>
                         </li>
                         <li>
                             <label>我的预约状态：</label>
-                            <span className="highlight">未预约</span>
+                            <span className="highlight">{!data.applyStatus ? '未预约' : '已预约'}</span>
                         </li>
                     </ul>
                     {/*<div className="order-running-agree">

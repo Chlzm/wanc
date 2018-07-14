@@ -10,7 +10,7 @@ export const getUri2 = parameters => get('/api/uri2');
 
 export const getUri3 = parameters => get('/api/uri3');
 
-export const getBannerList = params => get('/rest/index/trydrivelist');
+export const getDriveList = params => get('/rest/index/trydrivelist');
 
 export const getCycleList = params => get('/rest/index/cyclelist');
 

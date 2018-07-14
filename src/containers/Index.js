@@ -27,6 +27,7 @@ export default class Index extends Component {
 
     state = {
         banners: [],
+        driveList: [],
         fourS: [],
         imgHeight: 176,
 
@@ -36,15 +37,10 @@ export default class Index extends Component {
     componentWillMount() {
         this.props.setTitle("预约广场");
         this.getBanner();
-        this.get4SList();
+        this.getDriveList();
     }
 
     componentDidMount() {
-        // setTimeout(() => {
-        //     this.setState({
-        //         data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
-        //     });
-        // }, 100);
     }
 
     async getBanner() {
@@ -62,6 +58,19 @@ export default class Index extends Component {
 
     async get4SList() {
         let ret = await homeApi.get4SList();
+    }
+
+    async getDriveList() {
+        let ret = await homeApi.getDriveList();
+        this.setState({
+            driveList: ret.body
+        })
+    }
+
+    goDetail(id) {
+        this.props.history.push({
+            pathname: `/order/fill/0/${id}`,
+        })
     }
 
     render() {
@@ -93,33 +102,54 @@ export default class Index extends Component {
                     <div className="home-m-content">
                         <Flex>
                             <Flex.Item>
-                                <a href="javascript:void(0)" onClick={()=>{
+                                {/*跑步预约*/}
+                                <a href="javascript:void(0)" onClick={() => {
                                     this.props.history.push({
-                                        pathname:'/running'
+                                        pathname: '/subscribe/running/1'
                                     })
                                 }}>
                                     <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
                                 </a>
                             </Flex.Item>
                             <Flex.Item>
-                                <a href="javascript:void(0)">
+                                {/*自行车预约*/}
+                                <a href="javascript:void(0)" onClick={() => {
+                                    this.props.history.push({
+                                        pathname: '/subscribe/running/2'
+                                    })
+                                }}>
                                     <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
                                 </a>
                             </Flex.Item>
                             <Flex.Item>
-                                <a href="javascript:void(0)">
+                                {/*卡丁车预约*/}
+                                <a href="javascript:void(0)" onClick={() => {
+                                    this.props.history.push({
+                                        pathname: '/subscribe/running/3'
+                                    })
+                                }}>
                                     <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
                                 </a>
                             </Flex.Item>
                             <Flex.Item>
-                                <a href="javascript:void(0)"><img src={require('../assets/images/s01.jpg')}
-                                                                  className="sub-item-image"/></a>
+                                {/*赛道预约*/}
+                                <a href="javascript:void(0)" onClick={() => {
+                                    this.props.history.push({
+                                        pathname: '/subscribe/running/4'
+                                    })
+                                }}>
+                                    <img src={require('../assets/images/s01.jpg')}
+                                         className="sub-item-image"/></a>
                             </Flex.Item>
                         </Flex>
                     </div>
                 </div>
                 <div className="home-module">
-                    <a href="javascript:void(0)" className="subscribe">
+                    <a href="javascript:void(0)" className="subscribe" onClick={() => {
+                        this.props.history.push({
+                            pathname: '/subscribe/running/0'
+                        })
+                    }}>
                         <img src={require('../assets/images/s02.jpg')}/>
                     </a>
                 </div>
@@ -129,42 +159,26 @@ export default class Index extends Component {
                         className="symbol">/</span>
                     </h2>
                     <div className="home-m-content">
-                        <div className="hmc-list">
-                            <div className="item-logo-area">
-                                <span className="item-logo-icon">&nbsp;</span>
-                                <img src={require('../assets/images/icon-car-logo.jpg')} width="100%"/>
-                            </div>
-                            <div className="item-sub-info">
-                                <h3>C200 E300L</h3>
-                                <p>试驾时间：2018-05-20 9:00-11:00</p>
-                                <p>试驾人数：8人以上&nbsp;&nbsp;（已约：<em>10人</em>）</p>
-                                <p>车辆来源：利星奔驰汽车销售 （南京溧水区店</p>
-                            </div>
-                        </div>
-                        <div className="hmc-list">
-                            <div className="item-logo-area">
-                                <span className="item-logo-icon test">&nbsp;</span>
-                                <img src={require('../assets/images/icon-car-logo.jpg')} width="100%"/>
-                            </div>
-                            <div className="item-sub-info">
-                                <h3>C200 E300L</h3>
-                                <p>试驾时间：2018-05-20 9:00-11:00</p>
-                                <p>试驾人数：8人以上&nbsp;&nbsp;（已约：<em>10人</em>）</p>
-                                <p>车辆来源：利星奔驰汽车销售 （南京溧水区店</p>
-                            </div>
-                        </div>
-                        <div className="hmc-list">
-                            <div className="item-logo-area">
-                                <span className="item-logo-icon test">&nbsp;</span>
-                                <img src={require('../assets/images/icon-car-logo.jpg')} width="100%"/>
-                            </div>
-                            <div className="item-sub-info">
-                                <h3>C200 E300L</h3>
-                                <p>试驾时间：2018-05-20 9:00-11:00</p>
-                                <p>试驾人数：8人以上&nbsp;&nbsp;（已约：<em>10人</em>）</p>
-                                <p>车辆来源：利星奔驰汽车销售 （南京溧水区店</p>
-                            </div>
-                        </div>
+                        {
+                            this.state.driveList.map((item, i) => (
+                                <div className="hmc-list" onClick={() => {
+                                    this.goDetail(item.id)
+                                }}>
+                                    <div className="item-logo-area">
+                                        <span
+                                            className={item.statusStr === "试驾中" ? "item-logo-icon test" : "item-logo-icon"}>&nbsp;</span>
+                                        <img src={item.carBrandLogoUrl} width="100%"/>
+                                    </div>
+                                    <div className="item-sub-info">
+                                        <h3>{item.carmodel}</h3>
+                                        <p>试驾时间：{item.dateStr} {item.startHour}-{item.endHour}</p>
+                                        <p>试驾人数：{item.minUserCount}人以上&nbsp;&nbsp;（已约：<em>{item.applyedUserCount}人</em>）
+                                        </p>
+                                        <p>车辆来源：{item.s4Name}</p>
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
                 <WCTabBar {...this.props}></WCTabBar>

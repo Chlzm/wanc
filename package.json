@@ -18,6 +18,7 @@
     "cookie": "^0.3.1",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
+    "format-datetime": "^1.0.2",
     "history": "^4.7.2",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",

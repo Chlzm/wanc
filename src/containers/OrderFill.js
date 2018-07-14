@@ -2,8 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Flex, Button, List, InputItem, Icon, Stepper,DatePicker} from 'antd-mobile';
+import {Flex, Button, List, InputItem, Icon, Stepper, DatePicker} from 'antd-mobile';
 import '../assets/css/orderFill.less';
+import format from 'format-datetime';
+import {apply4S, get4SDetail} from "../api/running";
 
 function matchStateToProps(state) {
     //...
@@ -25,18 +27,48 @@ export default class List1 extends React.Component {
     }
 
     state = {
-        value: 3,
+        id: this.props.match.params.id,
         time: new Date,
+        s4name: '',
+        applyusername: '',
+        phone: '',
+        carbrandid: 1,
+        carmodel: '',
+        usercount: 0,
+        paymoney: '',
+        applyendtime: format(new Date, 'yyyy-MM-dd HH:mm') + ':00',
     }
 
     componentWillMount() {
         this.props.setTitle('填写预约单');
+        this.getOrderDetail();
     }
 
-    onChange = (value) => {
+    async getOrderDetail() {
+        let ret = await get4SDetail({
+            id: this.props.match.params.id,
+        });
         this.setState({
-            value,
-        })
+            applyendtime: ret.body.applyEndTimeStr,
+            time: new Date(ret.body.applyEndTime),
+            paymoney: ret.body.discountPrice,
+            ...ret.body,
+        });
+    }
+
+    change = (value, stateName) => {
+        let o = {...this.state};
+        o[stateName] = value;
+        if (stateName === 'applyendtime') {
+            o[stateName] = format(value, 'yyyy-MM-dd HH:mm') + ':00'
+            o.time = value;
+        }
+        this.setState(o)
+    }
+
+    async submit() {
+        let ret = await apply4S(this.state);
+        debugger;
     }
 
     render() {
@@ -44,11 +76,11 @@ export default class List1 extends React.Component {
             <div className="order-fill">
                 <div className="order-fill-info">
                     <div className="order-fill-des">
-                        <h1>万驰赛车场试驾场次预约</h1>
+                        <h1>{this.state.name}</h1>
                         <ul>
-                            <li>试驾时间：2018-06-01 13:00-15:00 <em>（2个小时）</em></li>
-                            <li>截止时间：2018-05-30 24:00</li>
-                            <li>场次编号：SJ201805200001</li>
+                            <li>试驾时间：{format(new Date(this.state.date), 'yyyy-MM-dd')} {this.state.startHour}-{this.state.endHour}</li>
+                            <li>截止时间：{format(new Date(this.state.applyEndTime), 'yyyy-MM-dd HH:mm')}</li>
+                            <li>场次编号：{this.state.code}</li>
                         </ul>
                     </div>
                 </div>
@@ -59,14 +91,20 @@ export default class List1 extends React.Component {
                     </p>
                 </div>
                 <div className="order-fill-module">
-                    <List >
-                        <InputItem placeholder="请输入4S店名称">4S店名称：</InputItem>
+                    <List>
+                        <InputItem placeholder="请输入4S店名称" onChange={(value) => {
+                            this.change(value, 's4name')
+                        }}>4S店名称：</InputItem>
                     </List>
-                    <List >
-                        <InputItem placeholder="请输入预约人姓名">预约人：</InputItem>
+                    <List>
+                        <InputItem placeholder="请输入预约人姓名" onChange={(value) => {
+                            this.change(value, 'applyusername')
+                        }}>预约人：</InputItem>
                     </List>
-                    <List >
-                        <InputItem type="phone" placeholder="请输入联系方式">联系方式：</InputItem>
+                    <List>
+                        <InputItem type="phone" placeholder="请输入联系方式" onChange={(value) => {
+                            this.change(value, 'phone')
+                        }}>联系方式：</InputItem>
                     </List>
                 </div>
                 <div className="order-fill-module">
@@ -77,10 +115,12 @@ export default class List1 extends React.Component {
                             <Icon type="right"></Icon>
                         </div>
                     </div>
-                    <List >
-                        <InputItem placeholder="多种车型，用逗号“，”隔开">试驾车型：</InputItem>
+                    <List>
+                        <InputItem placeholder="多种车型，用逗号“，”隔开" onChange={(value) => {
+                            this.change(value, 'carmodel')
+                        }}>试驾车型：</InputItem>
                     </List>
-                    <List >
+                    <List>
                         <List.Item extra={
                             <div className="order-fill-least">
                                 <Stepper
@@ -88,11 +128,13 @@ export default class List1 extends React.Component {
                                     showNumber
                                     max={10}
                                     min={1}
-                                    value={this.state.value}
-                                    onChange={this.onChange}
+                                    value={this.state.usercount}
+                                    onChange={(value) => {
+                                        this.change(value, 'usercount')
+                                    }}
                                 />
                             </div>
-                            }
+                        }
                         >
                             人数要求：</List.Item>
                     </List>
@@ -101,21 +143,25 @@ export default class List1 extends React.Component {
                             mode="datetime"
                             minuteStep={2}
                             value={this.state.time}
-                            onChange={time => this.setState({ time })}
+                            onChange={(value) => {
+                                this.change(value, 'applyendtime')
+                            }}
                         >
-                            <List.Item >报名截止：</List.Item>
+                            <List.Item>报名截止：</List.Item>
                         </DatePicker>
                     </List>
                     <div className="order-fill-submit">
                         <div className="order-fill-price">
-                            ¥3000.00
-                            <del>¥5000.00</del>
+                            ¥{this.state.discountPrice}
+                            <del>¥{this.state.price}</del>
                         </div>
                         <div className="order-fill-sub-button">
-                            <Button type="primary">立即预约</Button>
+                            <Button type="primary" onClick={() => {
+                                this.submit()
+                            }}>立即预约</Button>
                         </div>
                     </div>
-                   {/* <List>
+                    {/* <List>
                         <List.Item extra={
                             <Button type="primary">立即预约</Button>
                         }>
