@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import {Flex, Carousel} from 'antd-mobile';
 import WCTabBar from '../components/TabBar';
+import * as homeApi from "../api/home";
 
 function matchStateToProps(state) {
     //...
@@ -25,7 +26,8 @@ export default class Index extends Component {
     }
 
     state = {
-        data: ['1', '2', '3'],
+        banners: [],
+        fourS: [],
         imgHeight: 176,
 
     }
@@ -33,6 +35,8 @@ export default class Index extends Component {
 
     componentWillMount() {
         this.props.setTitle("预约广场");
+        this.getBanner();
+        this.get4SList();
     }
 
     componentDidMount() {
@@ -43,6 +47,23 @@ export default class Index extends Component {
         // }, 100);
     }
 
+    async getBanner() {
+        let ret = await homeApi.getCycleList();
+        this.setState({
+            banners: ret.body
+        })
+
+    }
+
+    async getCycle() {
+        let ret = await homeApi.getCycleList();
+        debugger;
+    }
+
+    async get4SList() {
+        let ret = await homeApi.get4SList();
+    }
+
     render() {
         return (
             <div className="mart70 home-wrap">
@@ -50,26 +71,17 @@ export default class Index extends Component {
                     <Carousel
                         autoplay
                         infinite
-                        /*beforeChange
-                        afterChange*/
                     >
-                        {this.state.data.map(val => (
-                            <a
-                                key={val}
-                                href="http://www.alipay.com"
-                                style={{display: 'inline-block', width: '100%', height: this.state.imgHeight}}
-                            >
-                                <img
-                                    src={require('../assets/images/car.jpg')}
-                                    alt=""
-                                    style={{width: '100%', verticalAlign: 'top'}}
-                                    onLoad={() => {
-                                        // fire window resize event to change height
-                                        window.dispatchEvent(new Event('resize'));
-                                        this.setState({imgHeight: 'auto'});
-                                    }}
-                                />
-                            </a>
+                        {this.state.banners.map(item => (
+                            <img
+                                src={item.imgUrl}
+                                style={{width: '100%', verticalAlign: 'top'}}
+                                onLoad={() => {
+                                    // fire window resize event to change height
+                                    window.dispatchEvent(new Event('resize'));
+                                    this.setState({imgHeight: 'auto'});
+                                }}
+                            />
                         ))}
                     </Carousel>
                 </div>
@@ -81,7 +93,11 @@ export default class Index extends Component {
                     <div className="home-m-content">
                         <Flex>
                             <Flex.Item>
-                                <a href="javascript:void(0)">
+                                <a href="javascript:void(0)" onClick={()=>{
+                                    this.props.history.push({
+                                        pathname:'/running'
+                                    })
+                                }}>
                                     <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
                                 </a>
                             </Flex.Item>

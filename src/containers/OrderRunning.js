@@ -2,9 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Flex, Button, Carousel,Checkbox} from 'antd-mobile';
+import {Flex, Button, Carousel, Checkbox} from 'antd-mobile';
 import '../assets/css/orderConfirm.less';
 import '../assets/css/orderRunning.less';
+import * as runningAPI from "../api/running";
 
 function matchStateToProps(state) {
     //...
@@ -20,7 +21,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class List1 extends React.Component {
+export default class RunningDetail extends React.Component {
     constructor(options) {
         super(options);
     }
@@ -33,8 +34,37 @@ export default class List1 extends React.Component {
 
     componentWillMount() {
         this.props.setTitle('跑步预约详情');
+        this.getDetail();
     }
-
+    /**
+     *
+     * @param type 1:跑步,2：自行车，3：卡丁车，4：塞道
+     * @param id
+     */
+    getDetail() {
+        let type = this.props.match.params.type;
+        this[`getDetail${type}`] && this[`getDetail${type}`]();
+    }
+    async getDetail1(){
+        let ret = await runningAPI.getRunningDetail({
+            id: this.props.match.params.id
+        });
+    }
+    async getDetail2(){
+        let ret = await runningAPI.getBicycleDetail({
+            id: this.props.match.params.id
+        });
+    }
+    async getDetail3(){
+        let ret = await runningAPI.getKartDetail({
+            id: this.props.match.params.id
+        });
+    }
+    async getDetail4(){
+        let ret = await runningAPI.getTrackDetail({
+            id: this.props.match.params.id
+        });
+    }
     render() {
         return (
             <div className="order-confirm">
@@ -102,18 +132,18 @@ export default class List1 extends React.Component {
                 </div>
                 <div className="wanc-module">
                     <ul className="order-running-state">
-                       <li>
-                           <label>预约截止时间：</label>
-                           <span>2018-05-18 24:00</span>
-                       </li>
+                        <li>
+                            <label>预约截止时间：</label>
+                            <span>2018-05-18 24:00</span>
+                        </li>
                         <li>
                             <label>我的预约状态：</label>
                             <span className="highlight">未预约</span>
                         </li>
                     </ul>
-                    <div className="order-running-agree">
+                    {/*<div className="order-running-agree">
                         <Checkbox.AgreeItem>携带儿童 <span>(140cm以下)</span></Checkbox.AgreeItem>
-                    </div>
+                    </div>*/}
                 </div>
                 <div className="wanc-module">
                     <div className="order-running-other">
