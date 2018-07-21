@@ -2,7 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Flex, Button, Carousel,Icon,Radio} from 'antd-mobile';
+import {Flex, Button, Carousel, Icon, Radio} from 'antd-mobile';
+import {getOrderDetail} from "../api/orderMine";
+import Loading from '../components/Loading'
 import '../assets/css/orderPay.less';
 
 function matchStateToProps(state) {
@@ -22,19 +24,32 @@ function matchDispatchToProps(dispatch) {
 export default class List1 extends React.Component {
     constructor(options) {
         super(options);
+        this.state = {
+            data: null,
+            chooseWX: true
+        }
     }
 
-    state = {
-        data: ['1', '2', '3'],
-        imgHeight: 90,
-
-    }
 
     componentWillMount() {
-        this.props.setTitle('确认订单');
+        this.props.setTitle('支付订单');
+        this.getOrderDetail();
+    }
+
+    async getOrderDetail() {
+        let ret = await getOrderDetail({
+            orderId: this.props.match.params.id,
+        })
+        this.setState({
+            data: ret.body,
+        })
     }
 
     render() {
+        let {data} = this.state;
+        if (!data) {
+            return <Loading></Loading>
+        }
         return (
             <div className="order-confirm order-pay">
                 <div className="order-pay-count">
@@ -45,35 +60,11 @@ export default class List1 extends React.Component {
                 </div>
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
-                        <Carousel
-                            autoplay
-                            infinite
-                            /*beforeChange
-                            afterChange*/
-                        >
-                            {this.state.data.map(val => (
-                                <a
-                                    key={val}
-                                    href="http://www.alipay.com"
-                                    style={{display: 'inline-block', width: '100%', height: this.state.imgHeight}}
-                                >
-                                    <img
-                                        src={require('../assets/images/test-car.png')}
-                                        alt=""
-                                        style={{width: '100%', verticalAlign: 'top'}}
-                                        onLoad={() => {
-                                            // fire window resize event to change height
-                                            window.dispatchEvent(new Event('resize'));
-                                            this.setState({imgHeight: 'auto'});
-                                        }}
-                                    />
-                                </a>
-                            ))}
-                        </Carousel>
+                        <img src={data.activityImgUrl}/>
                     </div>
                     <div className="order-sub-content order-pay-content">
-                        <div className="order-pay-price">¥3000.00</div>
-                        <div className="order-pay-text">万驰 赛车场试驾场次预约</div>
+                        <div className="order-pay-price">¥ {data.paymoney}</div>
+                        <div className="order-pay-text">{data.activityName}</div>
                     </div>
                 </div>
                 <div className="order-pay-method">
@@ -81,7 +72,11 @@ export default class List1 extends React.Component {
                         请选择支付方式
                     </div>
                     <ul>
-                        <li>
+                        <li onClick={()=>{
+                            this.setState({
+                                chooseWX: true
+                            })
+                        }}>
                             <div className="order-pay-m-left">
                                 <img src={require('../assets/images/icon-wechat.png')}/>
                                 <div className="order-pay-m-name">
@@ -89,9 +84,13 @@ export default class List1 extends React.Component {
                                     <p className="op-note">推荐有支付宝账号的用户使用</p>
                                 </div>
                             </div>
-                            <Radio className="my-radio" checked={true} onChange={e => console.log('checkbox', e)}></Radio>
+                            <Radio className="my-radio" checked={this.state.chooseWX}></Radio>
                         </li>
-                        <li>
+                        <li onClick={()=>{
+                            this.setState({
+                                chooseWX: false
+                            })
+                        }}>
                             <div className="order-pay-m-left">
                                 <img src={require('../assets/images/icon-ant.png')}/>
                                 <div className="order-pay-m-name">
@@ -99,11 +98,11 @@ export default class List1 extends React.Component {
                                     <p className="op-note">推荐有支付宝账号的用户使用</p>
                                 </div>
                             </div>
-                            <Radio className="my-radio" onChange={e => console.log('checkbox', e)}></Radio>
+                            <Radio className="my-radio" checked={!this.state.chooseWX}></Radio>
                         </li>
                     </ul>
                     <div className="order-pay-submit">
-                        <Button type="primary">确认支付 ¥3000.00</Button>
+                        <Button type="primary">确认支付 ¥{data.paymoney}</Button>
                     </div>
                 </div>
             </div>

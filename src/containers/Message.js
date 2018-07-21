@@ -4,7 +4,9 @@ import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import {PullToRefresh, Button, ListView} from 'antd-mobile';
 import '../assets/css/message.less';
-import {getData} from '../api/appliedPerson'
+//import {getData} from '../api/appliedPerson'
+import Loading from '../components/Loading'
+import * as messageAPI from "../api/message";
 
 
 function matchStateToProps(state) {
@@ -52,10 +54,14 @@ export default class Index extends Component {
         }
     }
 
+    async readNotice() {
+
+    }
+
     async getList() {
-        let ret = await getData();
+        let ret = await messageAPI.getNoticeList();
         this.setState({
-            data: [...this.state.data, ...ret.data]
+            data: [...this.state.data, ...ret.body]
         }, this.getListCallback);
     }
 
@@ -73,17 +79,17 @@ export default class Index extends Component {
                 holdPosition = 0;
             },
             onTouchMove: function (s, pos) {
-                 if (s.positions.current > 50) {
+                if (s.positions.current > 50) {
                     self.setState({
                         visible: true,
                         loadingText: '松开加载'
                     })
-                }else if (s.positions.current > 10) {
-                     self.setState({
-                         loadingText: '下拉加载',
-                         visible: true
-                     })
-                 }
+                } else if (s.positions.current > 10) {
+                    self.setState({
+                        loadingText: '下拉加载',
+                        visible: true
+                    })
+                }
 
             },
             onResistanceBefore: function (s, pos) {
@@ -134,6 +140,10 @@ export default class Index extends Component {
     }
 
     render() {
+        let {data} = this.state;
+        if (!data.length) {
+            return <Loading></Loading>
+        }
         return (
             <div className="wan-c-message">
                 <div className="swiper-container">
@@ -146,12 +156,13 @@ export default class Index extends Component {
                         {this.state.data.map((value, index) => {
                             return (
                                 <li className="swiper-slide swiper-slide-visible">
-                                   <div className="message-title">
-                                       <span className="text">【系统升级通告】</span>
-                                       <span>2018/05/15  17:12:35</span>
-                                   </div>
+                                    <div className="message-title">
+                                        <span className="text">【系统升级通告】</span>
+                                        <span>2018/05/15  17:12:35</span>
+                                    </div>
                                     <div className="message-content">尊敬的用户，为了提高用户的服务质量，我们将于7月15号进
-                                        行系统升级</div>
+                                        行系统升级
+                                    </div>
                                 </li>
                             )
                         })}

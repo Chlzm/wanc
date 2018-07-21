@@ -9,7 +9,7 @@ export const getRunningDetail = params => post('/rest/activity/runningdetail', p
 
 export const getKartDetail = params => post('/rest/activity/toycardetail', params);
 
-export const getBicycleDetail = params => post('/rest/activity/bikedetail', params);
+//export const getBicycleDetail = params => post('/rest/activity/bikedetail', params);
 
 export const getTrackDetail = params => post('/rest/activity/trackdetail', params);
 
@@ -25,5 +25,11 @@ export const get4SList = params => post('/rest/activity/4slist', params);
 
 export const apply4S = params => post('/rest/activity/4s/apply', params);
 
-export const get4SDetail = params => get('/rest/activity/4sdetail', params);
+export const get4SDetail = params => get('/rest/activity/detail', params);
+
+export const activityApply = params => post('/rest/activity/activity/apply', params);
+
+export const getConfirmDetail = params => post('/rest/activity/detail', params);
+
+
 

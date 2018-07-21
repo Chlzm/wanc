@@ -6,7 +6,6 @@ import {Button, Icon} from 'antd-mobile';
 import format from 'format-datetime';
 import '../assets/css/list.less';
 import * as runningAPI from "../api/running";
-import {getTrackList} from "../api/running";
 
 function matchStateToProps(state) {
     //...
@@ -34,7 +33,7 @@ export default class Index extends Component {
             userCount: 0,
         },
         imgHeight: 370,
-        typeMap: ['场次预约', '跑步预约', '自行车预约', '卡丁车预约'],
+        typeMap: ['场次预约', '跑步预约', '自行车预约', '卡丁车预约','赛道预约'],
     }
 
     componentWillMount() {
@@ -115,7 +114,8 @@ export default class Index extends Component {
     }
 
     async submit() {
-
+        //const {type} = this.props.match.params;
+        //console.log(type)
     }
 
     render() {

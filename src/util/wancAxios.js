@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 import {Toast} from 'antd-mobile'
 
-axios.defaults.baseURL = '//www.wanchiapi.com:8000';
+axios.defaults.baseURL = '//www.wanchiapi.com:80';
 
 axios.interceptors.request.use(function (request) {
     let token = localStorage.getItem('wanchi-ACCESS-TOKEN')

@@ -2,7 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Button, Carousel} from 'antd-mobile';
+import {Button} from 'antd-mobile';
+import Loading from '../components/Loading'
+import * as driveAPI from "../api/drive";
 import '../assets/css/orderConfirm.less';
 import '../assets/css/orderSuccess.less';
 
@@ -26,38 +28,52 @@ export default class List1 extends React.Component {
     }
 
     state = {
-        data: ['1', '2', '3'],
         imgHeight: 90,
-
+        data: null
     }
 
     componentWillMount() {
+        //debugger;
         this.props.setTitle('试驾预约');
+        this.getTryDrive();
+    }
+
+    async getTryDrive() {
+        let ret = await driveAPI.getTryDriveDetail({
+            id: this.props.match.params.id,
+        })
+        this.setState({
+            data: ret.body
+        })
     }
 
     render() {
+        let {data} = this.state;
+        if(!data){
+            return <Loading></Loading>
+        }
         return (
             <div className="order-confirm order-success">
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
-                        <img src={require('../assets/images/icon-car-logo.jpg')} />
+                        <img src={data.imgUrl}/>
                     </div>
                     <div className="order-sub-content">
-                        <h1>C200  E300L</h1>
+                        <h1>{data.name}</h1>
                         <ul>
                             <li>
                                 <div className="order-s-label">
                                     试驾时间：
                                 </div>
                                 <div className="order-s-date">
-                                    2018-05-20  9:00-11:00
+                                    {data.dateStr} {data.startHour}-{data.endHour}
                                 </div>
                             </li>
                             <li>
                                 <div className="order-s-label">
                                     试驾人数：
                                 </div>
-                                <div className="order-s-date">8人以上　（已约：<em>10</em>人）</div>
+                                <div className="order-s-date">8人以上 （已约：<em>10</em>人）</div>
                             </li>
                             <li>
                                 <div className="order-s-label">
@@ -79,7 +95,7 @@ export default class List1 extends React.Component {
                         <ul className="order-owner">
                             <li>
                                 <div className="order-owner-label">预约截止时间：</div>
-                                <div className="order-owner-content">2018-05-18   24:00</div>
+                                <div className="order-owner-content">2018-05-18 24:00</div>
                             </li>
                             <li>
                                 <div className="order-owner-label">我的预约状态：</div>

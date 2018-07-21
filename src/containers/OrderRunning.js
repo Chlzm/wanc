@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Flex, Button, Carousel, Checkbox} from 'antd-mobile';
+import {Button, Modal, Checkbox, Stepper} from 'antd-mobile';
 import '../assets/css/orderConfirm.less';
 import '../assets/css/orderRunning.less';
 import * as runningAPI from "../api/running";
@@ -29,6 +29,7 @@ export default class RunningDetail extends React.Component {
 
     state = {
         data: {},
+        person: 1,
         typeMap: ['', '跑步预约详情', '自行车预约详情', '卡丁车预约详情', '赛道预约详情'],
         imgHeight: 90,
         dayMap: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
@@ -92,6 +93,51 @@ export default class RunningDetail extends React.Component {
         });
     }
 
+    onChange = (person) => {
+        this.setState({
+            person
+        })
+    }
+
+    submit() {
+        const {type, id} = this.props.match.params;
+        let options = {
+            id,
+            usercount: this.state.person,
+            paymoney: this.state.data.discountPrice,
+        }
+
+        switch (parseInt(type)) {
+            case 1:
+                Modal.alert('友情提示', '确定本次预约？', [
+                    {text: '取消', onPress: () => console.log('取消')},
+                    {
+                        text: '确定',
+                        onPress: () => {
+                            runningAPI.activityApply(options).then(ret => {
+                                console.log(ret)
+                                /*this.props.history.push({
+                                    pathname: `/order/running/detail/${this.props.match.params.id}`
+                                })*/
+                            })
+                        }
+                    },
+                ])
+                break;
+            case 2:
+            case 3:
+            case 4:
+                runningAPI.activityApply(options).then(ret => {
+                    this.props.history.push({
+                        pathname: `/subscribe/bicycle/confirm/${this.props.match.params.id}`
+                    })
+                })
+                break;
+            default:
+                break;
+        }
+    }
+
     render() {
         let {data} = this.state;
         return (
@@ -107,7 +153,7 @@ export default class RunningDetail extends React.Component {
                         <ul>
                             <li>
                                 <div className="order-s-label">
-                                    试驾时间：
+                                    活动时间：
                                 </div>
                                 <div className="order-s-date">
                                     {data.dateStr} | {this.state.dayMap[new Date(data.dateStr).getDay()]}
@@ -147,9 +193,22 @@ export default class RunningDetail extends React.Component {
                             <span className="highlight">{!data.applyStatus ? '未预约' : '已预约'}</span>
                         </li>
                     </ul>
-                    {/*<div className="order-running-agree">
-                        <Checkbox.AgreeItem>携带儿童 <span>(140cm以下)</span></Checkbox.AgreeItem>
-                    </div>*/}
+                    <div className="order-running-agree">
+                        {/* <Checkbox.AgreeItem>携带儿童 <span>(140cm以下)</span></Checkbox.AgreeItem>*/}
+                        <div className="subscribe-number">
+                            <div>已预约名额：（ 剩余可预约名额: 8 ）</div>
+                            <div>
+                                <Stepper
+                                    style={{width: '100%', minWidth: '100px'}}
+                                    showNumber
+                                    max={10}
+                                    min={1}
+                                    value={this.state.person}
+                                    onChange={this.onChange}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="wanc-module">
                     <div className="order-running-other">
@@ -163,7 +222,10 @@ export default class RunningDetail extends React.Component {
                     </div>
                 </div>
                 <div className="order-running-button">
-                    <Button type="primary">立即预约</Button>
+                    {/*disabled={data.applyStatus ? 'disabled' : ''}*/}
+                    <Button type="primary"  onClick={() => {
+                        this.submit()
+                    }}>立即预约</Button>
                 </div>
             </div>
         )

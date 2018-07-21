@@ -6,6 +6,7 @@ import {Flex, Button, List, InputItem, Icon, Stepper, DatePicker} from 'antd-mob
 import '../assets/css/orderFill.less';
 import format from 'format-datetime';
 import {apply4S, get4SDetail} from "../api/running";
+import Loading from '../components/Loading'
 
 function matchStateToProps(state) {
     //...
@@ -75,14 +76,19 @@ export default class List1 extends React.Component {
         return (
             <div className="order-fill">
                 <div className="order-fill-info">
-                    <div className="order-fill-des">
-                        <h1>{this.state.name}</h1>
-                        <ul>
-                            <li>试驾时间：{format(new Date(this.state.date), 'yyyy-MM-dd')} {this.state.startHour}-{this.state.endHour}</li>
-                            <li>截止时间：{format(new Date(this.state.applyEndTime), 'yyyy-MM-dd HH:mm')}</li>
-                            <li>场次编号：{this.state.code}</li>
-                        </ul>
-                    </div>
+                    {this.state.name ?
+                        <div className="order-fill-des">
+                            <h1>{this.state.name}</h1>
+                            <ul>
+                                <li>试驾时间：{format(new Date(this.state.date), 'yyyy-MM-dd')} {this.state.startHour}-{this.state.endHour}</li>
+                                <li>截止时间：{format(new Date(this.state.applyEndTime), 'yyyy-MM-dd HH:mm')}</li>
+                                <li>场次编号：{this.state.code}</li>
+                            </ul>
+                        </div>
+                        :
+                        <Loading></Loading>
+                    }
+
                 </div>
                 <div className="order-fill-note">
                     <p>

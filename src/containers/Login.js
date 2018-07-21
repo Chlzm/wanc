@@ -71,6 +71,7 @@ export default class Index extends Component {
         }
         localStorage.setItem('wanchi-ACCESS-TOKEN', ret.body.accessToken)
         localStorage.setItem('wanchi-ACCESS-USER', ret.body.username)
+        localStorage.setItem('wanchi-USER-INFO',JSON.stringify(ret.body))
         this.props.history.push({
             pathname: '/'
         })
@@ -84,9 +85,9 @@ export default class Index extends Component {
         if (!ret.body) {
             return;
         }
-        debugger;
         localStorage.setItem('wanchi-ACCESS-TOKEN', ret.body.accessToken)
         localStorage.setItem('wanchi-ACCESS-USER', ret.body.username)
+        localStorage.setItem('wanchi-USER-INFO',JSON.stringify(ret.body))
         this.props.history.push({
             pathname: '/'
         })

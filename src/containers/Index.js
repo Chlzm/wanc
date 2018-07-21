@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import {Flex, Carousel} from 'antd-mobile';
 import WCTabBar from '../components/TabBar';
+import Loading from '../components/Loading'
 import * as homeApi from "../api/home";
 
 function matchStateToProps(state) {
@@ -69,7 +70,7 @@ export default class Index extends Component {
 
     goDetail(id) {
         this.props.history.push({
-            pathname: `/order/fill/0/${id}`,
+            pathname: `/drive/${id}`,
         })
     }
 
@@ -105,41 +106,46 @@ export default class Index extends Component {
                                 {/*跑步预约*/}
                                 <a href="javascript:void(0)" onClick={() => {
                                     this.props.history.push({
-                                        pathname: '/subscribe/running/1'
+                                        pathname: '/subscribe/1'
                                     })
                                 }}>
                                     <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
                                 </a>
+                                <div className="item-title">跑步</div>
                             </Flex.Item>
                             <Flex.Item>
                                 {/*自行车预约*/}
                                 <a href="javascript:void(0)" onClick={() => {
                                     this.props.history.push({
-                                        pathname: '/subscribe/running/2'
+                                        pathname: '/subscribe/2'
                                     })
                                 }}>
                                     <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
                                 </a>
+                                <div className="item-title">自行车</div>
                             </Flex.Item>
                             <Flex.Item>
                                 {/*卡丁车预约*/}
                                 <a href="javascript:void(0)" onClick={() => {
                                     this.props.history.push({
-                                        pathname: '/subscribe/running/3'
+                                        pathname: '/subscribe/3'
                                     })
                                 }}>
                                     <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
                                 </a>
+                                <div className="item-title">卡丁车</div>
                             </Flex.Item>
                             <Flex.Item>
                                 {/*赛道预约*/}
                                 <a href="javascript:void(0)" onClick={() => {
                                     this.props.history.push({
-                                        pathname: '/subscribe/running/4'
+                                        pathname: '/subscribe/4'
                                     })
                                 }}>
                                     <img src={require('../assets/images/s01.jpg')}
                                          className="sub-item-image"/></a>
+                                <div className="item-title">赛道</div>
+
                             </Flex.Item>
                         </Flex>
                     </div>
@@ -147,7 +153,7 @@ export default class Index extends Component {
                 <div className="home-module">
                     <a href="javascript:void(0)" className="subscribe" onClick={() => {
                         this.props.history.push({
-                            pathname: '/subscribe/running/0'
+                            pathname: '/subscribe/0'
                         })
                     }}>
                         <img src={require('../assets/images/s02.jpg')}/>
@@ -158,28 +164,34 @@ export default class Index extends Component {
                         <span className="symbol">/</span><span className="text">试驾预约</span><span
                         className="symbol">/</span>
                     </h2>
-                    <div className="home-m-content">
-                        {
-                            this.state.driveList.map((item, i) => (
-                                <div className="hmc-list" onClick={() => {
-                                    this.goDetail(item.id)
-                                }}>
-                                    <div className="item-logo-area">
+                    {
+                        this.state.driveList.length ?
+                            <div className="home-m-content">
+                                {
+                                    this.state.driveList.map((item, i) => (
+                                        <div className="hmc-list" onClick={() => {
+                                            this.goDetail(item.id)
+                                        }}>
+                                            <div className="item-logo-area">
                                         <span
                                             className={item.statusStr === "试驾中" ? "item-logo-icon test" : "item-logo-icon"}>&nbsp;</span>
-                                        <img src={item.carBrandLogoUrl} width="100%"/>
-                                    </div>
-                                    <div className="item-sub-info">
-                                        <h3>{item.carmodel}</h3>
-                                        <p>试驾时间：{item.dateStr} {item.startHour}-{item.endHour}</p>
-                                        <p>试驾人数：{item.minUserCount}人以上&nbsp;&nbsp;（已约：<em>{item.applyedUserCount}人</em>）
-                                        </p>
-                                        <p>车辆来源：{item.s4Name}</p>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                                                <img src={item.carBrandLogoUrl} width="100%"/>
+                                            </div>
+                                            <div className="item-sub-info">
+                                                <h3>{item.carmodel}</h3>
+                                                <p>试驾时间：{item.dateStr} {item.startHour}-{item.endHour}</p>
+                                                <p>试驾人数：{item.minUserCount}人以上&nbsp;&nbsp;（已约：<em>{item.applyedUserCount}人</em>）
+                                                </p>
+                                                <p>车辆来源：{item.s4Name}</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                            :
+                            <Loading></Loading>
+                    }
+
                 </div>
                 <WCTabBar {...this.props}></WCTabBar>
             </div>

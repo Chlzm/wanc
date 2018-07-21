@@ -3,7 +3,7 @@ import routerParams from '../router-config';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {NavBar, Icon,Flex, WhiteSpace, DatePicker, Button, List, InputItem} from 'antd-mobile';
+import {NavBar, Icon, WhiteSpace, DatePicker, Button, List, InputItem} from 'antd-mobile';
 
 function matchStateToProps(state) {
     //...
@@ -17,6 +17,7 @@ function matchDispatchToProps(dispatch) {
         ...headerActions
     }, dispatch)
 }
+
 @connect(matchStateToProps, matchDispatchToProps)
 export default class WCTabBar extends Component {
     constructor(props) {
@@ -44,17 +45,26 @@ export default class WCTabBar extends Component {
 
     componentDidMount() {
     }
+
+    goNoticePage = () => {
+        this.props.history.push({
+            pathname: '/message'
+        })
+    }
+
     render() {
+        let {pathname} = this.props.location;
         return (
             <div className="wan-c-header" style={{"display": this.state.show ? "block" : "none"}}>
                 <NavBar
                     mode="light"
                     icon={<Icon type="left"/>}
                     onLeftClick={() => this.props.history.goBack()}
-                    // rightContent={[
-                    //     <Icon key="0" type="search" style={{marginRight: '16px'}}/>,
-                    //     <Icon key="1" type="ellipsis"/>,
-                    // ]}
+                    rightContent={pathname == '/mine' ? [
+                        <Icon key="1" type="ellipsis" onClick={() => {
+                            this.goNoticePage()
+                        }}/>,
+                    ] : []}
                 >{this.props.state.header.title}</NavBar>
             </div>
         );

@@ -82,7 +82,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: path.join(__dirname,'../','index.html'),
-            title: 'hello world!',
+            title: '万驰赛车场',
             //chunks:['bundle']
         }),
         new HappyPack({ // 基础参数设置
