@@ -87,7 +87,7 @@ export default class List1 extends React.Component {
             <div className="wan-c-user mart70">
                 <div className="user-head">
                     {
-                        !userInfo ?
+                        userInfo ?
                             <div onClick={this.goInformationPage}>
                                 <img src={userInfo.userHeadPic}/>
                                 <div className="user-head-info">

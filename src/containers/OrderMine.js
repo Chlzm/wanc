@@ -33,9 +33,9 @@ const OrderButton = ({status, onClick, id}) => {
         case '已预约':
             return (
                 <div>
-                    <Button type="default" size="small" onClick={() => {
+                    {/*<Button type="default" size="small" onClick={() => {
                         onClick('取消订单')
-                    }}>取消订单</Button>
+                    }}>取消订单</Button>*/}
                 </div>
             )
         default:

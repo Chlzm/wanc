@@ -30,13 +30,15 @@ export default class List1 extends React.Component {
 
     state = {
         data: null,
-        imgHeight: 90,
-        userInfo: {}
+        min: null,
+        sec: null,
+        userInfo: {},
+        disabled: false
 
     }
 
     componentWillMount() {
-        this.props.setTitle('确认订单');
+        this.props.setTitle('订单详情');
         this.getOrderDetail(this.props.match.params.id);
         this.getUserInfo();
     }
@@ -54,6 +56,7 @@ export default class List1 extends React.Component {
         this.setState({
             data: ret.body
         });
+        this.countdown(this.state.data.payRemainSecond)
     }
 
     cancelOrder(orderId) {
@@ -63,7 +66,7 @@ export default class List1 extends React.Component {
             {
                 text: '确定', onPress: () => {
                     cancelOrder({orderId}).then(ret => {
-                        Toast.info('取消成功',1);
+                        Toast.info('取消成功', 1);
                         setTimeout(() => {
                             self.props.history.go(-1)
                             //this.getOrderList()
@@ -74,23 +77,57 @@ export default class List1 extends React.Component {
         ])
     }
 
+    countdown(seconds) {
+        if (seconds === 0) {
+            this.setState({
+                disabled: true,
+                min: 0,
+                sec: 0,
+            })
+            return;
+        }
+        let i = 0;
+        let loop = setInterval(() => {
+            i++;
+            let min, sec;
+            seconds = seconds - 1
+            if (seconds == 0) {
+                clearInterval(loop);
+                this.setState({
+                    disabled: true,
+                });
+            }
+            min = Math.floor(seconds / 60)
+            min = min || 0;
+            sec = seconds - min * 60
+            this.setState({
+                min,
+                sec
+            });
+        }, 1000)
+    }
+
     render() {
-        let {data, userInfo} = this.state;
+        let {data, userInfo, min, sec} = this.state;
         if (!data) {
             return <Loading></Loading>
         }
         return (
             <div className="order-detail">
-                <div className="order-pay-count">
-                    <div className="order-detail-status">待付款</div>
-                    <div className="order-pay-c-text">支付剩余时间</div>
-                    <div className="order-pay-count-down">
-                        <em>23</em> : <em>23</em> : <em>29</em>
-                    </div>
-                    <div className="order-detail-connect">
-                        联系人：{userInfo.userNickname} <br/>联系电话：{userInfo.username}
-                    </div>
-                </div>
+                {
+                    min === null ? <Loading></Loading> :
+                        <div className="order-pay-count">
+                            <div className="order-detail-status">待付款</div>
+                            <div className="order-pay-c-text">支付剩余时间</div>
+                            <div className="order-pay-count-down">
+                                {/*<em>23</em> : */}<em>{min}</em> 分 <em>{sec}</em> 秒
+                            </div>
+                            <div className="order-detail-connect">
+                                联系人：{userInfo.userNickname} <br/>联系电话：{userInfo.username}
+                            </div>
+                        </div>
+                }
+
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
                         <img src={userInfo.userHeadPic}/>
@@ -163,7 +200,7 @@ export default class List1 extends React.Component {
                     <Button type="default" onClick={() => {
                         this.cancelOrder(data.orderId)
                     }} size="small">取消定单</Button>
-                    <Button type="primary" size="small">付款</Button>
+                    <Button type="primary" size="small" disabled={this.state.disabled}>付款</Button>
                 </div>
             </div>
         )
