@@ -72,13 +72,14 @@ export default class App extends React.Component {
                                     <Route exact path="/subscribe/confirm/:id" component={OrderBicycleConfirm}></Route>
                                     <Route exact path="/order/car/:id" component={OrderConfirm}></Route>
                                     <Route exact path="/subscribe/success/:type/:id" component={OrderSuccess}></Route>
+                                    <Route exact path="/subscribe/notpay/:type/:id" component={OrderDetail}></Route>
                                     <Route exact path="/order/fill/:type/:id" component={OrderFill}></Route>
                                     <Route exact path="/order/pay/:id" component={OrderPay}></Route>
-                                    {/*<Route exact path="/order/running/detail/:id" component={OrderDetail}></Route>*/}
+
                                     <Route exact path="/drive/:id" component={Drive}></Route>
-                                    <Route exact path="/apply" component={AppliedPerson}></Route>
+                                    <Route exact path="/apply/:id" component={AppliedPerson}></Route>
                                     <Route exact path="/mine" component={UserCenter}></Route>
-                                    <Route exact path="/order/mine" component={OrderMine}></Route>
+                                    <Route exact path="/order/mine/:flag?" component={OrderMine}></Route>
                                     <Route exact path="/information" component={BasicInfo}></Route>
                                     <Route exact path="/modify/nickname" component={ModifyNickname}></Route>
                                     <Route exact path="/message" component={Message}></Route>

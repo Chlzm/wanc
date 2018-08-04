@@ -129,7 +129,7 @@ export default class RunningDetail extends React.Component {
             case 4:
                 runningAPI.activityApply(options).then(ret => {
                     this.props.history.push({
-                        pathname: `/subscribe/bicycle/confirm/${this.props.match.params.id}`
+                        pathname: `/subscribe/confirm/${this.props.match.params.id}`
                     })
                 })
                 break;

@@ -66,26 +66,55 @@ export default class List1 extends React.Component {
             pathname: '/information'
         })
     }
-
+    goOrderPage = type => {
+        this.props.history.push({
+            pathname: `/order/mine/${type}`
+        })
+    }
+    goLogin = () => {
+        this.props.history.push({
+            pathname: '/login'
+        })
+    }
+    goRegister = () => {
+        this.props.history.push({
+            pathname: '/register'
+        })
+    }
     render() {
         let {userInfo} = this.state;
         return (
             <div className="wan-c-user mart70">
-                <div className="user-head" onClick={this.goInformationPage}>
-                    <img src={userInfo.userHeadPic}/>
-                    <div className="user-head-info">
-                        <span className="uhi-phone">{userInfo.username}</span>
-                        <span>已预约356次</span>
-                    </div>
+                <div className="user-head">
+                    {
+                        !userInfo ?
+                            <div onClick={this.goInformationPage}>
+                                <img src={userInfo.userHeadPic}/>
+                                <div className="user-head-info">
+                                    <span className="uhi-phone">{userInfo.username}</span>
+                                    <span>已预约 356 次</span>
+                                </div>
+                            </div>
+                            :
+                            <div className="not_login">
+                                <span onClick={this.goLogin}>登 录</span>
+                                {/*<span onClick={this.goRegister}>注册</span>*/}
+                            </div>
+                    }
+
                 </div>
                 <div className="user-play-list">
-                    <div>
+                    <div onClick={() => {
+                        this.goOrderPage('10')
+                    }}>
                         <img src={require('../assets/images/icon-not-pay.png')}/>
                         未付款
                     </div>
-                    <div>
+                    <div onClick={() => {
+                        this.goOrderPage('20')
+                    }}>
                         <img src={require('../assets/images/icon-has-pay.png')}/>
-                        已付款
+                        已预约
                     </div>
                 </div>
                 <div className="user-control">

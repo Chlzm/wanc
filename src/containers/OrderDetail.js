@@ -2,8 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Flex, Button, Carousel,Icon,Radio} from 'antd-mobile';
+import {Button, Carousel} from 'antd-mobile';
+import {getOrderDetail} from "../api/subscribe";
+import {cancelOrder} from "../api/orderMine";
+import Loading from '../components/Loading'
 import '../assets/css/orderDetail.less';
+import {Modal, Toast} from "antd-mobile/lib/index";
 
 function matchStateToProps(state) {
     //...
@@ -25,16 +29,56 @@ export default class List1 extends React.Component {
     }
 
     state = {
-        data: ['1', '2', '3'],
+        data: null,
         imgHeight: 90,
+        userInfo: {}
 
     }
 
     componentWillMount() {
         this.props.setTitle('确认订单');
+        this.getOrderDetail(this.props.match.params.id);
+        this.getUserInfo();
+    }
+
+    getUserInfo() {
+        let strUserInfo = localStorage.getItem("wanchi-USER-INFO");
+        let objUserInfo = JSON.parse(strUserInfo);
+        this.setState({
+            userInfo: objUserInfo,
+        })
+    }
+
+    async getOrderDetail(orderId) {
+        let ret = await getOrderDetail({orderId})
+        this.setState({
+            data: ret.body
+        });
+    }
+
+    cancelOrder(orderId) {
+        let self = this;
+        Modal.alert('温馨提示', '确定要取消订单吗？', [
+            {text: '取消', onPress: () => console.log('cancel'), style: 'default'},
+            {
+                text: '确定', onPress: () => {
+                    cancelOrder({orderId}).then(ret => {
+                        Toast.info('取消成功',1);
+                        setTimeout(() => {
+                            self.props.history.go(-1)
+                            //this.getOrderList()
+                        }, 1000)
+                    })
+                }
+            },
+        ])
     }
 
     render() {
+        let {data, userInfo} = this.state;
+        if (!data) {
+            return <Loading></Loading>
+        }
         return (
             <div className="order-detail">
                 <div className="order-pay-count">
@@ -44,47 +88,22 @@ export default class List1 extends React.Component {
                         <em>23</em> : <em>23</em> : <em>29</em>
                     </div>
                     <div className="order-detail-connect">
-                        联系人：刘立 <br/>联系电话：18652086015
+                        联系人：{userInfo.userNickname} <br/>联系电话：{userInfo.username}
                     </div>
                 </div>
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
-                        <Carousel
-                            autoplay
-                            infinite
-                            /*beforeChange
-                            afterChange*/
-                        >
-                            {this.state.data.map(val => (
-                                <a
-                                    key={val}
-                                    href="http://www.alipay.com"
-                                    style={{display: 'inline-block', width: '100%', height: this.state.imgHeight}}
-                                >
-                                    <img
-                                        src={require('../assets/images/test-car.png')}
-                                        alt=""
-                                        style={{width: '100%', verticalAlign: 'top'}}
-                                        onLoad={() => {
-                                            // fire window resize event to change height
-                                            window.dispatchEvent(new Event('resize'));
-                                            this.setState({imgHeight: 'auto'});
-                                        }}
-                                    />
-                                </a>
-                            ))}
-                        </Carousel>
+                        <img src={userInfo.userHeadPic}/>
                     </div>
                     <div className="order-sub-content">
-                        <h1>万驰赛车场试驾场次预约</h1>
+                        <h1>{data.activityName}</h1>
                         <ul>
                             <li>
                                 <div className="order-s-label">
                                     试驾时间：
                                 </div>
                                 <div className="order-s-date">
-                                    2018-06-01 | 星期五 | 五天后
-                                    13:00-15:00 <em>（2个小时）</em>
+                                    {data.activityDateStr} {data.activityStartHour}-{data.activityEndHour}
                                 </div>
                             </li>
                             <li>
@@ -92,7 +111,7 @@ export default class List1 extends React.Component {
                                     场次编号：
                                 </div>
                                 <div className="order-s-date">
-                                    SJ201805200001
+                                    {data.activityCode}
                                 </div>
                             </li>
                         </ul>
@@ -101,7 +120,7 @@ export default class List1 extends React.Component {
                 <ul className="order-detail-price">
                     <li>
                         <span>订单总额</span>
-                        <span>¥5000.00</span>
+                        <span>¥{data.paymoney}</span>
                     </li>
                     <li>
                         <span>优惠</span>
@@ -109,7 +128,7 @@ export default class List1 extends React.Component {
                     </li>
                     <li className="price">
                         <span>实付金额</span>
-                        <span>¥3000.00</span>
+                        <span>¥{data.paymoney}</span>
                     </li>
                 </ul>
 
@@ -117,31 +136,33 @@ export default class List1 extends React.Component {
                 <ul className="order-owner">
                     <li>
                         <div className="order-owner-label">订单编号：</div>
-                        <div className="order-owner-content">987654321</div>
+                        <div className="order-owner-content">{data.orderNo}</div>
                     </li>
                     <li>
                         <div className="order-owner-label">订单金额：</div>
-                        <div className="order-owner-content">¥3000.00</div>
+                        <div className="order-owner-content">¥{data.paymoney}</div>
                     </li>
                     <li>
                         <div className="order-owner-label">订单状态：</div>
-                        <div className="order-owner-content order-red">代付款</div>
+                        <div className="order-owner-content order-red">{data.orderStatusStr}</div>
                     </li>
                     <li>
                         <div className="order-owner-label">支付方式：</div>
-                        <div className="order-owner-content order-red">未支付</div>
+                        <div className="order-owner-content order-red">{data.paymethod}</div>
                     </li>
                     <li>
                         <div className="order-owner-label">创建时间：</div>
-                        <div className="order-owner-content">2018-05-15 15:07:37</div>
+                        <div className="order-owner-content">{data.orderCreateTimeStr}</div>
                     </li>
                     <li>
                         <div className="order-owner-label">手机号：</div>
-                        <div className="order-owner-content">18652086015</div>
+                        <div className="order-owner-content">{userInfo.username}</div>
                     </li>
                 </ul>
                 <div className="order-detail-submit">
-                    <Button type="default" size="small">取消定单</Button>
+                    <Button type="default" onClick={() => {
+                        this.cancelOrder(data.orderId)
+                    }} size="small">取消定单</Button>
                     <Button type="primary" size="small">付款</Button>
                 </div>
             </div>

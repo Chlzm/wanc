@@ -116,7 +116,7 @@ ol, ul {
             height: 40px;
             line-height: 40px;
             text-align: center;
-            background: rgba(0, 0, 0,.5);
+            background: rgba(0, 0, 0, .5);
             color: @white;
             font-size: 24px;
         }
@@ -289,4 +289,40 @@ ol, ul {
 .wc-loading {
     text-align: center;
     padding: 40px 0;
+}
+
+.preloader {
+    //position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 0;
+    color: #333;
+    text-align: center;
+    line-height: 100px;
+    height: 100px;
+    width: 100%;
+    opacity: 1;
+    font-size: 25px;
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -ms-transition: 300ms;
+    -o-transition: 300ms;
+    transition: 300ms;
+}
+
+.preloader.visible {
+    //top: 110px;
+    //opacity: 1;
+}
+
+.swiper-container {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    top: -135px;
+}
+
+.am-modal-button-group-h .am-modal-button {
+    color: #108ee9;
 }

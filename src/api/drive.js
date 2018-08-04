@@ -6,4 +6,9 @@ import {
 
 export const getTryDriveDetail = params => get('/rest/activity/s4apply/detail', params);
 
+export const tryDrive = params => post('/rest/activity/trydrive/apply', params);
+
+
+
+
 

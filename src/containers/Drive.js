@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Button} from 'antd-mobile';
+import {Button, Modal, Toast} from 'antd-mobile';
 import Loading from '../components/Loading'
 import * as driveAPI from "../api/drive";
 import '../assets/css/orderConfirm.less';
@@ -33,7 +33,6 @@ export default class List1 extends React.Component {
     }
 
     componentWillMount() {
-        //debugger;
         this.props.setTitle('试驾预约');
         this.getTryDrive();
     }
@@ -47,16 +46,32 @@ export default class List1 extends React.Component {
         })
     }
 
+    tryDrive() {
+        Modal.alert('确定本次预约？', '', [
+            {text: '取消', onPress: () => console.log('cancel'), style: 'default'},
+            {
+                text: '确定', onPress: () => {
+                    driveAPI.tryDrive({
+                        's4id': this.props.match.params.id,
+                    }).then(ret => {
+                        Toast.info('预约成功！');
+                        this.getTryDrive();
+                    })
+                }
+            },
+        ]);
+    }
+
     render() {
         let {data} = this.state;
-        if(!data){
+        if (!data) {
             return <Loading></Loading>
         }
         return (
             <div className="order-confirm order-success">
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
-                        <img src={data.imgUrl}/>
+                        <img src={data.carbrandUrl}/>
                     </div>
                     <div className="order-sub-content">
                         <h1>{data.name}</h1>
@@ -66,21 +81,23 @@ export default class List1 extends React.Component {
                                     试驾时间：
                                 </div>
                                 <div className="order-s-date">
-                                    {data.dateStr} {data.startHour}-{data.endHour}
+                                    {data.activityDateStr} {data.activityStartHour}-{data.activityEndHour}
                                 </div>
                             </li>
                             <li>
                                 <div className="order-s-label">
                                     试驾人数：
                                 </div>
-                                <div className="order-s-date">8人以上 （已约：<em>10</em>人）</div>
+                                <div className="order-s-date">{data.minUserCount}人以上
+                                    （已约：<em>{data.applyedUserCount}</em>人）
+                                </div>
                             </li>
                             <li>
                                 <div className="order-s-label">
                                     车辆来源：
                                 </div>
                                 <div className="order-s-date">
-                                    利星奔驰汽车销售（南京溧水区店）
+                                    {data.carbrandName}
                                 </div>
                             </li>
                         </ul>
@@ -89,25 +106,26 @@ export default class List1 extends React.Component {
                 <div className="wanc-module">
                     <div className="wanc-module-title">
                         <span className="title">预约信息</span>
-                        <a href="tel:13818668621" className="icon-phone">&nbsp;</a>
+                        <a href={`tel:` + data.phone} className="icon-phone">&nbsp;</a>
                     </div>
                     <div className="wanc-module-content">
                         <ul className="order-owner">
                             <li>
                                 <div className="order-owner-label">预约截止时间：</div>
-                                <div className="order-owner-content">2018-05-18 24:00</div>
+                                <div className="order-owner-content">{data.applyEndTimeStr}</div>
                             </li>
                             <li>
                                 <div className="order-owner-label">我的预约状态：</div>
-                                <div className="order-owner-content"><em>未预约</em> <em className="blue">未预约</em></div>
+                                <div className="order-owner-content">
+                                    <em>{data.userStatusStr}</em> {/*<em className="blue">未预约</em>*/}</div>
                             </li>
                             <li>
                                 <div className="order-owner-label">联系人：</div>
-                                <div className="order-owner-content">刘立</div>
+                                <div className="order-owner-content">{data.applyUsername}</div>
                             </li>
                             <li>
                                 <div className="order-owner-label">联系方式：</div>
-                                <div className="order-owner-content">186*****015</div>
+                                <div className="order-owner-content">{data.phone}</div>
                             </li>
                         </ul>
                     </div>
@@ -124,7 +142,9 @@ export default class List1 extends React.Component {
                     </div>
                 </div>
                 <div className="order-running-button">
-                    <Button type="primary" disbaled>我要试驾</Button>
+                    <Button type="primary" disabled={data.userStatus == 20 ? true : false} onClick={() => {
+                        this.tryDrive()
+                    }}>{data.userStatus == 20 ? "您已预约" : "我要试驾"}</Button>
                 </div>
             </div>
         )

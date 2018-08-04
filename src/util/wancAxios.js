@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 import {Toast} from 'antd-mobile'
 
-axios.defaults.baseURL = '//www.wanchiapi.com:80';
+axios.defaults.baseURL = '//www.wanchiapi.com:8000';
 
 axios.interceptors.request.use(function (request) {
     let token = localStorage.getItem('wanchi-ACCESS-TOKEN')
@@ -10,7 +10,7 @@ axios.interceptors.request.use(function (request) {
     request.headers.common["wanchi-ACCESS-TOKEN"] = token
     request.headers.common["wanchi-ACCESS-USER"] = userName
     if (request.url.indexOf('login') != -1 && request.url.indexOf('getcode') != -1) { // 非登录接口
-        if(!token || !userName){
+        if (!token || !userName) {
             location.href = "/login";
         }
 
@@ -23,9 +23,11 @@ axios.interceptors.request.use(function (request) {
 axios.interceptors.response.use(function (response) {
     /*if(response.config.url.indexOf('login') != -1){
         Toast.info(response.data.msg);
-    }else */if (response.data.code == "E1005") {
+    }else */
+    if (response.data.code == "E1005") {
+        localStorage.clear();
         location.href = "/login";
-    }else if(response.data.code != "00000"){
+    } else if (response.data.code != "00000" && response.data.msg != null) {
         Toast.info(response.data.msg);
     }
 

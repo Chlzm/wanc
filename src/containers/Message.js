@@ -49,13 +49,8 @@ export default class Index extends Component {
                 if (window.screen.availHeight + window.pageYOffset >= document.body.clientHeight - 100) {
                     this.getList();
                 }
-
             }, 100)
         }
-    }
-
-    async readNotice() {
-
     }
 
     async getList() {
@@ -68,6 +63,7 @@ export default class Index extends Component {
     getListCallback = () => {
         this.initSwiper();
     }
+
     initSwiper = () => {
         var holdPosition = 0;
         var self = this;
@@ -119,7 +115,7 @@ export default class Index extends Component {
         var slideNumber = 0;
 
         function loadNewSlides() {
-            getData().then(ret => {
+            getList().then(ret => {
                 this.setState({
                     data: [...ret.data, ...this.state.data],
                     visible: false,

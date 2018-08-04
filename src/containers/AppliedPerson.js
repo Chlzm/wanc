@@ -4,7 +4,9 @@ import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import {PullToRefresh, Button, ListView} from 'antd-mobile';
 import '../assets/css/applied.less';
-import {getData} from '../api/appliedPerson'
+//import * as applyAPI from "../api/appliedPerson";
+
+import { getApplyPerson} from '../api/appliedPerson'
 
 
 function matchStateToProps(state) {
@@ -28,6 +30,7 @@ export default class Index extends Component {
             data: [],
             scroll: null,
             visible: false,
+            slideNumber:0,
             loadingText: '加载中...'
         };
         this.scroll = undefined;
@@ -53,9 +56,13 @@ export default class Index extends Component {
     }
 
     async getList() {
-        let ret = await getData();
+        let ret = await getApplyPerson({
+            s4id: this.props.match.params.id,
+            pageNum: this.state.slideNumber,
+            pageSize : 10
+        });
         this.setState({
-            data: [...this.state.data, ...ret.data]
+            data: [...this.state.data, ...ret.body]
         }, this.getListCallback);
     }
 
@@ -73,17 +80,17 @@ export default class Index extends Component {
                 holdPosition = 0;
             },
             onTouchMove: function (s, pos) {
-                 if (s.positions.current > 50) {
+                if (s.positions.current > 50) {
                     self.setState({
                         visible: true,
                         loadingText: '松开加载'
                     })
-                }else if (s.positions.current > 10) {
-                     self.setState({
-                         loadingText: '下拉加载',
-                         visible: true
-                     })
-                 }
+                } else if (s.positions.current > 10) {
+                    self.setState({
+                        loadingText: '下拉加载',
+                        visible: true
+                    })
+                }
 
             },
             onResistanceBefore: function (s, pos) {
@@ -110,12 +117,11 @@ export default class Index extends Component {
                 }
             }
         })
-        var slideNumber = 0;
 
         function loadNewSlides() {
-            getData().then(ret => {
+            getList().then(ret => {
                 this.setState({
-                    data: [...ret.data, ...this.state.data],
+                    data: [...ret.body, ...this.state.data],
                     visible: false,
                     loadingText: '下拉加载'
                 }, () => {
@@ -127,16 +133,17 @@ export default class Index extends Component {
 
                 })
             })
-            return;
-            slideNumber++;
+            this.setState({
+                slideNumber: this.state.slideNumber + 1,
+            })
         }
 
     }
 
     render() {
         return (
-            <div className="wan-c-applied">
 
+            <div className="wan-c-applied">
                 <div className="swiper-container">
                     <ul className="swiper-wrapper">
                         <li className="swiper-slide swiper-slide-visible">
@@ -145,12 +152,13 @@ export default class Index extends Component {
                             </div>
                         </li>
                         {this.state.data.map((value, index) => {
+                            console.log(value)
                             return (
                                 <li className="swiper-slide swiper-slide-visible">
-                                    <img src={value.img} alt=""/>
+                                    <img src={value.userHeadPic} alt=""/>
                                     <div>
-                                        <span>{value.name}</span><br/>
-                                        <span className="number">{value.no}</span>
+                                        <span>{value.userNickname}</span><br/>
+                                        <span className="number">{value.userSex}</span>
                                     </div>
                                 </li>
                             )
