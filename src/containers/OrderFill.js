@@ -7,7 +7,7 @@ import '../assets/css/orderFill.less';
 import format from 'format-datetime';
 import {apply4S, get4SDetail} from "../api/running";
 import Loading from '../components/Loading'
-
+import pubsub from '../util/pubsub'
 function matchStateToProps(state) {
     //...
     return {
@@ -22,7 +22,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class List1 extends React.Component {
+export default class OrderFill extends React.Component {
     constructor(options) {
         super(options);
     }
@@ -34,6 +34,7 @@ export default class List1 extends React.Component {
         applyusername: '',
         phone: '',
         carbrandid: 1,
+        carbrandname:'',
         carmodel: '',
         usercount: 0,
         paymoney: '',
@@ -43,6 +44,12 @@ export default class List1 extends React.Component {
     componentWillMount() {
         this.props.setTitle('填写预约单');
         this.getOrderDetail();
+        pubsub.subscribe('mes',({id,name})=>{
+            this.setState({
+                carbrandid:id,
+                carbrandname:name
+            })
+        })
     }
 
     async getOrderDetail() {
@@ -69,7 +76,13 @@ export default class List1 extends React.Component {
 
     async submit() {
         let ret = await apply4S(this.state);
-        debugger;
+    }
+
+    goBrandPage = () => {
+        let {type, id} = this.props.match.params
+        this.props.history.push({
+            pathname: `/brand/${type}/${id}`
+        })
     }
 
     render() {
@@ -114,10 +127,12 @@ export default class List1 extends React.Component {
                     </List>
                 </div>
                 <div className="order-fill-module">
-                    <div className="order-fill-title">
+                    <div className="order-fill-title" onClick={() => {
+                        this.goBrandPage()
+                    }}>
                         <span>试驾品牌</span>
                         <div>
-                            <span>选择名牌</span>
+                            <span>{this.state.carbrandname || "选择名牌" }</span>
                             <Icon type="right"></Icon>
                         </div>
                     </div>

@@ -81,6 +81,11 @@ export default class List1 extends React.Component {
             pathname: '/register'
         })
     }
+    changePhone = () =>{
+        this.props.history.push({
+            pathname: '/modify/phone'
+        })
+    }
     render() {
         let {userInfo} = this.state;
         return (
@@ -120,6 +125,7 @@ export default class List1 extends React.Component {
                 <div className="user-control">
                     <List>
                         <List.Item extra="修改" arrow="horizontal" onClick={() => {
+                            this.changePhone()
                         }}>
                             <img className="phone" src={require('../assets/images/icon-phone-2.png')} alt=""/>
                             <span>手机绑定</span>

@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import configure from '../store/configureStoreSaga'
 import createHistory from 'history/createBrowserHistory'
-
+import { hot } from 'react-hot-loader'
 import Header from '../components/Header';
 import List from './List'
 import Running from './Running'
@@ -29,6 +29,8 @@ import ModifyNickname from './ModifyNickname'
 import Message from './Message'
 import About from './About'
 import Upload from './Upload'
+import ModifyPhoneNumber from './ModifyPhoneNumber'
+import BrandList from './BrandList'
 
 let history = createHistory();
 const store = configure({config: global.$GLOBALCONFIG})
@@ -37,7 +39,7 @@ const NoMatch = ({location}) => (
         <h3>No match for <code>{location.pathname}!</code></h3>
     </div>
 )
-export default class App extends React.Component {
+class App extends React.Component {
     constructor(options) {
         super(options);
     }
@@ -74,6 +76,7 @@ export default class App extends React.Component {
                                     <Route exact path="/subscribe/success/:type/:id" component={OrderSuccess}></Route>
                                     <Route exact path="/subscribe/notpay/:type/:id" component={OrderDetail}></Route>
                                     <Route exact path="/order/fill/:type/:id" component={OrderFill}></Route>
+                                    <Route exact path="/brand/:type/:id" component={BrandList}></Route>
                                     <Route exact path="/order/pay/:id" component={OrderPay}></Route>
 
                                     <Route exact path="/drive/:id" component={Drive}></Route>
@@ -82,9 +85,11 @@ export default class App extends React.Component {
                                     <Route exact path="/order/mine/:flag?" component={OrderMine}></Route>
                                     <Route exact path="/information" component={BasicInfo}></Route>
                                     <Route exact path="/modify/nickname" component={ModifyNickname}></Route>
+                                    <Route exact path="/modify/phone" component={ModifyPhoneNumber}></Route>
                                     <Route exact path="/message" component={Message}></Route>
                                     <Route exact path="/about" component={About}></Route>
                                     <Route exact path="/upload" component={Upload}></Route>
+
                                     <Route component={NoMatch}/>
                                 </Switch>
                             </div>
@@ -97,3 +102,4 @@ export default class App extends React.Component {
         )
     }
 }
+export default hot(module)(App)

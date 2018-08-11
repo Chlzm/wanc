@@ -58,7 +58,7 @@ export default class RunningDetail extends React.Component {
     }
 
     async getDetail1() {
-        let ret = await runningAPI.getRunningDetail({
+        let ret = await runningAPI.getConfirmDetail({
             id: this.props.match.params.id
         });
         this.setState({
@@ -67,7 +67,7 @@ export default class RunningDetail extends React.Component {
     }
 
     async getDetail2() {
-        let ret = await runningAPI.getBicycleDetail({
+        let ret = await runningAPI.getConfirmDetail({
             id: this.props.match.params.id
         });
         this.setState({
@@ -76,7 +76,7 @@ export default class RunningDetail extends React.Component {
     }
 
     async getDetail3() {
-        let ret = await runningAPI.getKartDetail({
+        let ret = await runningAPI.getConfirmDetail({
             id: this.props.match.params.id
         });
         this.setState({
@@ -85,7 +85,7 @@ export default class RunningDetail extends React.Component {
     }
 
     async getDetail4() {
-        let ret = await runningAPI.getTrackDetail({
+        let ret = await runningAPI.getConfirmDetail({
             id: this.props.match.params.id
         });
         this.setState({

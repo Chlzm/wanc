@@ -14,7 +14,7 @@ export default class Index extends Component {
     constructor(options) {
         super(options);
         this.state = {
-            phone: "13818668621",
+            phone: "",
             password: '',
             code: ''
         }
@@ -46,7 +46,7 @@ export default class Index extends Component {
             return;
         }
         let ret = await loginAPI.getCode({
-            phone: this.state.phone,
+            phone: this.state.phone.replace(/\s/g, ''),
             doSendSMS: false
         });
         this.setState({
@@ -63,7 +63,7 @@ export default class Index extends Component {
 
     async login() {
         let ret = await loginAPI.login({
-            phone: this.state.phone.replace(/\/s/g, ''),
+            phone: this.state.phone.replace(/\s/g, ''),
             code: this.state.code
         });
         if (!ret.body) {
@@ -79,7 +79,7 @@ export default class Index extends Component {
 
     async loginByPassword() {
         let ret = await loginAPI.accountLogin({
-            username: this.state.phone.replace(/\/s/g, ''),
+            username: this.state.phone.replace(/\s/g, ''),
             password: this.state.password
         });
         if (!ret.body) {

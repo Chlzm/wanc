@@ -63,8 +63,8 @@ module.exports = {
                             sourceMap: true
                         }
                     }
-                   ],
-                    exclude: /node_modules/
+                ],
+                exclude: /node_modules/
             },
             {
                 test: /\.less$/,
@@ -81,7 +81,7 @@ module.exports = {
                             sourceMap: true
                         }
                     }],
-                    include: /node_modules/
+                include: /node_modules/
             },
             {
                 test: /\.(png|jpg)$/,
@@ -95,41 +95,48 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist',//静态文件跟目录
-        host: '127.0.0.1',//配置主机
+        host: '192.168.1.152',//配置主机
         port: 8080,//主机名
         historyApiFallback: true,
         hot: true,
+        proxy: {
+            '/rest/*': {
+                target: 'http://192.168.1.151:8014',
+                changeOrigin: true,
+                secure: false
+            },
+        },
         //open:true,
         compress: true//服务器返回给浏览器是否使用gzip压缩
-    },
-    devtool: 'source-map',
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './src/index.html',
-            filename: path.join(__dirname, '../dist/', 'index.html'),
-            title: 'react/react-router/react-redux(react-saga)',
-            //chunks:['bundle']
-        }),
-        new HappyPack({ // 基础参数设置
-            id: 'babel', // 上面loader?后面指定的id
-            loaders: ['babel-loader?cacheDirectory'], // 实际匹配处理的loader
-            threadPool: happyThreadPool,
-            // cache: true // 已被弃用
-            verbose: true
-        }),
-        new webpack.HotModuleReplacementPlugin()
-    ],
-    externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-        'react-router-dom': 'ReactRouterDOM',
-        'react-redux': 'ReactRedux'
-    },
-    optimization: {
-        splitChunks: {
-            minSize: 1,
-            chunks: "initial",
-            name: "vendor"
-        }
+        },
+        devtool: 'source-map',
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: './src/index.html',
+                filename: path.join(__dirname, '../dist/', 'index.html'),
+                title: '万驰赛车场',
+                //chunks:['bundle']
+            }),
+            new HappyPack({ // 基础参数设置
+                id: 'babel', // 上面loader?后面指定的id
+                loaders: ['babel-loader?cacheDirectory'], // 实际匹配处理的loader
+                threadPool: happyThreadPool,
+                // cache: true // 已被弃用
+                verbose: true
+            }),
+            new webpack.HotModuleReplacementPlugin()
+        ],
+        externals: {
+            'react': 'React',
+            'react-dom': 'ReactDOM',
+            'react-router-dom': 'ReactRouterDOM',
+            'react-redux': 'ReactRedux'
+        },
+        optimization: {
+            splitChunks: {
+                minSize: 1,
+                chunks: "initial",
+                name: "vendor"
+            }
+        },
     }
-}

@@ -149,7 +149,7 @@ export default class Index extends Component {
                                 </div>
                                 <div className="sl-time">
                                     <div className="sl-hours">{item.startHour}-{item.endHour}
-                                        <br/><span>{item.applyNum} 个小时</span></div>
+                                        </div>
                                     <div className="sl-end">截止{format(new Date(item.applyEndTimeStr), 'M月d日')}</div>
                                 </div>
                                 <div className="sl-price">

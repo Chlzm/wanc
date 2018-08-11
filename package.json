@@ -12,6 +12,7 @@
     "clear": "rimraf dist"
   },
   "dependencies": {
+    "PubSub": "^3.4.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "connect-history-api-fallback": "^1.5.0",
@@ -20,9 +21,11 @@
     "express": "^4.16.3",
     "format-datetime": "^1.0.2",
     "history": "^4.7.2",
+    "iscroll": "^5.2.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "qs": "^6.5.2",
+    "react-hot-loader": "^4.3.4",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",

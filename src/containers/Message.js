@@ -8,6 +8,8 @@ import '../assets/css/message.less';
 import Loading from '../components/Loading'
 import * as messageAPI from "../api/message";
 
+var pageNum = 0;
+var pageSize = 10;
 
 function matchStateToProps(state) {
     //...
@@ -54,7 +56,11 @@ export default class Index extends Component {
     }
 
     async getList() {
-        let ret = await messageAPI.getNoticeList();
+        pageNum++
+        let ret = await messageAPI.getNoticeList({
+            pageNum,
+            pageSize,
+        });
         this.setState({
             data: [...this.state.data, ...ret.body]
         }, this.getListCallback);
@@ -112,12 +118,15 @@ export default class Index extends Component {
                 }
             }
         })
-        var slideNumber = 0;
 
         function loadNewSlides() {
-            getList().then(ret => {
+            pageNum++;
+            messageAPI.getNoticeList({
+                pageNum,
+                pageSize,
+            }).then(ret => {
                 this.setState({
-                    data: [...ret.data, ...this.state.data],
+                    data: [...ret.body, ...this.state.data],
                     visible: false,
                     loadingText: '下拉加载'
                 }, () => {
@@ -130,7 +139,6 @@ export default class Index extends Component {
                 })
             })
             return;
-            slideNumber++;
         }
 
     }

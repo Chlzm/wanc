@@ -4,8 +4,10 @@ import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import {InputItem, Button} from 'antd-mobile';
 import '../assets/css/forget.less';
-import {modifyPassword} from "../api/modifyPassword";
+import {validateCode, modifyPhone} from "../api/modifyPassword";
+import * as loginAPI from "../api/login";
 import {Toast} from "antd-mobile/lib/index";
+
 
 function matchStateToProps(state) {
     //...
@@ -27,17 +29,17 @@ export default class Index extends Component {
     }
 
     state = {
-        oldPassword: '',
-        newPassword: '',
+        phone: '',
+        newPhone: '',
+        code: null,
+        token: null,
         hasError: false,
         loading: false
     }
 
     componentWillMount() {
-        this.props.setTitle('修改密码');
-        // this.props.history.push({
-        //     pathname: '/forget/step1'
-        // })
+        this.props.setTitle('修改手机绑定');
+        this.initPhone();
     }
 
     componentDidMount() {
@@ -45,7 +47,6 @@ export default class Index extends Component {
 
     inputNumber = (value, type) => {
         let options = {}
-
         options[type] = value
         this.setState(options);
         if (type == "newPassword") {
@@ -61,34 +62,63 @@ export default class Index extends Component {
         }
     }
 
-    checkPassword(value) {
-        if (/(?!^\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{8,}/.test(value)) {
-
-        }
+    initPhone = () => {
+        let strInfo = localStorage.getItem('wanchi-ACCESS-USER')
+        this.setState({
+            phone: strInfo,
+        })
     }
 
+    async getCode() {
+        let ret = await loginAPI.getCode({
+            phone: this.state.phone,
+            doSendSMS: false
+        });
+        let result = await validateCode({
+            phone: this.state.phone,
+            code: ret.body,
+        })
+        this.setState({
+            code: ret.body,
+            token: result.body,
+        });
+    }
+    validate() {
+        if (this.state.newPhone == '') {
+            Toast.info('请输入新的手机号码', 2);
+            return false;
+        }else if(!/^1\d{10}$/.test(this.state.newPhone.replace(/\s/g,''))){
+            Toast.info('新的手机号码格式不正确', 2);
+            return false;
+        }
+        return true;
+
+    }
     async submit() {
+        if(!this.validate()){
+            return;
+        }
         this.setState({
             loading: true,
         });
-        let ret = await modifyPassword({
-            oldpassword: this.state.oldPassword,
-            newpassword: this.state.newPassword,
+        let ret = await modifyPhone({
+            token: this.state.token,
+            newphone: this.state.newPhone.replace(/\s/g,''),
         });
         this.setState({
             loading: false,
         });
-        if(ret.code != "00000"){
-            Toast.info(ret.msg);
+        if (ret.code != "00000") {
+            Toast.info(ret.msg, 2);
             return;
         }
-        Toast.info('修改成功')
-        setTimeout(()=>{
+        Toast.info('修改成功', 2)
+        setTimeout(() => {
             localStorage.clear();
             this.props.history.push({
                 pathname: '/login'
             })
-        },2000)
+        }, 2000)
 
     }
 
@@ -97,13 +127,8 @@ export default class Index extends Component {
         return (
             <div className="wan-c-forget">
                 <ul>
-                    {/* <li>
-                        <InputItem type="phone" placeholder="请输入手机号" value={this.state.phone}
-                                   onChange={(value) => {
-                                       this.inputNumber(value, "phone")
-                                   }}>请输入手机号:</InputItem>
-                    </li>
-                     <li className="column">
+                    <li className="phone-note">请输入 {this.state.phone} 收到的短信验证码</li>
+                    <li className="column">
                         <div className="input-code">
                             <InputItem type="text" value={this.state.code} placeholder="短信验证码"
                                        onChange={(value) => {
@@ -115,22 +140,13 @@ export default class Index extends Component {
                         }}>
                             <span>获取动态码</span>
                         </div>
-                    </li>*/}
-                    <li>
-                        <InputItem type="text" placeholder="请输入旧密码" value={this.state.oldPassword}
-                                   onChange={(value) => {
-                                       this.inputNumber(value, "oldPassword")
-                                   }}>请输入旧密码</InputItem>
                     </li>
                     <li>
-                        <InputItem error={this.state.hasError} type="text" placeholder="请输入新密码"
-                                   value={this.state.newPassword}
+
+                        <InputItem labelNumber={6} type="phone" placeholder="请输入新的手机号码" value={this.state.newPhone}
                                    onChange={(value) => {
-                                       this.inputNumber(value, "newPassword")
-                                   }}>请输入新密码</InputItem>
-                    </li>
-                    <li className="note">
-                        必须是6-20个英文字母、数字或符号（除空格）,且字母、数字和标点符号至少包含两种
+                                       this.inputNumber(value, "newPhone")
+                                   }}></InputItem>
                     </li>
                     <li className="password-button">
                         <Button type="primary" loading={this.state.loading} onClick={() => {
