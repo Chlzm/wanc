@@ -14,5 +14,6 @@ export const payOrder = params => get('/rest/my/order/pay', params);
 
 export const getOrderDetail = params => get('/rest/my/order/detail', params);
 
+export const getOpenId = params => get('/rest/pay/prepare/getwxopenid', params);
 
 

@@ -3,13 +3,17 @@ import qs from 'qs';
 import {Toast} from 'antd-mobile'
 
 axios.defaults.baseURL = '';
-//axios.defaults.baseURL = '//app.wantrack-nj.com';
+//axios.defaults.baseURL = '//wanchi.xiechangqing.cn';
 axios.interceptors.request.use(function (request) {
     let token = localStorage.getItem('wanchi-ACCESS-TOKEN')
     let userName = localStorage.getItem('wanchi-ACCESS-USER')
     request.headers.common["wanchi-ACCESS-TOKEN"] = token || ''
     request.headers.common["wanchi-ACCESS-USER"] = userName || ''
+    if(request.url.indexOf('login') != -1){
+        delete request.headers.common["wanchi-ACCESS-TOKEN"];
+    }
     if (request.url.indexOf('login') != -1 && request.url.indexOf('getcode') != -1) { // 非登录接口
+
         if (!token || !userName) {
             location.href = "/login";
         }
@@ -25,7 +29,7 @@ axios.interceptors.response.use(function (response) {
         Toast.info(response.data.msg);
     }else */
     try{
-        if (response.data.code == "E1005") {
+        if (response.data.code == "E1005" || response.data.code == "E1001") {
             localStorage.clear();
             if(response.config.url.indexOf('login') == -1){
                 location.href = "/login";

@@ -128,6 +128,9 @@ export default class RunningDetail extends React.Component {
             case 3:
             case 4:
                 runningAPI.activityApply(options).then(ret => {
+                    if(ret.code != "00000"){
+                        return;
+                    }
                     this.props.history.push({
                         pathname: `/subscribe/confirm/${this.props.match.params.id}`
                     })
@@ -196,12 +199,12 @@ export default class RunningDetail extends React.Component {
                     <div className="order-running-agree">
                         {/* <Checkbox.AgreeItem>携带儿童 <span>(140cm以下)</span></Checkbox.AgreeItem>*/}
                         <div className="subscribe-number">
-                            <div>已预约名额：（ 剩余可预约名额: 8 ）</div>
+                            <div>预约名额：（ 剩余可预约名额: {data.remainUserNum} ）</div>
                             <div>
                                 <Stepper
                                     style={{width: '100%', minWidth: '100px'}}
                                     showNumber
-                                    max={10}
+                                    max={data.remainUserNum}
                                     min={1}
                                     value={this.state.person}
                                     onChange={this.onChange}

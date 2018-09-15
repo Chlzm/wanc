@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import {Icon} from 'antd-mobile'
-
+import "../assets/css/noData.less"
 export default class Loading extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'blueTab',
-            hidden: false,
+
         };
     }
 
@@ -15,8 +13,11 @@ export default class Loading extends Component {
 
     render() {
         return (
-            <div className="wc-loading">
-                <Icon type="loading" size="lg">Loading...</Icon>
+            <div className="wan-c-no-data">
+                <img src={require('../assets/images/logo-gray.png')}/>
+                <span>
+                    {this.props.text || "暂无订单"}
+                </span>
             </div>
         );
     }

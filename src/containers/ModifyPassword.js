@@ -117,21 +117,21 @@ export default class Index extends Component {
                         </div>
                     </li>*/}
                     <li>
-                        <InputItem type="text" placeholder="请输入旧密码" value={this.state.oldPassword}
+                        <InputItem type="password" placeholder="请输入旧密码" value={this.state.oldPassword}
                                    onChange={(value) => {
                                        this.inputNumber(value, "oldPassword")
                                    }}>请输入旧密码</InputItem>
                     </li>
                     <li>
-                        <InputItem error={this.state.hasError} type="text" placeholder="请输入新密码"
+                        <InputItem type="password" placeholder="请输入新密码"
                                    value={this.state.newPassword}
                                    onChange={(value) => {
                                        this.inputNumber(value, "newPassword")
                                    }}>请输入新密码</InputItem>
                     </li>
-                    <li className="note">
+                    {/*<li className="note">
                         必须是6-20个英文字母、数字或符号（除空格）,且字母、数字和标点符号至少包含两种
-                    </li>
+                    </li>*/}
                     <li className="password-button">
                         <Button type="primary" loading={this.state.loading} onClick={() => {
                             this.submit()

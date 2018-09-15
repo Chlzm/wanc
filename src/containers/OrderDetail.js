@@ -2,12 +2,13 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Button, Carousel} from 'antd-mobile';
-import {getOrderDetail} from "../api/subscribe";
-import {cancelOrder} from "../api/orderMine";
+import {Button} from 'antd-mobile';
+import {getOrderDetail,submitPay} from "../api/subscribe";
+import {cancelOrder,getOpenId} from "../api/orderMine";
 import Loading from '../components/Loading'
 import '../assets/css/orderDetail.less';
 import {Modal, Toast} from "antd-mobile/lib/index";
+import {isWeiXin} from "../util/util";
 
 function matchStateToProps(state) {
     //...
@@ -23,7 +24,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class List1 extends React.Component {
+export default class OrderDetail extends React.Component {
     constructor(options) {
         super(options);
     }
@@ -105,6 +106,25 @@ export default class List1 extends React.Component {
                 sec
             });
         }, 1000)
+    }
+
+    submitPay() {
+        this.props.history.push({
+            pathname:`/order/pay/${this.props.match.params.id}`
+        })
+        /*let ret;
+        if(isWeiXin()){
+            ret = await getOpenId();
+            sessionStorage.setItem("orderId",this.props.match.params.id);
+            location.href = ret.body;
+        }else{
+            ret = await submitPay({
+                orderId: this.props.match.params.id,
+                channel: 'wx',
+                openId:''
+            });
+            location.href = ret.body.redirectUrl;
+        }*/
     }
 
     render() {
@@ -200,7 +220,9 @@ export default class List1 extends React.Component {
                     <Button type="default" onClick={() => {
                         this.cancelOrder(data.orderId)
                     }} size="small">取消定单</Button>
-                    <Button type="primary" size="small" disabled={this.state.disabled}>付款</Button>
+                    <Button type="primary" size="small" disabled={this.state.disabled} onClick={() => {
+                        this.submitPay()
+                    }}>付款</Button>
                 </div>
             </div>
         )

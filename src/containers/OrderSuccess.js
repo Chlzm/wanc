@@ -23,7 +23,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class List1 extends React.Component {
+export default class OrderSuccess extends React.Component {
     constructor(options) {
         super(options);
     }
@@ -122,7 +122,7 @@ export default class List1 extends React.Component {
                         <div className="wanc-module-content">
                             <div className={data.isVerified ? "join-code code-relative":"join-code"}>
                                 <i className="icon-join-success"></i>
-                                {/*<img src={require('../assets/images/icon-qr-code.png')}/>*/}
+                                <img src={require('../assets/images/icon-qr-code.png')}/>
                                 <canvas id="canvas"></canvas>
                                 <div>{data.successCode}</div>
                                 <div className="note">请在入场时出示（可在已预约的订单中查看）</div>

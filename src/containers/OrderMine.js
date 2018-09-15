@@ -6,6 +6,7 @@ import {Button, Toast, Modal} from 'antd-mobile';
 import WCTabBar from '../components/TabBar';
 import * as myOrderAPI from "../api/orderMine";
 import Loading from '../components/Loading'
+import NoData from '../components/NoData'
 import '../assets/css/orderMine.less';
 
 const OrderButton = ({status, onClick, id}) => {
@@ -103,8 +104,7 @@ export default class OrderMine extends React.Component {
             pageNum: slideNumber,
             pageSize: 10
         });
-        if (ret.body == null) {
-            ret.body = [];
+        if (ret.body.length == 0) {
             this.setState({
                 finished: true,
             });
@@ -305,8 +305,21 @@ export default class OrderMine extends React.Component {
 
     render() {
         let {list} = this.state;
-        if (!list.length) {
-            return <Loading></Loading>
+        if (!list.length && !this.state.finished) {
+            return (
+                <div>
+                    <Loading></Loading>
+                    <WCTabBar {...this.props}></WCTabBar>
+                </div>
+                )
+
+        }else if(!list.length && this.state.finished){
+            return (
+                <div>
+                    <NoData text="暂无订单"/>
+                    <WCTabBar {...this.props}></WCTabBar>
+                </div>
+            )
         }
         return (
             <div className="wan-c-order-mine mart70">
@@ -327,6 +340,7 @@ export default class OrderMine extends React.Component {
                                                 className={"order-state" + " " + this.computedClassName(item.orderStatusStr)}>{item.orderStatusStr}</span>
                                         </div>
                                         <div className="order-subscribe-info" onClick={() => {
+                                            //this.onClick(item.orderId, item.orderStatusStr, name)
                                             this.goOrderDetail(item.activityType, item.orderId,item.orderStatus)
                                         }}>
                                             <div className="order-sub-img">
@@ -366,7 +380,6 @@ export default class OrderMine extends React.Component {
                         }
                     </div>
                     {this.state.finished ? <div className="load-finished">已全部加载</div> : <div></div>}
-
                 </div>
 
                 <WCTabBar {...this.props}></WCTabBar>

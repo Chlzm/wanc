@@ -120,7 +120,7 @@ export default class Index extends Component {
                                         pathname: '/subscribe/2'
                                     })
                                 }}>
-                                    <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
+                                    <img src={require('../assets/images/s03.jpg')} className="sub-item-image"/>
                                 </a>
                                 <div className="item-title">自行车</div>
                             </Flex.Item>
@@ -131,7 +131,7 @@ export default class Index extends Component {
                                         pathname: '/subscribe/3'
                                     })
                                 }}>
-                                    <img src={require('../assets/images/s01.jpg')} className="sub-item-image"/>
+                                    <img src={require('../assets/images/s04.jpg')} className="sub-item-image"/>
                                 </a>
                                 <div className="item-title">卡丁车</div>
                             </Flex.Item>
@@ -142,7 +142,7 @@ export default class Index extends Component {
                                         pathname: '/subscribe/4'
                                     })
                                 }}>
-                                    <img src={require('../assets/images/s01.jpg')}
+                                    <img src={require('../assets/images/s05.jpg')}
                                          className="sub-item-image"/></a>
                                 <div className="item-title">赛道</div>
 

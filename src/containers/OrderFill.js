@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import * as fillActions from '../actions/orderFill'
 import * as headerActions from '../actions/header'
 import {Flex, Button, List, InputItem, Icon, Stepper, DatePicker} from 'antd-mobile';
 import '../assets/css/orderFill.less';
@@ -17,7 +18,8 @@ function matchStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        ...headerActions
+        ...fillActions,
+        ...headerActions,
     }, dispatch)
 }
 
@@ -66,16 +68,51 @@ export default class OrderFill extends React.Component {
 
     change = (value, stateName) => {
         let o = {...this.state};
-        o[stateName] = value;
-        if (stateName === 'applyendtime') {
-            o[stateName] = format(value, 'yyyy-MM-dd HH:mm') + ':00'
-            o.time = value;
+        switch (stateName){
+            case 's4name':
+                this.props.setName(value);
+                break;
+            case 'applyusername':
+                this.props.setApplyUserName(value);
+                break;
+            case 'phone':
+                this.props.setPhone(value);
+                break;
+            case 'carmodel':
+                this.props.setCarModel(value);
+                break;
+            case 'usercount':
+                this.props.setUserCount(value);
+                break;
+            case 'applyendtime':
+                this.props.setTime(value);
+                break;
+                //o[stateName] = format(value, 'yyyy-MM-dd HH:mm') + ':00'
+                //o.time = value;
+            default:
+                o[stateName] = value;
+                this.setState(o);
+                break;
         }
-        this.setState(o)
+       /* o[stateName] = value;
+        if (stateName === 'applyendtime') {
+
+        }*/
+
     }
 
     async submit() {
-        let ret = await apply4S(this.state);
+        let fill = this.props.state.fill;
+        let ret = await apply4S({
+            id: this.state.id,
+            s4name: fill.name,
+            applyusername: fill.applyusername,
+            phone:fill.phone,
+            carbrandid: this.state.carbrandid,
+            carmodel:fill.carmodel,
+            usercount: fill.usercount,
+            applyendtime: format(fill.time, 'yyyy-MM-dd HH:mm') + ':00',
+        });
     }
 
     goBrandPage = () => {
@@ -111,17 +148,17 @@ export default class OrderFill extends React.Component {
                 </div>
                 <div className="order-fill-module">
                     <List>
-                        <InputItem placeholder="请输入4S店名称" onChange={(value) => {
+                        <InputItem placeholder="请输入4S店名称" value={this.props.state.fill.s4name} onChange={(value) => {
                             this.change(value, 's4name')
                         }}>4S店名称：</InputItem>
                     </List>
                     <List>
-                        <InputItem placeholder="请输入预约人姓名" onChange={(value) => {
+                        <InputItem placeholder="请输入预约人姓名" value={this.props.state.fill.applyusername} onChange={(value) => {
                             this.change(value, 'applyusername')
                         }}>预约人：</InputItem>
                     </List>
                     <List>
-                        <InputItem type="phone" placeholder="请输入联系方式" onChange={(value) => {
+                        <InputItem type="phone" placeholder="请输入联系方式" value={this.props.state.fill.phone} onChange={(value) => {
                             this.change(value, 'phone')
                         }}>联系方式：</InputItem>
                     </List>
@@ -137,7 +174,7 @@ export default class OrderFill extends React.Component {
                         </div>
                     </div>
                     <List>
-                        <InputItem placeholder="多种车型，用逗号“，”隔开" onChange={(value) => {
+                        <InputItem placeholder="多种车型，用逗号“，”隔开" value={this.props.state.fill.carmodel} onChange={(value) => {
                             this.change(value, 'carmodel')
                         }}>试驾车型：</InputItem>
                     </List>
@@ -149,7 +186,7 @@ export default class OrderFill extends React.Component {
                                     showNumber
                                     max={10}
                                     min={1}
-                                    value={this.state.usercount}
+                                    value={this.props.state.fill.usercount}
                                     onChange={(value) => {
                                         this.change(value, 'usercount')
                                     }}
@@ -163,7 +200,7 @@ export default class OrderFill extends React.Component {
                         <DatePicker
                             mode="datetime"
                             minuteStep={2}
-                            value={this.state.time}
+                            value={this.props.state.fill.time}
                             onChange={(value) => {
                                 this.change(value, 'applyendtime')
                             }}

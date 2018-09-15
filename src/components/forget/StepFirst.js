@@ -9,9 +9,13 @@ export default class Index extends Component {
     constructor(options) {
         super(options);
         this.state = {
-            phone: '13818668621',
+            phone: '',
             code: ''
         }
+    }
+
+    componentWillMount() {
+
     }
 
     componentDidMount() {
@@ -34,10 +38,10 @@ export default class Index extends Component {
             phone: this.state.phone,
             code: this.state.code
         });
-        if(ret.body){
-            localStorage.setItem("TEMP-CODE",ret.body)
+        if (ret.body) {
+            localStorage.setItem("TEMP-CODE", ret.body)
             this.props.history.push({
-                pathname:`/forget/step2`,
+                pathname: `/forget/step2`,
             });
         }
     }

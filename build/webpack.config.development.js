@@ -95,13 +95,13 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist',//静态文件跟目录
-        host: '192.168.1.152',//配置主机
+        host: '192.168.1.107',//配置主机
         port: 8080,//主机名
         historyApiFallback: true,
         hot: true,
         proxy: {
             '/rest/*': {
-                target: 'http://192.168.1.151:8014',
+                target: 'http://wanchi.xiechangqing.cn',
                 changeOrigin: true,
                 secure: false
             },

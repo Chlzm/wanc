@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import configure from '../store/configureStoreSaga'
 import createHistory from 'history/createBrowserHistory'
-import { hot } from 'react-hot-loader'
+import {hot} from 'react-hot-loader'
 import Header from '../components/Header';
 import List from './List'
 import Running from './Running'
@@ -28,6 +28,8 @@ import BasicInfo from './BasicInfo'
 import ModifyNickname from './ModifyNickname'
 import Message from './Message'
 import About from './About'
+import Pay from './Pay'
+import AppPay from './AppPay'
 import Upload from './Upload'
 import ModifyPhoneNumber from './ModifyPhoneNumber'
 import BrandList from './BrandList'
@@ -39,6 +41,7 @@ const NoMatch = ({location}) => (
         <h3>No match for <code>{location.pathname}!</code></h3>
     </div>
 )
+
 class App extends React.Component {
     constructor(options) {
         super(options);
@@ -70,7 +73,8 @@ class App extends React.Component {
                                     <Route path="/feedback" component={Feedback}></Route>
                                     {/*<Route exact path="/subscribe/car" component={List}></Route>*/}
                                     <Route exact path="/subscribe/:type" component={Running}></Route>
-                                    <Route exact path="/subscribe/running/detail/:type/:id" component={OrderRunning}></Route>
+                                    <Route exact path="/subscribe/running/detail/:type/:id"
+                                           component={OrderRunning}></Route>
                                     <Route exact path="/subscribe/confirm/:id" component={OrderBicycleConfirm}></Route>
                                     <Route exact path="/order/car/:id" component={OrderConfirm}></Route>
                                     <Route exact path="/subscribe/success/:type/:id" component={OrderSuccess}></Route>
@@ -78,7 +82,6 @@ class App extends React.Component {
                                     <Route exact path="/order/fill/:type/:id" component={OrderFill}></Route>
                                     <Route exact path="/brand/:type/:id" component={BrandList}></Route>
                                     <Route exact path="/order/pay/:id" component={OrderPay}></Route>
-
                                     <Route exact path="/drive/:id" component={Drive}></Route>
                                     <Route exact path="/apply/:id" component={AppliedPerson}></Route>
                                     <Route exact path="/mine" component={UserCenter}></Route>
@@ -88,7 +91,9 @@ class App extends React.Component {
                                     <Route exact path="/modify/phone" component={ModifyPhoneNumber}></Route>
                                     <Route exact path="/message" component={Message}></Route>
                                     <Route exact path="/about" component={About}></Route>
+                                    <Route exact path="/pay/" component={Pay}></Route>
                                     <Route exact path="/upload" component={Upload}></Route>
+                                    <Route exact path="/app/pay" component={AppPay}></Route>
 
                                     <Route component={NoMatch}/>
                                 </Switch>
@@ -102,4 +107,5 @@ class App extends React.Component {
         )
     }
 }
+
 export default hot(module)(App)
