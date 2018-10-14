@@ -91,7 +91,6 @@ export default class OrderSuccess extends React.Component {
                     <div className="order-sub-img">
                         <img
                             src={data.activityImgUrl}
-
                         />
                     </div>
                     <div className="order-sub-content">
@@ -99,7 +98,7 @@ export default class OrderSuccess extends React.Component {
                         <ul>
                             <li>
                                 <div className="order-s-label">
-                                    试驾时间：
+                                    预约时间：
                                 </div>
                                 <div className="order-s-date">
                                     {data.activityDateStr} | {data.activityStartHour}-{data.activityEndHour}
@@ -122,7 +121,6 @@ export default class OrderSuccess extends React.Component {
                         <div className="wanc-module-content">
                             <div className={data.isVerified ? "join-code code-relative":"join-code"}>
                                 <i className="icon-join-success"></i>
-                                <img src={require('../assets/images/icon-qr-code.png')}/>
                                 <canvas id="canvas"></canvas>
                                 <div>{data.successCode}</div>
                                 <div className="note">请在入场时出示（可在已预约的订单中查看）</div>
@@ -189,7 +187,7 @@ export default class OrderSuccess extends React.Component {
                             </li>
                             <li>
                                 <div className="order-owner-label">支付方式：</div>
-                                <div className="order-owner-content">{data.paymethod}</div>
+                                <div className="order-owner-content">{data.paymethod || '未支付'}</div>
                             </li>
                             <li>
                                 <div className="order-owner-label">创建时间：</div>

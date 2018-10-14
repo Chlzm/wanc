@@ -91,6 +91,15 @@ export default class Index extends Component {
     }
 
     async login() {
+
+        if(!this.state.phone){
+            Toast.info('请先输入手机号！', 1);
+            return;
+        }
+        if(!this.state.code){
+            Toast.info('请先输入密码！', 1);
+            return;
+        }
         let ret = await loginAPI.login({
             phone: this.state.phone.replace(/\s/g, ''),
             code: this.state.code
@@ -107,6 +116,14 @@ export default class Index extends Component {
     }
 
     async loginByPassword() {
+        if(!this.state.phone){
+            Toast.info('请先输入手机号！', 1);
+            return;
+        }
+        if(!this.state.password){
+            Toast.info('请先输入密码！', 1);
+            return;
+        }
         let ret = await loginAPI.accountLogin({
             username: this.state.phone.replace(/\s/g, ''),
             password: this.state.password
@@ -166,6 +183,10 @@ export default class Index extends Component {
                                     this.loginByPassword()
                                 }}>登录</Button>
                             </div>
+                            <div className="wan-c-service">
+                                点击登录，即表示已阅读并同意
+                                <Link to="/service">《服务协议》</Link>
+                            </div>
                         </div>
                         <div className="login-content">
                             <Flex alignContent="start">
@@ -201,8 +222,7 @@ export default class Index extends Component {
                             </div>
                             <div className="wan-c-service">
                                 点击登录，即表示已阅读并同意
-                                <Link to="#">《服务协议》</Link>
-
+                                <Link to="/service">《服务协议》</Link>
                             </div>
                         </div>
                     </Tabs>

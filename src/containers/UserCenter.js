@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {List, Icon} from 'antd-mobile';
+import {List, Button} from 'antd-mobile';
 import WCTabBar from '../components/TabBar';
 import '../assets/css/userCenter.less';
 
@@ -31,7 +31,7 @@ export default class UserCenter extends React.Component {
 
 
     componentWillMount() {
-        this.props.setTitle('个人中心',false,<div></div>);
+        this.props.setTitle('个人中心', false, <div></div>);
         this.setUserInfoToState();
     }
 
@@ -81,11 +81,19 @@ export default class UserCenter extends React.Component {
             pathname: '/register'
         })
     }
-    changePhone = () =>{
+    changePhone = () => {
         this.props.history.push({
             pathname: '/modify/phone'
         })
     }
+
+    logout() {
+        localStorage.clear();
+        this.props.history.push({
+            pathname:'/login'
+        })
+    }
+
     render() {
         let {userInfo} = this.state;
         return (
@@ -150,6 +158,9 @@ export default class UserCenter extends React.Component {
                             <span>关于万驰</span>
                         </List.Item>
                     </List>
+                    <Button type="primary" className="logout" onClick={() => {
+                        this.logout()
+                    }}>退出当前帐号</Button>
                 </div>
                 <WCTabBar {...this.props}></WCTabBar>
             </div>

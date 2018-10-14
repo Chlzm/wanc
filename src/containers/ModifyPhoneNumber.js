@@ -34,7 +34,9 @@ export default class Index extends Component {
         code: null,
         token: null,
         hasError: false,
-        loading: false
+        loading: false,
+        text: '获取动态码',
+        disabled: false,
     }
 
     componentWillMount() {
@@ -72,38 +74,68 @@ export default class Index extends Component {
     async getCode() {
         let ret = await loginAPI.getCode({
             phone: this.state.phone,
-            doSendSMS: false
+            doSendSMS: true
         });
-        let result = await validateCode({
-            phone: this.state.phone,
-            code: ret.body,
-        })
-        this.setState({
-            code: ret.body,
-            token: result.body,
-        });
+        this.countdown();
     }
+
     validate() {
         if (this.state.newPhone == '') {
             Toast.info('请输入新的手机号码', 2);
             return false;
-        }else if(!/^1\d{10}$/.test(this.state.newPhone.replace(/\s/g,''))){
+        } else if (!/^1\d{10}$/.test(this.state.newPhone.replace(/\s/g, ''))) {
             Toast.info('新的手机号码格式不正确', 2);
             return false;
         }
         return true;
 
     }
+
+    countdown(seconds = 60) {
+        if (this.state.disabled) {
+            return;
+        }
+        this.setState({
+            disabled: true
+        })
+        var loop;
+        clearInterval(loop);
+        let i = 0;
+        loop = setInterval(() => {
+            i++;
+            seconds = seconds - 1
+            if (seconds == 0) {
+                clearInterval(loop);
+                this.setState({
+                    disabled: false,
+                    text: '重新发送'
+                });
+                return;
+            }
+            this.setState({
+                sec: seconds,
+                text: `${seconds}秒后重新发送` //后重新发送
+            });
+        }, 1000)
+    }
+
     async submit() {
-        if(!this.validate()){
+        if (!this.validate()) {
             return;
         }
         this.setState({
             loading: true,
         });
+        let result = await validateCode({
+            phone: this.state.phone,
+            code: this.state.code,
+        });
+        this.setState({
+            token: result.body,
+        });
         let ret = await modifyPhone({
             token: this.state.token,
-            newphone: this.state.newPhone.replace(/\s/g,''),
+            newphone: this.state.newPhone.replace(/\s/g, ''),
         });
         this.setState({
             loading: false,
@@ -138,7 +170,7 @@ export default class Index extends Component {
                         <div className="code-image" onClick={() => {
                             this.getCode()
                         }}>
-                            <span>获取动态码</span>
+                            <span style={{"color": this.state.disabled ? "#ccc" : "#be2721"}}>{this.state.text}</span>
                         </div>
                     </li>
                     <li>
@@ -149,10 +181,10 @@ export default class Index extends Component {
                                    }}></InputItem>
                     </li>
                     <li className="password-button">
-                        <Button type="primary" loading={this.state.loading} onClick={() => {
+                        <Button type="primary" disabled={this.state.loading} loading={this.state.loading} onClick={() => {
                             this.submit()
-                        }}>{this.state.loading ? '修改中...' : '修 改'}</Button>
-                    </li>
+                        }}>修 改</Button>
+            </li>
                 </ul>
             </div>
         )

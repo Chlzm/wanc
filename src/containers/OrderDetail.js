@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import {Button} from 'antd-mobile';
-import {getOrderDetail,submitPay} from "../api/subscribe";
-import {cancelOrder,getOpenId} from "../api/orderMine";
+import {getOrderDetail, submitPay} from "../api/subscribe";
+import {cancelOrder, getOpenId} from "../api/orderMine";
 import Loading from '../components/Loading'
 import '../assets/css/orderDetail.less';
 import {Modal, Toast} from "antd-mobile/lib/index";
@@ -78,7 +78,7 @@ export default class OrderDetail extends React.Component {
         ])
     }
 
-    countdown(seconds) {
+    countdown(seconds = 0) {
         if (seconds === 0) {
             this.setState({
                 disabled: true,
@@ -110,7 +110,7 @@ export default class OrderDetail extends React.Component {
 
     submitPay() {
         this.props.history.push({
-            pathname:`/order/pay/${this.props.match.params.id}`
+            pathname: `/order/pay/${this.props.match.params.id}`
         })
         /*let ret;
         if(isWeiXin()){
@@ -177,11 +177,11 @@ export default class OrderDetail extends React.Component {
                 <ul className="order-detail-price">
                     <li>
                         <span>订单总额</span>
-                        <span>¥{data.paymoney}</span>
+                        <span>¥{data.orderTotalmoney}</span>
                     </li>
                     <li>
                         <span>优惠</span>
-                        <span>-¥2000.00</span>
+                        <span>-¥{data.diffMoney}</span>
                     </li>
                     <li className="price">
                         <span>实付金额</span>
@@ -205,7 +205,7 @@ export default class OrderDetail extends React.Component {
                     </li>
                     <li>
                         <div className="order-owner-label">支付方式：</div>
-                        <div className="order-owner-content order-red">{data.paymethod}</div>
+                        <div className="order-owner-content order-red">{data.paymethod ||'未支付'}</div>
                     </li>
                     <li>
                         <div className="order-owner-label">创建时间：</div>

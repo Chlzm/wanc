@@ -117,13 +117,13 @@ export default class Index extends Component {
                         </div>
                     </li>*/}
                     <li>
-                        <InputItem type="password" placeholder="请输入旧密码" value={this.state.oldPassword}
+                        <InputItem labelNumber="7" type="password" placeholder="请输入旧密码" value={this.state.oldPassword}
                                    onChange={(value) => {
                                        this.inputNumber(value, "oldPassword")
                                    }}>请输入旧密码</InputItem>
                     </li>
                     <li>
-                        <InputItem type="password" placeholder="请输入新密码"
+                        <InputItem labelNumber="7" type="password" placeholder="请输入新密码"
                                    value={this.state.newPassword}
                                    onChange={(value) => {
                                        this.inputNumber(value, "newPassword")

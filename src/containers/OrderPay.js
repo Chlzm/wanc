@@ -6,8 +6,9 @@ import {Toast, Button, Radio} from 'antd-mobile';
 import {getOpenId, getOrderDetail} from "../api/orderMine";
 import Loading from '../components/Loading'
 import '../assets/css/orderPay.less';
-import {isWeiXin} from "../util/util";
-import {submitPay} from "../api/subscribe";
+import {isWeiXin, isAPP} from "../util/util";
+import qc from '../util/qiancheng'
+import {submitPay, submitAPP, getPayResult} from "../api/subscribe";
 
 function matchStateToProps(state) {
     //...
@@ -32,7 +33,7 @@ export default class OrderPay extends React.Component {
             min: null,
             sec: null,
             chooseWX: true,
-            isWX:false,
+            isWX: false,
         }
     }
 
@@ -49,20 +50,22 @@ export default class OrderPay extends React.Component {
         this.isPayFail();
         sessionStorage.setItem("orderId", this.props.match.params.id);
     }
+
     isPayFail() {
         let hasMessage = location.href.indexOf('message') > -1;
-        if(hasMessage) {
-            Toast.fail('支付失败',2);
+        if (hasMessage) {
+            Toast.fail('支付失败', 2);
         }
     }
+
     async getOrderDetail() {
         let seconds = 0;
         let ret = await getOrderDetail({
             orderId: this.props.match.params.id,
         })
         if (ret.code === "00000") {
-            let has = ret.body.orderCreateTime - Date.now();
-            seconds = Math.floor(has / 1000);
+            let seconds = ret.body.payRemainSecond;
+            //seconds = Math.floor(has);
             this.countdown(seconds)
         }
         this.setState({
@@ -106,15 +109,54 @@ export default class OrderPay extends React.Component {
         }, 1000)
     }
 
+    async pay() {
+        let ret = await submitAPP({
+            orderId: this.props.match.params.id,
+            channel: 'alipay',
+        });
+        qc.track('alipay', {
+            orderinfo: ret.body.result
+        }).then(res => {
+            Toast.info('支付中',10)
+            this.appPayCallback(res)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    async appPayCallback() {
+        for (let i = 0; i < 5; i++) {
+            let ret = await getPayResult({orderId: this.props.match.params.id,})
+            if (!ret.body) {
+                this.appPayCallback();
+                return;
+            }else{
+                Toast.info('支付成功',2);
+                setTimeout(()=>{
+                    Toast.hide();
+                    this.props.history.replace({
+                        pathname:`/subscribe/success/${this.props.match.params.id}`
+                    })
+                },2000)
+                return;
+            }
+        }
+    }
+
     async submitPay() {
         let ret;
         // 支付宝
+
         if (!this.state.chooseWX) {
+            if (isAPP()) {
+                this.pay()
+                return;
+            }
             submitPay({
                 orderId: this.props.match.params.id,
                 channel: 'alipay',
                 openId: ''
-            }).then(res=>{
+            }).then(res => {
                 document.write(res.body.result)
                 /*if (!window.ap) {
                     let script = document.createElement("script");
@@ -194,7 +236,7 @@ export default class OrderPay extends React.Component {
                             </div>
                             <Radio className="my-radio" checked={this.state.chooseWX}></Radio>
                         </li>
-                        {this.state.isWX ? <div></div>:
+                        {this.state.isWX ? <div></div> :
                             <li onClick={() => {
                                 this.setState({
                                     chooseWX: false

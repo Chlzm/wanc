@@ -115,10 +115,9 @@ export default class RunningDetail extends React.Component {
                         text: '确定',
                         onPress: () => {
                             runningAPI.activityApply(options).then(ret => {
-                                console.log(ret)
-                                /*this.props.history.push({
-                                    pathname: `/order/running/detail/${this.props.match.params.id}`
-                                })*/
+                                this.props.history.push({
+                                    pathname:`/subscribe/success/${ret.body.orderId}`
+                                })
                             })
                         }
                     },
@@ -132,7 +131,7 @@ export default class RunningDetail extends React.Component {
                         return;
                     }
                     this.props.history.push({
-                        pathname: `/subscribe/confirm/${this.props.match.params.id}`
+                        pathname: `/subscribe/confirm/${ret.body.orderId}`
                     })
                 })
                 break;
@@ -156,7 +155,7 @@ export default class RunningDetail extends React.Component {
                         <ul>
                             <li>
                                 <div className="order-s-label">
-                                    活动时间：
+                                    预约时间：
                                 </div>
                                 <div className="order-s-date">
                                     {data.dateStr} | {this.state.dayMap[new Date(data.dateStr).getDay()]}

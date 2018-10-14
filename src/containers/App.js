@@ -34,6 +34,8 @@ import AppPay from './AppPay'
 import Upload from './Upload'
 import ModifyPhoneNumber from './ModifyPhoneNumber'
 import BrandList from './BrandList'
+import Service from './Service'
+import qc from '../util/qiancheng'
 
 let history = createHistory();
 const store = configure({config: global.$GLOBALCONFIG})
@@ -49,11 +51,45 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-
+        //this.registerCallBack();
+        //this.isHomePage();
     }
 
     componentWillMount() {
         //debugger;
+    }
+
+    isHomePage(path) {
+        if (path.indexOf('order/mine') > -1) {
+            return true;
+        }
+        switch (path) {
+            case '/':
+            case '/index':
+            case '/mine':
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    registerCallBack(path) {
+        qc.track('registerCallBack', {}).then(res => {
+            if (this.isHomePage(path)) {
+                qc.track('popWindow', {}).then(res => {
+                    // history.goBack()
+                }).catch(error => {
+                    console.log(error)
+                })
+                return;
+            }else{
+                history.goBack()
+            }
+
+
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     render() {
@@ -62,12 +98,12 @@ class App extends React.Component {
                 <Provider store={store}>
                     <Route render={params => {
                         let {location} = params;
+                        this.registerCallBack(params.location.pathname);
                         return (
                             <div>
                                 {params.location.pathname == "/login" ? <div></div> : <Header {...params}></Header>}
                                 <Switch key={location.pathname} location={location}>
                                     <Route exact path="/" component={Index}></Route>
-                                    <Route exact path="/index" component={Index}></Route>
                                     <Route exact path="/login" component={Login}></Route>
                                     <Route path="/forget" component={ForgetPassword}></Route>
                                     <Route path="/modify/password" component={ModifyPassword}></Route>
@@ -96,7 +132,7 @@ class App extends React.Component {
                                     <Route exact path="/upload" component={Upload}></Route>
                                     <Route exact path="/app/pay" component={AppPay}></Route>
                                     <Route exact path="/alipay" component={AlipayMiddlePage}></Route>
-
+                                    <Route exact path="/service" component={Service}></Route>
                                     <Route component={NoMatch}/>
                                 </Switch>
                             </div>

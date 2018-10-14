@@ -105,7 +105,7 @@ export default class OrderFill extends React.Component {
         let fill = this.props.state.fill;
         let ret = await apply4S({
             id: this.state.id,
-            s4name: fill.name,
+            s4name: fill.s4name,
             applyusername: fill.applyusername,
             phone:fill.phone,
             carbrandid: this.state.carbrandid,
@@ -113,6 +113,11 @@ export default class OrderFill extends React.Component {
             usercount: fill.usercount,
             applyendtime: format(fill.time, 'yyyy-MM-dd HH:mm') + ':00',
         });
+        if(ret.code === "00000"){
+            this.props.history.push({
+                pathname:`/subscribe/confirm/${ret.body.orderId}`
+            })
+        }
     }
 
     goBrandPage = () => {

@@ -161,7 +161,7 @@ export default class Index extends Component {
                 </div>
                 <div className="home-module">
                     <h2 className="home-m-title">
-                        <span className="symbol">/</span><span className="text">试驾预约</span><span
+                        <span className="symbol">/</span><span className="text">试驾专区</span><span
                         className="symbol">/</span>
                     </h2>
                     {

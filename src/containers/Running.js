@@ -33,7 +33,7 @@ export default class Index extends Component {
             userCount: 0,
         },
         imgHeight: 370,
-        typeMap: ['场次预约', '跑步预约', '自行车预约', '卡丁车预约','赛道预约'],
+        typeMap: ['试驾场次预约', '跑步预约', '自行车预约', '卡丁车预约','赛道预约'],
     }
 
     componentWillMount() {
@@ -150,7 +150,7 @@ export default class Index extends Component {
                                 <div className="sl-time">
                                     <div className="sl-hours">{item.startHour}-{item.endHour}
                                         </div>
-                                    <div className="sl-end">截止{format(new Date(item.applyEndTimeStr), 'M月d日')}</div>
+                                    <div className="sl-end">截止至{format(new Date(item.applyEndTimeStr), 'M月d日')}</div>
                                 </div>
                                 <div className="sl-price">
                                     <b>￥{item.discountPrice}</b>
