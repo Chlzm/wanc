@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Flex, Button, Carousel, Icon, Radio} from 'antd-mobile';
+import {Toast, Button, Radio} from 'antd-mobile';
 import {getOpenId, getOrderDetail} from "../api/orderMine";
 import Loading from '../components/Loading'
 import '../assets/css/orderPay.less';
@@ -42,13 +42,19 @@ export default class OrderPay extends React.Component {
         this.getOrderDetail();
         this.setState({
             isWX: isWeiXin()
-        })
+        });
     }
 
     componentDidMount() {
-
+        this.isPayFail();
+        sessionStorage.setItem("orderId", this.props.match.params.id);
     }
-
+    isPayFail() {
+        let hasMessage = location.href.indexOf('message') > -1;
+        if(hasMessage) {
+            Toast.fail('支付失败',2);
+        }
+    }
     async getOrderDetail() {
         let seconds = 0;
         let ret = await getOrderDetail({

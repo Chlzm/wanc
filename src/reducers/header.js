@@ -1,13 +1,15 @@
 import {
     SET_TITLE,
+    SET_LEFT_ICON,
 } from '../actions/header'
+import {Icon} from 'antd-mobile'
 
-
-export const header = (state = {title: '万驰'}, action) => {
+export const header = (state = {title: '万驰', showLeftIcon: true, leftIcon: <Icon type="left"/>}, action) => {
     switch (action.type) {
         case SET_TITLE:
-            return Object.assign({},state,{title:action.data});
-            break;
+            return Object.assign({}, state, {title: action.data,showLeftIcon:action.showLeftIcon,leftIcon:action.leftIcon});
+        case SET_LEFT_ICON:
+            return Object.assign({}, state, {showLeftIcon: action.data.showLeftIcon, leftIcon: action.data.leftIcon});
         /*case FETCH_SUCCESS:
             return Object.assign({},state,{data:action.data});
             break;

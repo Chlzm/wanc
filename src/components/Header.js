@@ -26,7 +26,9 @@ export default class WCTabBar extends Component {
 
     state = {
         title: routerParams[this.props.location.pathname] ? routerParams[this.props.location.pathname].title : "万驰",
-        show: true
+        show: true,
+        leftIcon: <Icon type="left"/>,
+        showLeftIcon: true
     }
 
     componentWillMount() {
@@ -42,14 +44,45 @@ export default class WCTabBar extends Component {
             show: ret
         });
     }
-
-    componentDidMount() {
+    componentWillMount() {
+       this.setLeftIcon()
     }
+    componentDidMount() {
 
+    }
+    componentWillUpdate(){
+        //this.setLeftIcon()
+    }
     goNoticePage = () => {
         this.props.history.push({
             pathname: '/message'
         })
+    }
+
+    setLeftIcon() {
+        let path = this.props.location.pathname;
+        if(path == "/" || path == "/order/mine" || path == "/mine"){
+            this.setState({
+                showLeftIcon: false,
+                leftIcon: <div></div>
+            });
+        }else{
+            this.setState({
+                showLeftIcon: true,
+                leftIcon: <Icon type="left"/>
+            })
+        }
+    }
+
+    onLeftClick = e => {
+        if (!this.props.state.header.showLeftIcon) {
+            return;
+        }
+        if (location.search.indexOf('message') > -1) {
+            this.props.history.go(-2);
+        } else {
+            this.props.history.goBack()
+        }
     }
 
     render() {
@@ -58,8 +91,8 @@ export default class WCTabBar extends Component {
             <div className="wan-c-header" style={{"display": this.state.show ? "block" : "none"}}>
                 <NavBar
                     mode="light"
-                    icon={<Icon type="left"/>}
-                    onLeftClick={() => this.props.history.goBack()}
+                    icon={this.props.state.header.leftIcon}
+                    onLeftClick={this.onLeftClick}
                     rightContent={pathname == '/mine' ? [
                         <Icon key="1" type="ellipsis" onClick={() => {
                             this.goNoticePage()

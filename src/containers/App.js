@@ -29,6 +29,7 @@ import ModifyNickname from './ModifyNickname'
 import Message from './Message'
 import About from './About'
 import Pay from './Pay'
+import AlipayMiddlePage from './AlipayMiddlePage'
 import AppPay from './AppPay'
 import Upload from './Upload'
 import ModifyPhoneNumber from './ModifyPhoneNumber'
@@ -77,8 +78,8 @@ class App extends React.Component {
                                            component={OrderRunning}></Route>
                                     <Route exact path="/subscribe/confirm/:id" component={OrderBicycleConfirm}></Route>
                                     <Route exact path="/order/car/:id" component={OrderConfirm}></Route>
-                                    <Route exact path="/subscribe/success/:type/:id" component={OrderSuccess}></Route>
-                                    <Route exact path="/subscribe/notpay/:type/:id" component={OrderDetail}></Route>
+                                    <Route exact path="/subscribe/success/:id" component={OrderSuccess}></Route>
+                                    <Route exact path="/subscribe/notpay/:id" component={OrderDetail}></Route>
                                     <Route exact path="/order/fill/:type/:id" component={OrderFill}></Route>
                                     <Route exact path="/brand/:type/:id" component={BrandList}></Route>
                                     <Route exact path="/order/pay/:id" component={OrderPay}></Route>
@@ -94,6 +95,7 @@ class App extends React.Component {
                                     <Route exact path="/pay/" component={Pay}></Route>
                                     <Route exact path="/upload" component={Upload}></Route>
                                     <Route exact path="/app/pay" component={AppPay}></Route>
+                                    <Route exact path="/alipay" component={AlipayMiddlePage}></Route>
 
                                     <Route component={NoMatch}/>
                                 </Switch>

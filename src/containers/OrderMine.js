@@ -78,7 +78,7 @@ export default class OrderMine extends React.Component {
 
     componentWillMount() {
         slideNumber = 1;
-        this.props.setTitle('我的订单');
+        this.props.setTitle('我的订单',false,<div></div>);
         this.getOrderList();
     }
 
@@ -117,7 +117,7 @@ export default class OrderMine extends React.Component {
     }
 
     getListCallback = () => {
-        this.initSwiper();
+       // this.initSwiper();
     }
 
     initSwiper = () => {
@@ -148,7 +148,7 @@ export default class OrderMine extends React.Component {
                 holdPosition = pos;
             },
             onTouchEnd() {
-                if (holdPosition > 50) {
+                if (holdPosition >= 50) {
                     if (self.state.finished) {
                         self.setState({
                             visible: false,
@@ -294,12 +294,12 @@ export default class OrderMine extends React.Component {
     goOrderDetail = (type, id, status) => {
         if(status === 10){
             this.props.history.push({
-                pathname: `/subscribe/notpay/${type}/${id}`
+                pathname: `/subscribe/notpay/${id}`
             })
             return;
         }
         this.props.history.push({
-            pathname: `/subscribe/success/${type}/${id}`
+            pathname: `/subscribe/success/${id}`
         })
     }
 
@@ -325,9 +325,9 @@ export default class OrderMine extends React.Component {
             <div className="wan-c-order-mine mart70">
                 <div className="swiper-container">
                     <div className="swiper-wrapper">
-                        <div className={this.state.visible ? 'visible preloader' : 'preloader'}>
+                       {/* <div className={this.state.visible ? 'visible preloader' : 'preloader'}>
                             {this.state.loadingText}
-                        </div>
+                        </div>*/}
                         {
                             list.map((item, i) => {
                                 return (

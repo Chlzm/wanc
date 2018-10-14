@@ -15,7 +15,7 @@ export function* updateTitle() {
 
 export default function* root() {
     yield all([
-        fork(updateTitle),
+        //fork(updateTitle),
     ]);
 }
 

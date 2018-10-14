@@ -16,7 +16,10 @@ export default class Index extends Component {
         this.state = {
             phone: "",
             password: '',
-            code: ''
+            code: '',
+            text: '短信动态码',
+            disabled: false,
+            sec: 0,
         }
     }
 
@@ -40,18 +43,44 @@ export default class Index extends Component {
         })
     }
 
+    countdown(seconds = 60) {
+        if(this.state.disabled){
+            return;
+        }
+        this.setState({
+            disabled: true
+        })
+        var loop;
+        clearInterval(loop);
+        let i = 0;
+        loop = setInterval(() => {
+            i++;
+            seconds = seconds - 1
+            if (seconds == 0) {
+                clearInterval(loop);
+                this.setState({
+                    disabled: false,
+                    text: '重新发送'
+                });
+                return;
+            }
+            this.setState({
+                sec: seconds,
+                text: `${seconds}秒后重新发送`
+            });
+        }, 1000)
+    }
+
     async getCode() {
         if (!this.state.phone) {
             Toast.info('请先输入手机号！', 1);
             return;
         }
-        let ret = await loginAPI.getCode({
+        await loginAPI.getCode({
             phone: this.state.phone.replace(/\s/g, ''),
-            doSendSMS: false
+            doSendSMS: true
         });
-        this.setState({
-            code: ret.body
-        })
+        this.countdown();
     }
 
 
@@ -71,7 +100,7 @@ export default class Index extends Component {
         }
         localStorage.setItem('wanchi-ACCESS-TOKEN', ret.body.accessToken)
         localStorage.setItem('wanchi-ACCESS-USER', ret.body.username)
-        localStorage.setItem('wanchi-USER-INFO',JSON.stringify(ret.body))
+        localStorage.setItem('wanchi-USER-INFO', JSON.stringify(ret.body))
         this.props.history.push({
             pathname: '/'
         })
@@ -87,11 +116,12 @@ export default class Index extends Component {
         }
         localStorage.setItem('wanchi-ACCESS-TOKEN', ret.body.accessToken)
         localStorage.setItem('wanchi-ACCESS-USER', ret.body.username)
-        localStorage.setItem('wanchi-USER-INFO',JSON.stringify(ret.body))
+        localStorage.setItem('wanchi-USER-INFO', JSON.stringify(ret.body))
         this.props.history.push({
             pathname: '/'
         })
     }
+
 
     render() {
         return (
@@ -156,9 +186,10 @@ export default class Index extends Component {
                                                onChange={this.inputCode}></InputItem>
                                 </Flex.Item>
                                 <Flex.Item>
-                                    <span class="login-note-button" onClick={() => {
+                                    <span class="login-note-button"
+                                          style={{"color": this.state.disabled ? "#ccc" : "#be2721"}} onClick={() => {
                                         this.getCode()
-                                    }}>短信动态码</span>
+                                    }}>{this.state.text}</span>
                                 </Flex.Item>
                             </Flex>
                             <div className="forget">&nbsp;</div>

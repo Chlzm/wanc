@@ -36,7 +36,7 @@ export default class Index extends Component {
 
 
     componentWillMount() {
-        this.props.setTitle("预约广场");
+        this.props.setTitle("预约广场",false,<div></div>);
         this.getBanner();
         this.getDriveList();
     }

@@ -20,7 +20,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class List1 extends React.Component {
+export default class UserCenter extends React.Component {
     constructor(options) {
         super(options);
         this.state = {
@@ -31,7 +31,7 @@ export default class List1 extends React.Component {
 
 
     componentWillMount() {
-        this.props.setTitle('个人中心');
+        this.props.setTitle('个人中心',false,<div></div>);
         this.setUserInfoToState();
     }
 
