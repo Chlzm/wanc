@@ -26,9 +26,9 @@ const OrderButton = ({status, onClick, id}) => {
         case '已完成':
             return (
                 <div>
-                    <Button type="default" size="small" onClick={() => {
+                    {/*<Button type="default" size="small" onClick={() => {
                         onClick('删除订单')
-                    }}>删除订单</Button>
+                    }}>删除订单</Button>*/}
                 </div>
             )
         case '已预约':
@@ -353,7 +353,7 @@ export default class OrderMine extends React.Component {
                                                 <ul>
                                                     <li>
                                                         <div className="order-s-label">
-                                                            试驾时间：
+                                                            预约时间：
                                                         </div>
                                                         <div className="order-s-date">
                                                             {item.activityDateStr} {item.activityStartHour}-{item.activityEndHour}

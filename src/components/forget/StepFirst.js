@@ -81,6 +81,10 @@ export default class Index extends Component {
             Toast.info('请先输入手机号！', 1);
             return;
         }
+        if(!/^\d{11}$/.test(this.state.phone.replace(/\s/g,''))){
+            Toast.info('请输入合法手机号码！', 1);
+            return;
+        }
         let ret = await getCode({
             phone: this.state.phone.replace(/\s/g, ''),
             doSendSMS: true

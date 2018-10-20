@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as fillActions from '../actions/orderFill'
 import * as headerActions from '../actions/header'
-import {Flex, Button, List, InputItem, Icon, Stepper, DatePicker} from 'antd-mobile';
+import { Button, List, InputItem, Icon, Stepper, DatePicker} from 'antd-mobile';
 import '../assets/css/orderFill.less';
 import format from 'format-datetime';
 import {apply4S, get4SDetail} from "../api/running";
@@ -147,8 +147,7 @@ export default class OrderFill extends React.Component {
                 </div>
                 <div className="order-fill-note">
                     <p>
-                        请在截止日期前进行预约，如预约的场次因故取消，可申请
-                        退款，请放心预约！
+                        请在截止日期前进行预约，如预约的场次因故取消，可申请退款，请放心预约！
                     </p>
                 </div>
                 <div className="order-fill-module">
@@ -174,7 +173,7 @@ export default class OrderFill extends React.Component {
                     }}>
                         <span>试驾品牌</span>
                         <div>
-                            <span>{this.state.carbrandname || "选择名牌" }</span>
+                            <span>{this.state.carbrandname || "选择品牌" }</span>
                             <Icon type="right"></Icon>
                         </div>
                     </div>

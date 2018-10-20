@@ -70,6 +70,7 @@ export default class BrandList extends React.Component {
         }*/
         var myScroll = new IScroll('#wrapper', {
             bounce: true,
+            click:true,
 
         });
         if (location.hash) {
@@ -85,13 +86,13 @@ export default class BrandList extends React.Component {
                 myScroll.scrollToElement(e.target, 20);
             }
         }
-        window.onload = function () {
+       /* window.onload = function () {
 
-        }
+        }*/
 
     }
 
-    handClick = (v) => {
+    handClick(v) {
         let {type, id} = this.props.match.params
         pubsub.publish('mes', {
             id: v.id,

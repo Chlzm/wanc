@@ -10,7 +10,7 @@ const tabs = [
     {title: '密码登录'},
     {title: '动态码登录'},
 ]
-export default class Index extends Component {
+export default class Login extends Component {
     constructor(options) {
         super(options);
         this.state = {
@@ -76,10 +76,17 @@ export default class Index extends Component {
             Toast.info('请先输入手机号！', 1);
             return;
         }
-        await loginAPI.getCode({
+        if(!/^\d{11}$/.test(this.state.phone.replace(/\s/g,''))){
+            Toast.info('请输入合法手机号码！', 1);
+            return;
+        }
+        let ret = await loginAPI.getCode({
             phone: this.state.phone.replace(/\s/g, ''),
             doSendSMS: true
         });
+        if(ret.code !== "00000"){
+            return;
+        }
         this.countdown();
     }
 
@@ -120,6 +127,7 @@ export default class Index extends Component {
             Toast.info('请先输入手机号！', 1);
             return;
         }
+
         if(!this.state.password){
             Toast.info('请先输入密码！', 1);
             return;
