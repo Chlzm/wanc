@@ -137,7 +137,7 @@ export default class OrderDetail extends React.Component {
                 {
                     min === null ? <Loading></Loading> :
                         <div className="order-pay-count">
-                            <div className="order-detail-status">待付款</div>
+                            <div className="order-detail-status">{(min ==0 && sec ==0) ? "支付超时":"待付款"}</div>
                             <div className="order-pay-c-text">支付剩余时间</div>
                             <div className="order-pay-count-down">
                                 {/*<em>23</em> : */}<em>{min}</em> 分 <em>{sec}</em> 秒

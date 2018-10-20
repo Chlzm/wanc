@@ -218,7 +218,7 @@ export default class OrderFill extends React.Component {
                             <del>¥{this.state.price}</del>
                         </div>
                         <div className="order-fill-sub-button">
-                            <Button type="primary" onClick={() => {
+                            <Button type="primary" disabled={this.state.remainUserNum === 0 ? true : false} onClick={() => {
                                 this.submit()
                             }}>立即预约</Button>
                         </div>

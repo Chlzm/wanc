@@ -33,7 +33,7 @@ export default class Index extends Component {
             userCount: 0,
         },
         imgHeight: 370,
-        typeMap: ['试驾场次预约', '跑步预约', '自行车预约', '卡丁车预约','赛道预约'],
+        typeMap: ['试驾场次预约', '跑步预约', '自行车预约', '卡丁车预约', '赛道预约'],
     }
 
     componentWillMount() {
@@ -100,7 +100,10 @@ export default class Index extends Component {
         })
     }
 
-    goDetail(type, id) {
+    goDetail(type, id, over) {
+        if (over) {
+            return;
+        }
         // 场次预约
         if (type == 0) {
             this.props.history.push({
@@ -141,7 +144,7 @@ export default class Index extends Component {
                     <ul className="subscribe-list">
                         {this.state.data.activitys.map((item, i) => (
                             <li className={!item.applyIsOver ? '' : 'disabled'} onClick={() => {
-                                this.goDetail(type, item.id)
+                                this.goDetail(type, item.id, item.applyIsOver)
                             }}>
                                 <div className="sl-date">
                                     <div className="date">{format(new Date(item.date), 'M/d')}</div>
@@ -149,8 +152,8 @@ export default class Index extends Component {
                                 </div>
                                 <div className="sl-time">
                                     <div className="sl-hours">{item.startHour}-{item.endHour}
-                                        </div>
-                                    <div className="sl-end">截止至{format(new Date(item.applyEndTimeStr), 'M月d日')}</div>
+                                    </div>
+                                    <div className="sl-end">截止至{format(new Date(item.applyEndTime), 'M月d日')}</div>
                                 </div>
                                 <div className="sl-price">
                                     <b>￥{item.discountPrice}</b>

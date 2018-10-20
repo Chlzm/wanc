@@ -3,7 +3,8 @@ import routerParams from '../router-config';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {NavBar, Icon, WhiteSpace, DatePicker, Button, List, InputItem} from 'antd-mobile';
+import {NavBar, Icon, Badge} from 'antd-mobile';
+import {getNoticeCount} from "../api/message";
 
 function matchStateToProps(state) {
     //...
@@ -28,7 +29,8 @@ export default class WCTabBar extends Component {
         title: routerParams[this.props.location.pathname] ? routerParams[this.props.location.pathname].title : "万驰",
         show: true,
         leftIcon: <Icon type="left"/>,
-        showLeftIcon: true
+        showLeftIcon: true,
+        count: 0,
     }
 
     componentWillMount() {
@@ -44,15 +46,25 @@ export default class WCTabBar extends Component {
             show: ret
         });
     }
+
     componentWillMount() {
-       this.setLeftIcon()
+        this.setLeftIcon()
+        this.getNoticeCount();
     }
+
     componentDidMount() {
 
     }
-    componentWillUpdate(){
-        //this.setLeftIcon()
+
+    async getNoticeCount() {
+        let ret = await getNoticeCount();
+        if (ret.code === "00000") {
+            this.setState({
+                count: ret.body
+            })
+        }
     }
+
     goNoticePage = () => {
         this.props.history.push({
             pathname: '/message'
@@ -61,12 +73,12 @@ export default class WCTabBar extends Component {
 
     setLeftIcon() {
         let path = this.props.location.pathname;
-        if(path == "/" || path == "/order/mine" || path == "/mine"){
+        if (path == "/" || path == "/order/mine" || path == "/mine") {
             this.setState({
                 showLeftIcon: false,
                 leftIcon: <div></div>
             });
-        }else{
+        } else {
             this.setState({
                 showLeftIcon: true,
                 leftIcon: <Icon type="left"/>
@@ -94,9 +106,13 @@ export default class WCTabBar extends Component {
                     icon={this.props.state.header.leftIcon}
                     onLeftClick={this.onLeftClick}
                     rightContent={pathname == '/mine' ? [
-                        <Icon key="1" type="ellipsis" onClick={() => {
+                        <span className="icon-message" onClick={() => {
                             this.goNoticePage()
-                        }}/>,
+                        }}>
+                            {this.state.count == 0 ? <span></span> :
+                                <Badge text={this.state.count} style={{marginLeft: 15}} overflowCount={9}/>}
+
+                        </span>,
                     ] : []}
                 >{this.props.state.header.title}</NavBar>
             </div>

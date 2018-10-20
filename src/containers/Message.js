@@ -2,14 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {PullToRefresh, Button, ListView} from 'antd-mobile';
+import {Button, ListView} from 'antd-mobile';
 import '../assets/css/message.less';
-//import {getData} from '../api/appliedPerson'
 import Loading from '../components/Loading'
 import * as messageAPI from "../api/message";
 
-var pageNum = 0;
-var pageSize = 10;
 
 function matchStateToProps(state) {
     //...
@@ -32,7 +29,9 @@ export default class Index extends Component {
             data: [],
             scroll: null,
             visible: false,
-            loadingText: '加载中...'
+            loadingText: '加载中...',
+            pageNum: 0,
+            pageSize: 10,
         };
         this.scroll = undefined;
     }
@@ -56,10 +55,12 @@ export default class Index extends Component {
     }
 
     async getList() {
-        pageNum++
+        this.setState({
+            pageNum: this.state.pageNum + 1
+        })
         let ret = await messageAPI.getNoticeList({
-            pageNum,
-            pageSize,
+            pageNum: this.state.pageNum + 1,
+            pageSize: this.state.pageSize,
         });
         this.setState({
             data: [...this.state.data, ...ret.body]
@@ -74,6 +75,7 @@ export default class Index extends Component {
         var holdPosition = 0;
         var self = this;
         var mySwiper = new Swiper('.swiper-container', {
+            click: true,
             slidesPerView: 'auto',
             mode: 'vertical',
             watchActiveIndex: true,
@@ -120,10 +122,12 @@ export default class Index extends Component {
         })
 
         function loadNewSlides() {
-            pageNum++;
+            this.setState({
+                pageNum: this.state.pageNum + 1,
+            })
             messageAPI.getNoticeList({
-                pageNum,
-                pageSize,
+                pageNum: this.state.pageNum,
+                pageSize: this.state.pageSize,
             }).then(ret => {
                 this.setState({
                     data: [...ret.body, ...this.state.data],
@@ -142,7 +146,12 @@ export default class Index extends Component {
         }
 
     }
-
+    async readNotice(o) {
+        let ret = await messageAPI.readNotice({
+            noticeId: o.id
+        });
+        debugger;
+    }
     render() {
         let {data} = this.state;
         if (!data.length) {
@@ -159,7 +168,9 @@ export default class Index extends Component {
                         </li>
                         {this.state.data.map((value, index) => {
                             return (
-                                <li className="swiper-slide swiper-slide-visible">
+                                <li className="swiper-slide swiper-slide-visible" onClick={()=>{
+                                    this.readNotice(value)
+                                }}>
                                     <div className="message-title">
                                         <span className="text">【系统升级通告】</span>
                                         <span>2018/05/15  17:12:35</span>

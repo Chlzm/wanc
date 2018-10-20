@@ -99,7 +99,8 @@ export default class RunningDetail extends React.Component {
         })
     }
 
-    submit() {
+    submit(remainUserNum) {
+
         const {type, id} = this.props.match.params;
         let options = {
             id,
@@ -116,7 +117,7 @@ export default class RunningDetail extends React.Component {
                         onPress: () => {
                             runningAPI.activityApply(options).then(ret => {
                                 this.props.history.push({
-                                    pathname:`/subscribe/success/${ret.body.orderId}`
+                                    pathname: `/subscribe/success/${ret.body.orderId}`
                                 })
                             })
                         }
@@ -127,7 +128,7 @@ export default class RunningDetail extends React.Component {
             case 3:
             case 4:
                 runningAPI.activityApply(options).then(ret => {
-                    if(ret.code != "00000"){
+                    if (ret.code != "00000") {
                         return;
                     }
                     this.props.history.push({
@@ -198,7 +199,7 @@ export default class RunningDetail extends React.Component {
                     <div className="order-running-agree">
                         {/* <Checkbox.AgreeItem>携带儿童 <span>(140cm以下)</span></Checkbox.AgreeItem>*/}
                         <div className="subscribe-number">
-                            <div>预约名额：（ 剩余可预约名额: {data.remainUserNum} ）</div>
+                            <div>预约名额：（ 剩余名额: {data.remainUserNum} ）</div>
                             <div>
                                 <Stepper
                                     style={{width: '100%', minWidth: '100px'}}
@@ -225,7 +226,7 @@ export default class RunningDetail extends React.Component {
                 </div>
                 <div className="order-running-button">
                     {/*disabled={data.applyStatus ? 'disabled' : ''}*/}
-                    <Button type="primary"  onClick={() => {
+                    <Button type="primary" disabled={data.remainUserNum === 0 ? true : false} onClick={() => {
                         this.submit()
                     }}>立即预约</Button>
                 </div>
