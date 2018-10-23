@@ -3,6 +3,7 @@ import routerParams from '../router-config';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
+import * as messageActions from '../actions/message'
 import {NavBar, Icon, Badge} from 'antd-mobile';
 import {getNoticeCount} from "../api/message";
 
@@ -15,7 +16,8 @@ function matchStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        ...headerActions
+        ...headerActions,
+        ...messageActions,
     }, dispatch)
 }
 
@@ -57,12 +59,13 @@ export default class WCTabBar extends Component {
     }
 
     async getNoticeCount() {
-        let ret = await getNoticeCount();
+        this.props.setMessageCount()
+        /*let ret = await getNoticeCount();
         if (ret.code === "00000") {
             this.setState({
                 count: ret.body
             })
-        }
+        }*/
     }
 
     goNoticePage = () => {
@@ -109,8 +112,8 @@ export default class WCTabBar extends Component {
                         <span className="icon-message" onClick={() => {
                             this.goNoticePage()
                         }}>
-                            {this.state.count == 0 ? <span></span> :
-                                <Badge text={this.state.count} style={{marginLeft: 15}} overflowCount={9}/>}
+                            {this.props.state.message.count == 0 ? <span></span> :
+                                <Badge text={this.props.state.message.count} style={{marginLeft: 15}} overflowCount={9}/>}
 
                         </span>,
                     ] : []}

@@ -2,14 +2,30 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
 import {Flex, Tabs, InputItem, Button, Toast} from 'antd-mobile';
 import '../assets/css/login.less';
-import cookie from 'cookie'
-
 import * as loginAPI from '../api/login'
+import * as messageActions from "../actions/message";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 const tabs = [
     {title: '密码登录'},
     {title: '动态码登录'},
 ]
+
+function matchStateToProps(state) {
+    //...
+    return {
+        state
+    }
+}
+
+function matchDispatchToProps(dispatch) {
+    return bindActionCreators({
+        ...messageActions,
+    }, dispatch)
+}
+
+@connect(matchStateToProps, matchDispatchToProps)
 export default class Login extends Component {
     constructor(options) {
         super(options);
@@ -116,7 +132,8 @@ export default class Login extends Component {
         }
         localStorage.setItem('wanchi-ACCESS-TOKEN', ret.body.accessToken)
         localStorage.setItem('wanchi-ACCESS-USER', ret.body.username)
-        localStorage.setItem('wanchi-USER-INFO', JSON.stringify(ret.body))
+        localStorage.setItem('wanchi-USER-INFO', JSON.stringify(ret.body));
+        this.props.setMessageCount()
         this.props.history.push({
             pathname: '/'
         })
@@ -139,12 +156,15 @@ export default class Login extends Component {
         if (!ret.body) {
             return;
         }
-        localStorage.setItem('wanchi-ACCESS-TOKEN', ret.body.accessToken)
-        localStorage.setItem('wanchi-ACCESS-USER', ret.body.username)
-        localStorage.setItem('wanchi-USER-INFO', JSON.stringify(ret.body))
+        localStorage.setItem('wanchi-ACCESS-TOKEN', ret.body.accessToken);
+        localStorage.setItem('wanchi-ACCESS-USER', ret.body.username);
+        localStorage.setItem('wanchi-USER-INFO', JSON.stringify(ret.body));
         this.props.history.push({
             pathname: '/'
-        })
+        });
+        this.props.history.push({
+            pathname: '/'
+        });
     }
 
 

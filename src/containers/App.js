@@ -1,7 +1,7 @@
 import React from 'react'
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import configure from '../store/configureStoreSaga'
+import configure from '../store/configureStore'
 import createHistory from 'history/createBrowserHistory'
 import {hot} from 'react-hot-loader'
 import Header from '../components/Header';
