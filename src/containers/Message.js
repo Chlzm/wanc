@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Button, ListView} from 'antd-mobile';
 import '../assets/css/message.less';
 import Loading from '../components/Loading'
 import * as messageAPI from "../api/message";
@@ -22,7 +21,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class Index extends Component {
+export default class Message extends Component {
     constructor(options) {
         super(options);
         this.state = {
@@ -146,12 +145,18 @@ export default class Index extends Component {
         }
 
     }
+
     async readNotice(o) {
-        let ret = await messageAPI.readNotice({
+        await messageAPI.readNotice({
             noticeId: o.id
         });
-        debugger;
+        this.setState({
+            pageNum: 1
+        }, () => {
+            this.getList();
+        })
     }
+
     render() {
         let {data} = this.state;
         if (!data.length) {
@@ -168,7 +173,7 @@ export default class Index extends Component {
                         </li>
                         {this.state.data.map((value, index) => {
                             return (
-                                <li className="swiper-slide swiper-slide-visible" onClick={()=>{
+                                <li className={"swiper-slide swiper-slide-visible" + (value.noticeIsRead ? " read":"")} onClick={() => {
                                     this.readNotice(value)
                                 }}>
                                     <div className="message-title">

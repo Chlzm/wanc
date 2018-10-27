@@ -188,7 +188,7 @@ export default class OrderFill extends React.Component {
                                 <Stepper
                                     style={{width: '100%', minWidth: '100px'}}
                                     showNumber
-                                    max={10}
+                                    max={9999}
                                     min={1}
                                     value={this.props.state.fill.usercount}
                                     onChange={(value) => {
@@ -218,7 +218,7 @@ export default class OrderFill extends React.Component {
                             <del>¥{this.state.price}</del>
                         </div>
                         <div className="order-fill-sub-button">
-                            <Button type="primary" disabled={this.state.remainUserNum === 0 ? true : false} onClick={() => {
+                            <Button type="primary" disabled={this.state.canApply ? false : true} onClick={() => {
                                 this.submit()
                             }}>立即预约</Button>
                         </div>

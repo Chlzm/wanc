@@ -6,7 +6,7 @@ import {Button, Modal, Checkbox, Stepper} from 'antd-mobile';
 import '../assets/css/orderConfirm.less';
 import '../assets/css/orderRunning.less';
 import * as runningAPI from "../api/running";
-import format from 'format-datetime';
+import Loading from '../components/Loading'
 
 function matchStateToProps(state) {
     //...
@@ -143,6 +143,9 @@ export default class RunningDetail extends React.Component {
 
     render() {
         let {data} = this.state;
+        if(!data.name){
+            return <Loading/>
+        }
         return (
             <div className="order-confirm">
                 <div className="order-subscribe-info">
@@ -226,7 +229,7 @@ export default class RunningDetail extends React.Component {
                 </div>
                 <div className="order-running-button">
                     {/*disabled={data.applyStatus ? 'disabled' : ''}*/}
-                    <Button type="primary" disabled={data.remainUserNum === 0 ? true : false} onClick={() => {
+                    <Button type="primary" disabled={data.canApply ? false : true} onClick={() => {
                         this.submit()
                     }}>立即预约</Button>
                 </div>

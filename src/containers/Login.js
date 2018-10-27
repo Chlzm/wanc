@@ -6,6 +6,7 @@ import * as loginAPI from '../api/login'
 import * as messageActions from "../actions/message";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {isLogin} from "../api/login";
 
 const tabs = [
     {title: '密码登录'},
@@ -133,10 +134,15 @@ export default class Login extends Component {
         localStorage.setItem('wanchi-ACCESS-TOKEN', ret.body.accessToken)
         localStorage.setItem('wanchi-ACCESS-USER', ret.body.username)
         localStorage.setItem('wanchi-USER-INFO', JSON.stringify(ret.body));
-        this.props.setMessageCount()
         this.props.history.push({
             pathname: '/'
-        })
+        });
+        /*let result = await isLogin();
+        if(result.body === false){
+            return;
+        }
+        this.props.setMessageCount()*/
+
     }
 
     async loginByPassword() {
@@ -162,9 +168,12 @@ export default class Login extends Component {
         this.props.history.push({
             pathname: '/'
         });
-        this.props.history.push({
-            pathname: '/'
-        });
+        /*let result = await isLogin();
+        if(result.body === false){
+            return;
+        }
+        this.props.setMessageCount()*/
+
     }
 
 

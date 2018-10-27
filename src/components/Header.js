@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import * as messageActions from '../actions/message'
 import {NavBar, Icon, Badge} from 'antd-mobile';
-import {getNoticeCount} from "../api/message";
+import {isLogin} from "../api/login";
 
 function matchStateToProps(state) {
     //...
@@ -59,6 +59,10 @@ export default class WCTabBar extends Component {
     }
 
     async getNoticeCount() {
+        let ret = await isLogin();
+        if(ret.body === false){
+            return;
+        }
         this.props.setMessageCount()
         /*let ret = await getNoticeCount();
         if (ret.code === "00000") {

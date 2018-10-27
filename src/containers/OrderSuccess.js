@@ -32,11 +32,11 @@ export default class OrderSuccess extends React.Component {
         data: null,
         imgHeight: 90,
         person: [],
-        phone: ''
+        phone: '',
     }
 
     componentWillMount() {
-        this.props.setTitle('预约成功');
+        this.props.setTitle('预约详情');
         this.getOrderDetail(this.props.match.params.id);
         this.getPhone();
         //this.getPerson()
@@ -60,7 +60,12 @@ export default class OrderSuccess extends React.Component {
         let ret = await getOrderDetail({orderId})
         this.setState({
             data: ret.body
-        })
+        });
+        /*if(ret.body.orderStatus == 82){
+            this.props.setTitle('已取消');
+        }else{
+            this.props.setTitle('预约成功');
+        }*/
     }
 
     getPhone() {
@@ -84,9 +89,13 @@ export default class OrderSuccess extends React.Component {
         }
         return (
             <div className="order-confirm order-success">
-                <div className="order-subscribe-congra">
-                    <img src={require('../assets/images/pay-success.png')}/>
-                </div>
+                {data.orderStatus == 82 ?
+                    <div></div>
+                    :
+                    <div className="order-subscribe-congra">
+                        <img src={require('../assets/images/pay-success.png')}/>
+                    </div>
+                }
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
                         <img
@@ -119,7 +128,7 @@ export default class OrderSuccess extends React.Component {
                             <span className="title">入场码</span>
                         </div>
                         <div className="wanc-module-content">
-                            <div className={data.isVerified ? "join-code code-relative":"join-code"}>
+                            <div className={data.isVerified ? "join-code code-relative" : "join-code"}>
                                 <i className="icon-join-success"></i>
                                 <canvas id="canvas"></canvas>
                                 <div>{data.successCode}</div>

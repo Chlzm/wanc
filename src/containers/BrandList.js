@@ -94,16 +94,19 @@ export default class BrandList extends React.Component {
 
     handClick(v) {
         let {type, id} = this.props.match.params
-        pubsub.publish('mes', {
-            id: v.id,
-            name: v.name,
-        })
-        this.props.history.push({
-            pathname: `/order/fill/${type}/${id}`,
-            state: {
-                carbrandname: 'adsasd'
-            }
-        })
+        setTimeout(()=>{
+            pubsub.publish('mes', {
+                id: v.id,
+                name: v.name,
+            });
+            this.props.history.push({
+                pathname: `/order/fill/${type}/${id}`,
+                state: {
+                    carbrandname: 'adsasd'
+                }
+            })
+        },0)
+
     }
 
     render() {

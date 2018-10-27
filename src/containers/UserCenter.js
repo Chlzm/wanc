@@ -105,7 +105,7 @@ export default class UserCenter extends React.Component {
                                 <img src={userInfo.userHeadPic}/>
                                 <div className="user-head-info">
                                     <span className="uhi-phone">{userInfo.username}</span>
-                                    <span>已预约 356 次</span>
+                                    {/*<span>已预约 356 次</span>*/}
                                 </div>
                             </div>
                             :

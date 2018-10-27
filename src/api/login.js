@@ -9,3 +9,6 @@ export const login = params => post('/rest/account/smslogin', params);
 export const accountLogin = params => post('/rest/account/login', params);
 
 export const getCode = params => post('/rest/account/getcode', params);
+
+export const isLogin = params => get('/rest/account/islogin', params);
+

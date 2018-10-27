@@ -6,7 +6,8 @@ import {Button, Icon} from 'antd-mobile';
 import format from 'format-datetime';
 import '../assets/css/list.less';
 import * as runningAPI from "../api/running";
-
+import Loading from '../components/Loading'
+import NoData from '../components/NoData'
 function matchStateToProps(state) {
     //...
     return {
@@ -21,16 +22,16 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class Index extends Component {
+export default class Running extends Component {
     constructor(options) {
         super(options);
     }
 
     state = {
         data: {
-            activitys: [],
+            /*activitys: [],
             activityCount: 0,
-            userCount: 0,
+            userCount: 0,*/
         },
         imgHeight: 370,
         typeMap: ['试驾场次预约', '跑步预约', '自行车预约', '卡丁车预约', '赛道预约'],
@@ -123,6 +124,12 @@ export default class Index extends Component {
 
     render() {
         let {type} = this.props.match.params;
+        if(this.state.data.activitys == undefined){
+            return <Loading/>
+        }
+        if(this.state.data.activitys && this.state.data.activitys.length === 0){
+            return <NoData text="暂无数据"/>
+        }
         return (
             <div>
                 <div className="home-banner">

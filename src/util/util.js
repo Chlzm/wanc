@@ -9,6 +9,9 @@ export const isWeiXin = () => {
 
 export const isAPP = () => {
     var ua = window.navigator.userAgent.toLowerCase();
+    if(ua.indexOf('crios') > -1){
+        return false;
+    }
     if (ua.indexOf('android') > -1 || ua.indexOf('ios') > -1 ) {
         return true;
     } else {

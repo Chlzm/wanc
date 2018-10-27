@@ -146,7 +146,6 @@ export default class OrderPay extends React.Component {
     async submitPay() {
         let ret;
         // 支付宝
-
         if (!this.state.chooseWX) {
             if (isAPP()) {
                 this.pay()
@@ -158,29 +157,10 @@ export default class OrderPay extends React.Component {
                 openId: ''
             }).then(res => {
                 document.write(res.body.result)
-                /*if (!window.ap) {
-                    let script = document.createElement("script");
-                    script.type = "text/javascript";
-                    script.src = "https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.min.js"
-                    script.onload = () => {
-                        pay(res);
-
-                    }
-                    document.getElementsByTagName("head")[0].appendChild(script)
-                    return;
-                }
-                function pay(res){
-                    ap.tradePay( {
-                        orderStr: res.body.result,//"timestamp=2016-12-27%2018%3A00%3A00&method=alipay.trade.app.pay&app_id=2014073000007292&sign_type=RSA&charset=utf-8&version=1.0&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22seller_id%22%3A%222088411964605312%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A0.01%2C%22subject%22%3A1%2C%22body%22%3A%22%E5%95%86%E5%93%81%E4%B8%AD%E6%96%87%E6%8F%8F%E8%BF%B0%E4%BF%A1%E6%81%AF%22%2C%22out_trade_no%22%3A%22ALIPAYTEST2016081622560194853%22%7D&sign=aueDw0PaUqVMvbiButPCmWy8VsNJIgNKRV4tDEz3mSgIpa5ODnZKVCd1GGCtu7hNzxnwLOiku%2BTRJUVM24aHkKWrdyBHECjkUBvrziWiZBESLCyJPwT1YHGnioRUhLvL1MqTTm85urPeqAUUir4UyxyWowHitjkxh3ru6nSLkLU%3D"
-                    }, function(result) {
-                        alert(JSON.stringify(result));
-                    });
-                }
-                pay(res)*/
             })
             return;
         }
-        if (isWeiXin()) {
+        if (isWeiXin()) {   // 微信公众号
             ret = await getOpenId();
             sessionStorage.setItem("orderId", this.props.match.params.id);
             location.href = ret.body;

@@ -53,6 +53,7 @@ class App extends React.Component {
     componentDidMount() {
         //this.registerCallBack();
         //this.isHomePage();
+        //FastClick.attach(document.body)
     }
 
     componentWillMount() {

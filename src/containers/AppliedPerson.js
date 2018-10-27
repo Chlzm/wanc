@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {PullToRefresh, Button, ListView} from 'antd-mobile';
 import '../assets/css/applied.less';
+import NoData from '../components/NoData'
+import Loading from '../components/Loading'
 //import * as applyAPI from "../api/appliedPerson";
 
 import { getApplyPerson} from '../api/appliedPerson'
@@ -27,7 +28,7 @@ export default class Index extends Component {
     constructor(options) {
         super(options);
         this.state = {
-            data: [],
+            data: null,
             scroll: null,
             visible: false,
             slideNumber:0,
@@ -44,7 +45,14 @@ export default class Index extends Component {
     }
 
     componentDidMount() {
+        this.bindScroll();
+    }
+    bindScroll() {
+        let self = this;
         document.body.onscroll = () => {
+            if(self.state.data == null) {
+                return;
+            }
             clearTimeout(this.scroll);
             this.scroll = setTimeout(() => {
                 if (window.screen.availHeight + window.pageYOffset >= document.body.clientHeight - 100) {
@@ -54,15 +62,15 @@ export default class Index extends Component {
             }, 100)
         }
     }
-
     async getList() {
         let ret = await getApplyPerson({
             s4id: this.props.match.params.id,
             pageNum: this.state.slideNumber,
             pageSize : 10
         });
+        let data = this.state.data || []
         this.setState({
-            data: [...this.state.data, ...ret.body]
+            data: [...data, ...ret.body]
         }, this.getListCallback);
     }
 
@@ -141,6 +149,13 @@ export default class Index extends Component {
     }
 
     render() {
+        let {data} = this.state;
+        if(!data){
+            return <Loading/>
+        }
+        if(data.length === 0){
+            return <NoData text="暂无数据"/>
+        }
         return (
 
             <div className="wan-c-applied">
@@ -152,7 +167,6 @@ export default class Index extends Component {
                             </div>
                         </li>
                         {this.state.data.map((value, index) => {
-                            console.log(value)
                             return (
                                 <li className="swiper-slide swiper-slide-visible">
                                     <img src={value.userHeadPic} alt=""/>

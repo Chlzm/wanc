@@ -21,7 +21,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class Index extends Component {
+export default class Pay extends Component {
     constructor(options) {
         super(options);
     }
