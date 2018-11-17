@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 import {Toast} from 'antd-mobile'
 
-axios.defaults.baseURL = '';
+axios.defaults.baseURL = 'http://wc.xiechangqing.cn';
 axios.interceptors.request.use(function (request) {
     let token = localStorage.getItem('wanchi-ACCESS-TOKEN')
     let userName = localStorage.getItem('wanchi-ACCESS-USER')

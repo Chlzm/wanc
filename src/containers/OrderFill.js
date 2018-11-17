@@ -167,7 +167,7 @@ export default class OrderFill extends React.Component {
                         }}>联系方式：</InputItem>
                     </List>
                 </div>
-                <div className="order-fill-module">
+                <div className="order-fill-module" style={{"marginTop":0}}>
                     <div className="order-fill-title" onClick={() => {
                         this.goBrandPage()
                     }}>
@@ -198,7 +198,7 @@ export default class OrderFill extends React.Component {
                             </div>
                         }
                         >
-                            人数要求：</List.Item>
+                            最少试驾人数：</List.Item>
                     </List>
                     <List>
                         <DatePicker

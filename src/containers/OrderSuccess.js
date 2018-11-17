@@ -89,12 +89,12 @@ export default class OrderSuccess extends React.Component {
         }
         return (
             <div className="order-confirm order-success">
-                {data.orderStatus == 82 ?
-                    <div></div>
-                    :
+                {data.orderStatus == 20 ?
                     <div className="order-subscribe-congra">
                         <img src={require('../assets/images/pay-success.png')}/>
                     </div>
+                    :
+                    <div></div>
                 }
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">

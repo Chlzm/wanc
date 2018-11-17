@@ -5,6 +5,7 @@ import * as headerActions from '../actions/header'
 import {Flex, Carousel} from 'antd-mobile';
 import WCTabBar from '../components/TabBar';
 import Loading from '../components/Loading'
+import NoData from '../components/NoData'
 import * as homeApi from "../api/home";
 
 function matchStateToProps(state) {
@@ -28,7 +29,7 @@ export default class Index extends Component {
 
     state = {
         banners: [],
-        driveList: [],
+        driveList: null,
         fourS: [],
         imgHeight: 176,
 
@@ -36,7 +37,7 @@ export default class Index extends Component {
 
 
     componentWillMount() {
-        this.props.setTitle("预约广场",false,<div></div>);
+        this.props.setTitle("预约广场", false, <div></div>);
         this.getBanner();
         this.getDriveList();
     }
@@ -160,12 +161,17 @@ export default class Index extends Component {
                     </a>
                 </div>
                 <div className="home-module">
-                    <h2 className="home-m-title">
-                        <span className="symbol">/</span><span className="text">试驾专区</span><span
-                        className="symbol">/</span>
-                    </h2>
                     {
-                        this.state.driveList.length ?
+                        this.state.driveList && this.state.driveList.length ?
+                            <h2 className="home-m-title">
+                                <span className="symbol">/</span><span className="text">试驾专区</span><span
+                                className="symbol">/</span>
+                            </h2> :
+                            <div></div>
+                    }
+
+                    {
+                        this.state.driveList && this.state.driveList.length ?
                             <div className="home-m-content">
                                 {
                                     this.state.driveList.map((item, i) => (
@@ -189,7 +195,7 @@ export default class Index extends Component {
                                 }
                             </div>
                             :
-                            <Loading></Loading>
+                            <div></div>
                     }
 
                 </div>

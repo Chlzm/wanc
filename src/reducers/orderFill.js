@@ -19,7 +19,7 @@ export const fill = (state = {
     carbrandid: 1,
     carbrandname: '',
     carmodel: '',
-    usercount: 0,
+    usercount: 1,
     paymoney: 0,
     applyendtime: format(new Date, 'yyyy-MM-dd HH:mm') + ':00',
 }, action) => {

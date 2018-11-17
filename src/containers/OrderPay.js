@@ -210,8 +210,8 @@ export default class OrderPay extends React.Component {
                             <div className="order-pay-m-left">
                                 <img src={require('../assets/images/icon-wechat.png')}/>
                                 <div className="order-pay-m-name">
-                                    <p className="op-name">支付宝支付</p>
-                                    <p className="op-note">推荐有支付宝账号的用户使用</p>
+                                    <p className="op-name">微信支付</p>
+                                    <p className="op-note">推荐有微信账号的用户使用</p>
                                 </div>
                             </div>
                             <Radio className="my-radio" checked={this.state.chooseWX}></Radio>
