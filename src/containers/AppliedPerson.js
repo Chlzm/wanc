@@ -7,7 +7,7 @@ import NoData from '../components/NoData'
 import Loading from '../components/Loading'
 //import * as applyAPI from "../api/appliedPerson";
 
-import { getApplyPerson} from '../api/appliedPerson'
+import {getApplyPerson} from '../api/appliedPerson'
 
 
 function matchStateToProps(state) {
@@ -31,7 +31,7 @@ export default class Index extends Component {
             data: null,
             scroll: null,
             visible: false,
-            slideNumber:0,
+            slideNumber: 0,
             loadingText: '加载中...'
         };
         this.scroll = undefined;
@@ -47,10 +47,11 @@ export default class Index extends Component {
     componentDidMount() {
         this.bindScroll();
     }
+
     bindScroll() {
         let self = this;
         document.body.onscroll = () => {
-            if(self.state.data == null) {
+            if (self.state.data == null) {
                 return;
             }
             clearTimeout(this.scroll);
@@ -62,15 +63,17 @@ export default class Index extends Component {
             }, 100)
         }
     }
+
     async getList() {
         let ret = await getApplyPerson({
             s4id: this.props.match.params.id,
             pageNum: this.state.slideNumber,
-            pageSize : 10
+            pageSize: 10
         });
         let data = this.state.data || []
         this.setState({
-            data: [...data, ...ret.body]
+            data: [...data, ...ret.body],
+            slideNumber: this.state.slideNumber + 1,
         }, this.getListCallback);
     }
 
@@ -127,7 +130,7 @@ export default class Index extends Component {
         })
 
         function loadNewSlides() {
-            getList().then(ret => {
+            this.getList().then(ret => {
                 this.setState({
                     data: [...ret.body, ...this.state.data],
                     visible: false,
@@ -150,12 +153,13 @@ export default class Index extends Component {
 
     render() {
         let {data} = this.state;
-        if(!data){
+        if (!data) {
             return <Loading/>
         }
-        if(data.length === 0){
+        if (data.length === 0) {
             return <NoData text="暂无数据"/>
         }
+
         return (
 
             <div className="wan-c-applied">

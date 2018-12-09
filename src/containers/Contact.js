@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import * as headerActions from '../actions/header'
-import '../assets/css/forget.less';
+import {List} from 'antd-mobile';
+import '../assets/css/service.less';
 
-import StepF from '../components/forget/StepFirst';
-import StepS from '../components/forget/StepSecond';
 
 function matchStateToProps(state) {
     //...
@@ -27,13 +25,8 @@ export default class Index extends Component {
         super(options);
     }
 
-    state = {}
-
     componentWillMount(){
-        this.props.setTitle('找回密码');
-        // this.props.history.push({
-        //     pathname: '/forget/step1'
-        // })
+        this.props.setTitle('联系客服');
     }
     componentDidMount() {
     }
@@ -41,11 +34,13 @@ export default class Index extends Component {
     render() {
         let {location,match} = this.props;
         return (
-            <div className="wan-c-forget">
-                <Switch key={location.pathname} location={location}>
-                    <Route exact path={`${match.path}/step1`} component={StepF}></Route>
-                    <Route exact path={`${match.path}/step2`} component={StepS}></Route>
-                </Switch>
+            <div className="wan-c-service">
+                <List className="my-list">
+                    <List.Item extra={'wantrack'}>微信服务号：</List.Item>
+                </List>
+                <List className="my-list">
+                    <List.Item extra={<a href="tel:18018066177">18018066177</a>}>客服电话：</List.Item>
+                </List>
             </div>
         )
     }

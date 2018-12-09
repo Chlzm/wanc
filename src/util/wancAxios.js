@@ -1,8 +1,10 @@
 import axios from 'axios';
 import qs from 'qs';
 import {Toast} from 'antd-mobile'
-
-axios.defaults.baseURL = 'http://wc.xiechangqing.cn';
+import pubsub from '../util/pubsub'
+import {isWeiXin} from "./util";
+//axios.defaults.baseURL = 'http://wanchi.xiechangqing.cn';
+axios.defaults.baseURL = '';
 axios.interceptors.request.use(function (request) {
     let token = localStorage.getItem('wanchi-ACCESS-TOKEN')
     let userName = localStorage.getItem('wanchi-ACCESS-USER')
@@ -11,12 +13,15 @@ axios.interceptors.request.use(function (request) {
     if(/\/(login|smslogin)$/.test(request.url)){
         delete request.headers.common["wanchi-ACCESS-TOKEN"];
         delete request.headers.common["wanchi-ACCESS-USER"];
-
     }
     if (request.url.indexOf('login') != -1 && request.url.indexOf('getcode') != -1) { // 非登录接口
 
         if (!token || !userName) {
-            location.href = "/login";
+            if(isWeiXin()){
+                location.href = "/login"
+            }else{
+                pubsub.publish('gotoLogin',true);
+            }
         }
 
     }
@@ -26,21 +31,20 @@ axios.interceptors.request.use(function (request) {
 });
 
 axios.interceptors.response.use(function (response) {
-    try{
-        if (response.data.code == "E1005" || response.data.code == "E1001") {
-            localStorage.clear();
-            if(response.config.url.indexOf('login') == -1){
-                location.href = "/login";
+    if (response.data.code == "E1005" || response.data.code == "E1001") {
+        localStorage.clear();
+        if(response.config.url.indexOf('login') == -1){
+            if(isWeiXin()){
+                location.href = "/login"
+            }else{
+                pubsub.publish('gotoLogin',true);
             }
-            Toast.info(response.data.msg)
-        } else if (response.data.code != "00000" && response.data.msg != null) {
-            Toast.info(response.data.msg);
+            return;
         }
-    }catch (e) {
-        console.log(e)
+        Toast.info(response.data.msg,1)
+    } else if (response.data.code != "00000" && response.data.msg != null) {
+        Toast.info(response.data.msg,1);
     }
-
-
     return Promise.resolve(response.data);
 }, function (error) {
     return Promise.reject(error);

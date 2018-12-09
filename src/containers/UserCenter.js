@@ -5,6 +5,7 @@ import * as headerActions from '../actions/header'
 import {List, Button} from 'antd-mobile';
 import WCTabBar from '../components/TabBar';
 import '../assets/css/userCenter.less';
+import {isLogin} from "../api/login";
 
 function matchStateToProps(state) {
     //...
@@ -56,11 +57,14 @@ export default class UserCenter extends React.Component {
         }
     }
 
-    goModifyPasswordPage = () => {
+    async goModifyPasswordPage() {
+        let ret = await isLogin();
+        let pathname = ret.body ? '/modify/password' : '/login'
         this.props.history.push({
-            pathname: '/modify/password'
+            pathname,
         })
     }
+
     goInformationPage = () => {
         this.props.history.push({
             pathname: '/information'
@@ -81,16 +85,29 @@ export default class UserCenter extends React.Component {
             pathname: '/register'
         })
     }
-    changePhone = () => {
+    goContact = () => {
         this.props.history.push({
-            pathname: '/modify/phone'
+            pathname: '/contact'
+        })
+    }
+    goServicePage = () => {
+        this.props.history.push({
+            pathname: '/service'
+        })
+    }
+
+    async changePhone() {
+        let ret = await isLogin();
+        let pathname = ret.body ? '/modify/phone' : '/login'
+        this.props.history.push({
+            pathname,
         })
     }
 
     logout() {
         localStorage.clear();
         this.props.history.push({
-            pathname:'/login'
+            pathname: '/login'
         })
     }
 
@@ -136,7 +153,7 @@ export default class UserCenter extends React.Component {
                             this.changePhone()
                         }}>
                             <img className="phone" src={require('../assets/images/icon-phone-2.png')} alt=""/>
-                            <span>手机绑定</span>
+                            <span>更改绑定</span>
                         </List.Item>
                         <List.Item extra="修改" arrow="horizontal" onClick={() => {
                             this.goModifyPasswordPage()
@@ -145,6 +162,7 @@ export default class UserCenter extends React.Component {
                             <span>登录密码</span>
                         </List.Item>
                         <List.Item arrow="horizontal" onClick={() => {
+                            this.goContact();
                         }}>
                             <img className="lock" src={require('../assets/images/icon-connect.png')}/>
                             <span>联系客服</span>
@@ -157,10 +175,17 @@ export default class UserCenter extends React.Component {
                             <img className="lock" src={require('../assets/images/icon-about.png')}/>
                             <span>关于万驰</span>
                         </List.Item>
+                        <List.Item arrow="horizontal" onClick={this.goServicePage}>
+                            <img className="lock" src={require('../assets/images/icon-service.png')}/>
+                            <span>服务协议</span>
+                        </List.Item>
                     </List>
-                    <Button type="primary" className="logout" onClick={() => {
-                        this.logout()
-                    }}>退出当前帐号</Button>
+                    {userInfo ?
+                        <Button type="primary" className="logout" onClick={() => {
+                            this.logout()
+                        }}>退出当前帐号</Button> :
+                        <div></div>
+                    }
                 </div>
                 <WCTabBar {...this.props}></WCTabBar>
             </div>

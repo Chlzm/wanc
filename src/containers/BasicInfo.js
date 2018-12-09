@@ -23,7 +23,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class Index extends Component {
+export default class BasicInfo extends Component {
     constructor(options) {
         super(options);
     }
@@ -32,6 +32,10 @@ export default class Index extends Component {
         sexValue: [0],
         sex: [
             [
+                {
+                    label: '未知',
+                    value: 2,
+                },
                 {
                     label: '男',
                     value: 0,

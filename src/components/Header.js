@@ -6,6 +6,7 @@ import * as headerActions from '../actions/header'
 import * as messageActions from '../actions/message'
 import {NavBar, Icon, Badge} from 'antd-mobile';
 import {isLogin} from "../api/login";
+import pubsub from '../util/pubsub'
 
 function matchStateToProps(state) {
     //...
@@ -38,7 +39,7 @@ export default class WCTabBar extends Component {
     componentWillMount() {
         let ret = true;
         switch (this.props.location.pathname) {
-            case '/login':
+            case '/login1':
                 ret = false;
                 break;
             default:
@@ -47,20 +48,25 @@ export default class WCTabBar extends Component {
         this.setState({
             show: ret
         });
-    }
-
-    componentWillMount() {
         this.setLeftIcon()
         this.getNoticeCount();
     }
 
-    componentDidMount() {
+    /* componentWillMount() {
 
+     }*/
+
+    componentDidMount() {
+        pubsub.subscribe('gotoLogin', (data) => {
+            this.props.history.replace({
+                pathname: '/login'
+            });
+        })
     }
 
     async getNoticeCount() {
         let ret = await isLogin();
-        if(ret.body === false){
+        if (ret.body === false) {
             return;
         }
         this.props.setMessageCount()
@@ -99,9 +105,19 @@ export default class WCTabBar extends Component {
         }
         if (location.search.indexOf('message') > -1) {
             this.props.history.go(-2);
-        } else {
-            this.props.history.goBack()
+            return;
         }
+        switch (this.props.history.location.pathname) {
+            case '/information':
+                this.props.history.replace({
+                    pathname: '/mine'
+                });
+                break;
+            default:
+                this.props.history.goBack();
+                break;
+        }
+
     }
 
     render() {
@@ -117,7 +133,8 @@ export default class WCTabBar extends Component {
                             this.goNoticePage()
                         }}>
                             {this.props.state.message.count == 0 ? <span></span> :
-                                <Badge text={this.props.state.message.count} style={{marginLeft: 15}} overflowCount={9}/>}
+                                <Badge text={this.props.state.message.count} style={{marginLeft: 15}}
+                                       overflowCount={9}/>}
 
                         </span>,
                     ] : []}

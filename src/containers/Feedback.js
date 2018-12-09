@@ -22,7 +22,7 @@ function matchDispatchToProps(dispatch) {
 }
 
 @connect(matchStateToProps, matchDispatchToProps)
-export default class Index extends Component {
+export default class Feedback extends Component {
     constructor(options) {
         super(options);
     }
@@ -55,7 +55,12 @@ export default class Index extends Component {
             loading: false,
         })
         if (ret.code == '00000') {
-            Toast.info('反馈成功')
+            Toast.info('反馈成功');
+            setTimeout(() => {
+                this.props.history.push({
+                    pathname: '/mine'
+                })
+            }, 1000)
         }
 
     }

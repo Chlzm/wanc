@@ -143,14 +143,14 @@ export default class OrderDetail extends React.Component {
                                 {/*<em>23</em> : */}<em>{min}</em> 分 <em>{sec}</em> 秒
                             </div>
                             <div className="order-detail-connect">
-                                联系人：{userInfo.userNickname} <br/>联系电话：{userInfo.username}
+                                联系人：{data.s4applyDetail.applyUsername} <br/>联系电话：{data.s4applyDetail.phone.replace(/\s/g,'')}
                             </div>
                         </div>
                 }
 
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
-                        <img src={userInfo.userHeadPic}/>
+                        <img src={data.activityImgUrl}/>
                     </div>
                     <div className="order-sub-content">
                         <h1>{data.activityName}</h1>
@@ -212,14 +212,14 @@ export default class OrderDetail extends React.Component {
                         <div className="order-owner-content">{data.orderCreateTimeStr}</div>
                     </li>
                     <li>
-                        <div className="order-owner-label">手机号：</div>
+                        <div className="order-owner-label">手机号码：</div>
                         <div className="order-owner-content">{userInfo.username}</div>
                     </li>
                 </ul>
                 <div className="order-detail-submit">
                     <Button type="default" onClick={() => {
                         this.cancelOrder(data.orderId)
-                    }} size="small">取消定单</Button>
+                    }} size="small">取消订单</Button>
                     <Button type="primary" size="small" disabled={this.state.disabled} onClick={() => {
                         this.submitPay()
                     }}>付款</Button>

@@ -5,7 +5,6 @@ import configure from '../store/configureStore'
 import createHistory from 'history/createBrowserHistory'
 import {hot} from 'react-hot-loader'
 import Header from '../components/Header';
-import List from './List'
 import Running from './Running'
 import Index from './Index'
 import Login from './Login'
@@ -22,7 +21,6 @@ import AppliedPerson from './AppliedPerson';
 import UserCenter from './UserCenter'
 import OrderMine from './OrderMine'
 import OrderDetail from './OrderDetail'
-import OrderBicycleDetail from './OrderBicycleDetail'
 import Feedback from './Feedback'
 import BasicInfo from './BasicInfo'
 import ModifyNickname from './ModifyNickname'
@@ -35,7 +33,9 @@ import Upload from './Upload'
 import ModifyPhoneNumber from './ModifyPhoneNumber'
 import BrandList from './BrandList'
 import Service from './Service'
+import Contact from './Contact'
 import qc from '../util/qiancheng'
+import {isWeiXin} from "../util/util";
 
 let history = createHistory();
 const store = configure({config: global.$GLOBALCONFIG})
@@ -57,6 +57,7 @@ class App extends React.Component {
     }
 
     componentWillMount() {
+
         //debugger;
     }
 
@@ -102,7 +103,7 @@ class App extends React.Component {
                         this.registerCallBack(params.location.pathname);
                         return (
                             <div>
-                                {params.location.pathname == "/login" ? <div></div> : <Header {...params}></Header>}
+                                {isWeiXin() ? <div></div> : <Header {...params}></Header>}
                                 <Switch key={location.pathname} location={location}>
                                     <Route exact path="/" component={Index}></Route>
                                     <Route exact path="/login" component={Login}></Route>
@@ -134,6 +135,8 @@ class App extends React.Component {
                                     <Route exact path="/app/pay" component={AppPay}></Route>
                                     <Route exact path="/alipay" component={AlipayMiddlePage}></Route>
                                     <Route exact path="/service" component={Service}></Route>
+                                    <Route exact path="/contact" component={Contact}></Route>
+
                                     <Route component={NoMatch}/>
                                 </Switch>
                             </div>

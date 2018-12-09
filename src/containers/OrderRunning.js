@@ -33,7 +33,7 @@ export default class RunningDetail extends React.Component {
         typeMap: ['', '跑步预约详情', '自行车预约详情', '卡丁车预约详情', '赛道预约详情'],
         imgHeight: 90,
         dayMap: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
-
+        doSubmit: false,
     }
 
     componentWillMount() {
@@ -100,16 +100,18 @@ export default class RunningDetail extends React.Component {
     }
 
     submit(remainUserNum) {
-
+        if (this.state.doSubmit) {
+            return;
+        }
         const {type, id} = this.props.match.params;
         let options = {
             id,
             usercount: this.state.person,
             paymoney: this.state.data.discountPrice,
         }
-
-        switch (parseInt(type)) {
-            case 1:
+        // parseInt(type)
+        switch (this.state.data.discountPrice) {
+            case 0:
                 Modal.alert('友情提示', '确定本次预约？', [
                     {text: '取消', onPress: () => console.log('取消')},
                     {
@@ -124,10 +126,14 @@ export default class RunningDetail extends React.Component {
                     },
                 ])
                 break;
-            case 2:
-            case 3:
-            case 4:
+            default:
+                this.setState({
+                    doSubmit: true,
+                });
                 runningAPI.activityApply(options).then(ret => {
+                    this.setState({
+                        doSubmit: false,
+                    });
                     if (ret.code != "00000") {
                         return;
                     }
@@ -136,14 +142,12 @@ export default class RunningDetail extends React.Component {
                     })
                 })
                 break;
-            default:
-                break;
         }
     }
 
     render() {
         let {data} = this.state;
-        if(!data.name){
+        if (!data.name) {
             return <Loading/>
         }
         return (
@@ -163,7 +167,7 @@ export default class RunningDetail extends React.Component {
                                 </div>
                                 <div className="order-s-date">
                                     {data.dateStr} | {this.state.dayMap[new Date(data.dateStr).getDay()]}
-                                    {data.startHour}-{data.endHour} {/*<em>（2个小时）</em>*/}
+                                    <br/>{data.startHour}-{data.endHour} {/*<em>（2个小时）</em>*/}
                                 </div>
                             </li>
                             <li>
@@ -196,10 +200,10 @@ export default class RunningDetail extends React.Component {
                         </li>
                         <li>
                             <label>我的预约状态：</label>
-                            <span className="highlight">{!data.applyStatus ? '未预约' : '已预约'}</span>
+                            <span className="highlight">{data.applyStatusStr}</span>
                         </li>
                     </ul>
-                    <div className="order-running-agree">
+                    <div className="order-running-agree" style={{"display":"none"}}>
                         {/* <Checkbox.AgreeItem>携带儿童 <span>(140cm以下)</span></Checkbox.AgreeItem>*/}
                         <div className="subscribe-number">
                             <div>预约名额：（ 剩余名额: {data.remainUserNum} ）</div>
@@ -216,17 +220,23 @@ export default class RunningDetail extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="wanc-module">
-                    <div className="order-running-other">
-                        <span className="title">其他事项说明：</span>
-                        <ol>
+                {
+                    data.specialDesc ? <div className="wanc-module">
+                        <div className="order-running-other">
+                            <span className="title">其他事项说明：</span>
+                            <div className="description">
+                                {data.specialDesc}
+                            </div>
+                            {/*<ol>
                             <li>1.如发生意外事件；</li>
                             <li>2.如提供免费午餐；</li>
                             <li>3.如预约试驾者可领取卡丁车优惠券；</li>
                             <li>4.其他其他其他；</li>
-                        </ol>
-                    </div>
-                </div>
+                        </ol>*/}
+                        </div>
+                    </div>: <div></div>
+                }
+
                 <div className="order-running-button">
                     {/*disabled={data.applyStatus ? 'disabled' : ''}*/}
                     <Button type="primary" disabled={data.canApply ? false : true} onClick={() => {

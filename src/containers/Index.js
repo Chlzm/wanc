@@ -55,7 +55,6 @@ export default class Index extends Component {
 
     async getCycle() {
         let ret = await homeApi.getCycleList();
-        debugger;
     }
 
     async get4SList() {

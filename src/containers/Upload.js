@@ -48,9 +48,9 @@ export default class Index extends Component {
             this.setState({
                 files,
             });
-            Toast.info('修改成功');
+            Toast.info('修改成功',1);
             setTimeout(() => {
-                this.props.history.push({
+                this.props.history.replace({
                     pathname: '/information'
                 })
             }, 1000)

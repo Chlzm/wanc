@@ -134,7 +134,7 @@ export default class Index extends Component {
             token: result.body,
         });
         let ret = await modifyPhone({
-            token: this.state.token,
+            token: result.body,
             newphone: this.state.newPhone.replace(/\s/g, ''),
         });
         this.setState({

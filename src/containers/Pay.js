@@ -51,7 +51,7 @@ export default class Pay extends Component {
         return qs.parse(this.props.location.search.replace(/\?/,''));
     }
     async getOpenId() {
-        let openId = this.getQuery().openid;
+            let openId = this.getQuery().openid;
         let ret = await submitPay({
             orderId: sessionStorage.getItem("orderId"),
             channel: 'wx',

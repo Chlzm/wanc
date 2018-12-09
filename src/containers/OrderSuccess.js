@@ -129,7 +129,10 @@ export default class OrderSuccess extends React.Component {
                         </div>
                         <div className="wanc-module-content">
                             <div className={data.isVerified ? "join-code code-relative" : "join-code"}>
-                                <i className="icon-join-success"></i>
+                                {data.isVerified ?
+                                    <i className="icon-join-success"></i> : <span></span>
+                                }
+
                                 <canvas id="canvas"></canvas>
                                 <div>{data.successCode}</div>
                                 <div className="note">请在入场时出示（可在已预约的订单中查看）</div>
@@ -153,7 +156,7 @@ export default class OrderSuccess extends React.Component {
                         </li>
                         <li>
                             <div className="order-owner-label">联系人：</div>
-                            <div className="order-owner-content">{data.s4applyDetail.applyUsername} {data.phone}</div>
+                            <div className="order-owner-content">{data.s4applyDetail.applyUsername} {data.s4applyDetail.phone.replace(/\s/g,'')}</div>
                         </li>
                         <li>
                             <div className="order-owner-label">预约单位：</div>
@@ -203,8 +206,12 @@ export default class OrderSuccess extends React.Component {
                                 <div className="order-owner-content">{data.orderCreateTimeStr}</div>
                             </li>
                             <li>
-                                <div className="order-owner-label">手机号：</div>
+                                <div className="order-owner-label">手机号码：</div>
                                 <div className="order-owner-content">{this.state.phone}</div>
+                            </li>
+                            <li>
+                                <div className="order-owner-label">预约人数：</div>
+                                <div className="order-owner-content">{data.applyNum}</div>
                             </li>
                         </ul>
                     </div>

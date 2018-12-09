@@ -77,8 +77,11 @@ export default class Index extends Component {
     }
 
     async getCode() {
+        if(this.state.disabled){
+            return;
+        }
         if (!this.state.phone) {
-            Toast.info('请先输入手机号！', 1);
+            Toast.info('请先输入手机号码！', 1);
             return;
         }
         if(!/^\d{11}$/.test(this.state.phone.replace(/\s/g,''))){
@@ -90,9 +93,6 @@ export default class Index extends Component {
             doSendSMS: true
         });
         this.countdown();
-        // this.setState({
-        //     code: ret.body
-        // })
     }
 
     render() {
@@ -100,7 +100,7 @@ export default class Index extends Component {
             <div>
                 <ul>
                     <li>
-                        <InputItem type="phone" placeholder="请输入手机号" value={this.state.phone}
+                        <InputItem type="phone" placeholder="请输入手机号码" value={this.state.phone}
                                    onChange={this.inputNumber}></InputItem>
                     </li>
                     {/* <li className="column">

@@ -93,7 +93,9 @@ export default class OrderMine extends React.Component {
             }, 100)
         }
     }
-
+    componentWillUnmount() {
+        document.body.onscroll = function(){}
+    }
     async getOrderList() {
         if (this.state.finished) {
             return;
@@ -104,11 +106,12 @@ export default class OrderMine extends React.Component {
             pageNum: slideNumber,
             pageSize: 10
         });
-        if (ret.body.length == 0) {
+        if (ret.body && ret.body.length == 0) {
             this.setState({
                 finished: true,
             });
         }
+        ret.body = ret.body || [];
         this.setState({
             list: [...this.state.list, ...ret.body],
         }, () => {

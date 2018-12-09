@@ -101,6 +101,52 @@ export default class OrderConfirm extends React.Component {
                         </div>*/}
                     </div>
                 </div>
+                <ul className="order-owner">
+                    <li>
+                        <div className="order-owner-label">联系人：</div>
+                        <div className="order-owner-content">{detail.s4applyDetail.applyUsername} {detail.s4applyDetail.phone.replace(/\s/g,'')}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">预约单位：</div>
+                        <div className="order-owner-content">{detail.s4applyDetail.s4Name}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">试驾品牌：</div>
+                        <div className="order-owner-content">{detail.s4applyDetail.carbrandName}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">试驾车型：</div>
+                        <div className="order-owner-content">{detail.s4applyDetail.carmodel}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">最少试驾人数：</div>
+                        <div className="order-owner-content">{detail.s4applyDetail.minUserCount}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">客户报名截止：</div>
+                        <div className="order-owner-content">{detail.s4applyDetail.applyEndTimeStr}</div>
+                    </li>
+                   {/* <li>
+                        <div className="order-owner-label">订单金额：</div>
+                        <div className="order-owner-content">¥{data.paymoney}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">订单状态：</div>
+                        <div className="order-owner-content order-red">{data.orderStatusStr}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">支付方式：</div>
+                        <div className="order-owner-content order-red">{data.paymethod ||'未支付'}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">创建时间：</div>
+                        <div className="order-owner-content">{data.orderCreateTimeStr}</div>
+                    </li>
+                    <li>
+                        <div className="order-owner-label">手机号码：</div>
+                        <div className="order-owner-content">{userInfo.username}</div>
+                    </li>*/}
+                </ul>
                 <div className="order-confirm-submit">
                     <div className="order-price">
                         总金额：<em>¥{detail.paymoney}</em>

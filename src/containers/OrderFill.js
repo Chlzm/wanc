@@ -204,6 +204,7 @@ export default class OrderFill extends React.Component {
                         <DatePicker
                             mode="datetime"
                             minuteStep={2}
+                            //value={this.props.state.fill.time}
                             value={this.props.state.fill.time}
                             onChange={(value) => {
                                 this.change(value, 'applyendtime')

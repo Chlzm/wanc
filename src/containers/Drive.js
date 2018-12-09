@@ -97,7 +97,7 @@ export default class Drive extends React.Component {
                                     车辆来源：
                                 </div>
                                 <div className="order-s-date">
-                                    {data.carbrandName}
+                                    {data.s4Name}
                                 </div>
                             </li>
                         </ul>
@@ -130,17 +130,26 @@ export default class Drive extends React.Component {
                         </ul>
                     </div>
                 </div>
-                <div className="wanc-module">
-                    <div className="order-running-other">
-                        <span className="title">其他事项说明</span>
-                        <ol>
+                {
+                    data.specialDesc ?
+                        <div className="wanc-module">
+                            <div className="order-running-other">
+                                <span className="title">其他事项说明</span>
+                                <div className="description">
+                                    {data.specialDesc}
+                                </div>
+                                {/*<ol>
                             <li>1.如发生意外事件；</li>
                             <li>2.如提供免费午餐；</li>
                             <li>3.如预约试驾者可领取卡丁车优惠券；</li>
                             <li>4.其他其他其他；</li>
-                        </ol>
-                    </div>
-                </div>
+                        </ol>*/}
+                            </div>
+                        </div>:
+                        <div></div>
+
+                }
+
                 <div className="order-running-button">
                     <Button type="primary" disabled={data.userStatus == 20 ? true : false} onClick={() => {
                         this.tryDrive()

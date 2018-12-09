@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {TextareaItem, Button} from 'antd-mobile';
 import '../assets/css/service.less';
 
 

@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
-import {Flex, Tabs, InputItem, Button, Toast} from 'antd-mobile';
+import {Flex, Tabs, InputItem, Button, Toast,List} from 'antd-mobile';
 import '../assets/css/login.less';
 import * as loginAPI from '../api/login'
 import * as messageActions from "../actions/message";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {isLogin} from "../api/login";
+import * as headerActions from '../actions/header'
 
 const tabs = [
     {title: '密码登录'},
@@ -23,6 +24,7 @@ function matchStateToProps(state) {
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
         ...messageActions,
+        ...headerActions,
     }, dispatch)
 }
 
@@ -39,8 +41,16 @@ export default class Login extends Component {
             sec: 0,
         }
     }
+    
+    componentWillMount() {
+        this.props.setTitle('登录');
+    }
 
     componentDidMount() {
+        document.body.style.backgroundColor = "#fff";
+    }
+    componentWillUnmount() {
+        document.body.style.backgroundColor = "";
     }
 
     inputNumber = phone => {
@@ -90,7 +100,7 @@ export default class Login extends Component {
 
     async getCode() {
         if (!this.state.phone) {
-            Toast.info('请先输入手机号！', 1);
+            Toast.info('请先输入手机号码！', 1);
             return;
         }
         if(!/^\d{11}$/.test(this.state.phone.replace(/\s/g,''))){
@@ -117,7 +127,7 @@ export default class Login extends Component {
     async login() {
 
         if(!this.state.phone){
-            Toast.info('请先输入手机号！', 1);
+            Toast.info('请先输入手机号码！', 1);
             return;
         }
         if(!this.state.code){
@@ -147,7 +157,7 @@ export default class Login extends Component {
 
     async loginByPassword() {
         if(!this.state.phone){
-            Toast.info('请先输入手机号！', 1);
+            Toast.info('请先输入手机号码！', 1);
             return;
         }
 
@@ -187,7 +197,7 @@ export default class Login extends Component {
                     <Tabs
                         className="login-area"
                         tabs={tabs}
-                        initialPage={0}
+                        initialPage={1}
                         onChange={(tab, index) => {
                             console.log('onChange', index, tab);
                         }}
@@ -245,7 +255,7 @@ export default class Login extends Component {
                                 </Flex.Item>
                                 <Flex.Item>
                                     <span class="login-note-button"
-                                          style={{"color": this.state.disabled ? "#ccc" : "#be2721"}} onClick={() => {
+                                          style={{"color": this.state.disabled ? "#ccc" : "#5381f0"}} onClick={() => {
                                         this.getCode()
                                     }}>{this.state.text}</span>
                                 </Flex.Item>

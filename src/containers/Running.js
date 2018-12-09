@@ -29,9 +29,7 @@ export default class Running extends Component {
 
     state = {
         data: {
-            /*activitys: [],
-            activityCount: 0,
-            userCount: 0,*/
+
         },
         imgHeight: 370,
         typeMap: ['试驾场次预约', '跑步预约', '自行车预约', '卡丁车预约', '赛道预约'],
@@ -137,7 +135,7 @@ export default class Running extends Component {
                         已预约{this.state.data.activityCount}场次，共{this.state.data.userCount}次
                     </div>
                     <div>
-                        <img src="http://www.wanchiapi.com:8000/images/files/20180709/1552017t5buSfz.png" alt=""/>
+                        <img src={require('../assets/images/car.jpg')} alt=""/>
                     </div>
                 </div>
                 <div className="list-stat">

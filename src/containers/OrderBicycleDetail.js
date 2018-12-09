@@ -136,7 +136,7 @@ export default class List1 extends React.Component {
                         <div className="order-owner-content">2018-05-15 15:07:37</div>
                     </li>
                     <li>
-                        <div className="order-owner-label">手机号：</div>
+                        <div className="order-owner-label">手机号码：</div>
                         <div className="order-owner-content">18652086015</div>
                     </li>
                 </ul>
