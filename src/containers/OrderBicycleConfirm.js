@@ -3,10 +3,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import {Button} from 'antd-mobile';
-import {getConfirmDetail} from '../api/running'
 import {getOrderDetail} from "../api/orderMine";
 import Loading from '../components/Loading'
 import '../assets/css/orderConfirm.less';
+import * as runningAPI from "../api/running";
 
 function matchStateToProps(state) {
     //...
@@ -39,17 +39,33 @@ export default class OrderConfirm extends React.Component {
     }
 
     async getDetail() {
-        let ret = await getOrderDetail({
+        /*let ret = await getOrderDetail({
             orderId: this.props.match.params.id
+        });*/
+        let ret = await runningAPI.getConfirmDetail({
+            id: this.props.match.params.id
         });
         this.setState({
             detail: ret.body
         });
     }
     submit() {
-        this.props.history.push({
-            pathname: `/order/pay/${this.props.match.params.id}`
-        });
+        runningAPI.activityApply({
+            id: this.props.match.params.id,
+            usercount: this.props.match.params.person,
+            paymoney: this.state.detail.discountPrice,
+        }).then(ret => {
+            this.setState({
+                doSubmit: false,
+            });
+            if (ret.code != "00000") {
+                return;
+            }
+            this.props.history.push({
+                pathname: `/order/pay/${ret.body.orderId}`
+            });
+        })
+
     }
     render() {
         const {detail} = this.state;
@@ -60,18 +76,18 @@ export default class OrderConfirm extends React.Component {
             <div className="order-confirm">
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
-                            <img src={detail.activityImgUrl}/>
+                            <img src={detail.imgUrl}/>
                     </div>
                     <div className="order-sub-content">
-                        <h1>{detail.activityName}</h1>
+                        <h1>{detail.name}</h1>
                         <ul>
                             <li>
                                 <div className="order-s-label">
                                     活动时间：
                                 </div>
                                 <div className="order-s-date">
-                                    {detail.activityDateStr} &nbsp;
-                                    {detail.activityStartHour}-{detail.activityEndHour}
+                                    {detail.dateStr} &nbsp;
+                                    {detail.startHour}-{detail.endHour}
                                 </div>
                             </li>
                             <li>
@@ -79,7 +95,7 @@ export default class OrderConfirm extends React.Component {
                                     场次编号：
                                 </div>
                                 <div className="order-s-date">
-                                    {detail.activityCode}
+                                    {detail.code}
                                 </div>
                             </li>
                         </ul>
@@ -87,7 +103,7 @@ export default class OrderConfirm extends React.Component {
                 </div>
                 <div className="order-confirm-price">
                     <div className="order-price">
-                        <p>¥{detail.paymoney}</p>
+                        <p>¥{detail.discountPrice}</p>
                         {/*<p>
                             <del>¥{detail.price}</del>
                         </p>*/}
@@ -101,32 +117,33 @@ export default class OrderConfirm extends React.Component {
                         </div>*/}
                     </div>
                 </div>
-                <ul className="order-owner">
-                    <li>
-                        <div className="order-owner-label">联系人：</div>
-                        <div className="order-owner-content">{detail.s4applyDetail.applyUsername} {detail.s4applyDetail.phone.replace(/\s/g,'')}</div>
-                    </li>
-                    <li>
-                        <div className="order-owner-label">预约单位：</div>
-                        <div className="order-owner-content">{detail.s4applyDetail.s4Name}</div>
-                    </li>
-                    <li>
-                        <div className="order-owner-label">试驾品牌：</div>
-                        <div className="order-owner-content">{detail.s4applyDetail.carbrandName}</div>
-                    </li>
-                    <li>
-                        <div className="order-owner-label">试驾车型：</div>
-                        <div className="order-owner-content">{detail.s4applyDetail.carmodel}</div>
-                    </li>
-                    <li>
-                        <div className="order-owner-label">最少试驾人数：</div>
-                        <div className="order-owner-content">{detail.s4applyDetail.minUserCount}</div>
-                    </li>
-                    <li>
-                        <div className="order-owner-label">客户报名截止：</div>
-                        <div className="order-owner-content">{detail.s4applyDetail.applyEndTimeStr}</div>
-                    </li>
-                   {/* <li>
+                {detail.s4applyDetail ?
+                    <ul className="order-owner">
+                        <li>
+                            <div className="order-owner-label">联系人：</div>
+                            <div className="order-owner-content">{detail.s4applyDetail.applyUsername} {detail.s4applyDetail.phone.replace(/\s/g,'')}</div>
+                        </li>
+                        <li>
+                            <div className="order-owner-label">预约单位：</div>
+                            <div className="order-owner-content">{detail.s4applyDetail.s4Name}</div>
+                        </li>
+                        <li>
+                            <div className="order-owner-label">试驾品牌：</div>
+                            <div className="order-owner-content">{detail.s4applyDetail.carbrandName}</div>
+                        </li>
+                        <li>
+                            <div className="order-owner-label">试驾车型：</div>
+                            <div className="order-owner-content">{detail.s4applyDetail.carmodel}</div>
+                        </li>
+                        <li>
+                            <div className="order-owner-label">最少试驾人数：</div>
+                            <div className="order-owner-content">{detail.s4applyDetail.minUserCount}</div>
+                        </li>
+                        <li>
+                            <div className="order-owner-label">客户报名截止：</div>
+                            <div className="order-owner-content">{detail.s4applyDetail.applyEndTimeStr}</div>
+                        </li>
+                        {/* <li>
                         <div className="order-owner-label">订单金额：</div>
                         <div className="order-owner-content">¥{data.paymoney}</div>
                     </li>
@@ -146,10 +163,12 @@ export default class OrderConfirm extends React.Component {
                         <div className="order-owner-label">手机号码：</div>
                         <div className="order-owner-content">{userInfo.username}</div>
                     </li>*/}
-                </ul>
+                    </ul>:<div></div>
+                }
+
                 <div className="order-confirm-submit">
                     <div className="order-price">
-                        总金额：<em>¥{detail.paymoney}</em>
+                        总金额：<em>¥{detail.discountPrice}</em>
                     </div>
                     <div className="order-submit-button">
                         <Button type="primary" onClick={()=>{

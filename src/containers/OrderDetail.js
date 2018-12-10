@@ -142,9 +142,14 @@ export default class OrderDetail extends React.Component {
                             <div className="order-pay-count-down">
                                 {/*<em>23</em> : */}<em>{min}</em> 分 <em>{sec}</em> 秒
                             </div>
-                            <div className="order-detail-connect">
-                                联系人：{data.s4applyDetail.applyUsername} <br/>联系电话：{data.s4applyDetail.phone.replace(/\s/g,'')}
-                            </div>
+                            {data.s4applyDetail?
+                                <div className="order-detail-connect">
+                                    联系人：{data.s4applyDetail.applyUsername} <br/>联系电话：{data.s4applyDetail.phone.replace(/\s/g,'')}
+                                </div>
+                                :
+                                <div></div>
+                            }
+
                         </div>
                 }
 

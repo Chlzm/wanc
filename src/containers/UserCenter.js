@@ -115,9 +115,9 @@ export default class UserCenter extends React.Component {
         let {userInfo} = this.state;
         return (
             <div className="wan-c-user mart70">
-                <div className="user-head">
-                    {
-                        userInfo ?
+                {
+                    userInfo ?
+                        <div className="user-head">
                             <div onClick={this.goInformationPage}>
                                 <img src={userInfo.userHeadPic}/>
                                 <div className="user-head-info">
@@ -125,14 +125,29 @@ export default class UserCenter extends React.Component {
                                     {/*<span>已预约 356 次</span>*/}
                                 </div>
                             </div>
+
+                        </div>
+                        :
+                        <div></div>
+                }
+
+                {/*<div className="user-head">
+                    {
+                        userInfo ?
+                            <div onClick={this.goInformationPage}>
+                                <img src={userInfo.userHeadPic}/>
+                                <div className="user-head-info">
+                                    <span className="uhi-phone">{userInfo.username}</span>
+                                    <span>已预约 356 次</span>
+                                </div>
+                            </div>
                             :
                             <div className="not_login">
                                 <span onClick={this.goLogin}>登 录</span>
-                                {/*<span onClick={this.goRegister}>注册</span>*/}
                             </div>
                     }
 
-                </div>
+                </div>*/}
                 <div className="user-play-list">
                     <div onClick={() => {
                         this.goOrderPage('10')
@@ -184,7 +199,9 @@ export default class UserCenter extends React.Component {
                         <Button type="primary" className="logout" onClick={() => {
                             this.logout()
                         }}>退出当前帐号</Button> :
-                        <div></div>
+                        <Button type="primary" className="logout" onClick={() => {
+                            this.goLogin()
+                        }}>登录</Button>
                     }
                 </div>
                 <WCTabBar {...this.props}></WCTabBar>

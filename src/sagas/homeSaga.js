@@ -53,7 +53,6 @@ export function* sync() {
         call(api.getUri1),
         call(api.getUri3)
     ]
-    debugger;
     /*yield api.getUri1()
     yield api.getUri2()
     yield api.getUri3()*/

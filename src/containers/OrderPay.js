@@ -117,7 +117,7 @@ export default class OrderPay extends React.Component {
         qc.track('alipay', {
             orderinfo: ret.body.result
         }).then(res => {
-            Toast.info('支付中',10)
+            Toast.info('支付中',1)
             this.appPayCallback(res)
         }).catch(error => {
             console.log(error)
@@ -129,16 +129,14 @@ export default class OrderPay extends React.Component {
             let ret = await getPayResult({orderId: this.props.match.params.id,})
             if (!ret.body) {
                 this.appPayCallback();
-                return;
             }else{
-                Toast.info('支付成功',2);
+                Toast.info('支付成功',1);
                 setTimeout(()=>{
                     Toast.hide();
                     this.props.history.replace({
-                        pathname:`/subscribe/success/${this.props.match.params.id}`
+                        pathname: `/subscribe/success/${this.props.match.params.id}`
                     })
-                },2000)
-                return;
+                },1000)
             }
         }
     }

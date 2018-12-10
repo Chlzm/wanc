@@ -114,7 +114,7 @@ class App extends React.Component {
                                     <Route exact path="/subscribe/:type" component={Running}></Route>
                                     <Route exact path="/subscribe/running/detail/:type/:id"
                                            component={OrderRunning}></Route>
-                                    <Route exact path="/subscribe/confirm/:id" component={OrderBicycleConfirm}></Route>
+                                    <Route exact path="/subscribe/confirm/:id/:person" component={OrderBicycleConfirm}></Route>
                                     <Route exact path="/order/car/:id" component={OrderConfirm}></Route>
                                     <Route exact path="/subscribe/success/:id" component={OrderSuccess}></Route>
                                     <Route exact path="/subscribe/notpay/:id" component={OrderDetail}></Route>

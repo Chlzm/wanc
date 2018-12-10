@@ -130,16 +130,8 @@ export default class RunningDetail extends React.Component {
                 this.setState({
                     doSubmit: true,
                 });
-                runningAPI.activityApply(options).then(ret => {
-                    this.setState({
-                        doSubmit: false,
-                    });
-                    if (ret.code != "00000") {
-                        return;
-                    }
-                    this.props.history.push({
-                        pathname: `/subscribe/confirm/${ret.body.orderId}`
-                    })
+                this.props.history.push({
+                    pathname: `/subscribe/confirm/${options.id}/${this.state.person}`
                 })
                 break;
         }
@@ -203,7 +195,7 @@ export default class RunningDetail extends React.Component {
                             <span className="highlight">{data.applyStatusStr}</span>
                         </li>
                     </ul>
-                    <div className="order-running-agree" style={{"display":"none"}}>
+                    <div className="order-running-agree" >
                         {/* <Checkbox.AgreeItem>携带儿童 <span>(140cm以下)</span></Checkbox.AgreeItem>*/}
                         <div className="subscribe-number">
                             <div>预约名额：（ 剩余名额: {data.remainUserNum} ）</div>

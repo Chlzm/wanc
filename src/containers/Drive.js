@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
-import {Button, Modal, Toast} from 'antd-mobile';
+import {Button, Modal, Toast, Badge} from 'antd-mobile';
 import Loading from '../components/Loading'
 import * as driveAPI from "../api/drive";
 import '../assets/css/orderConfirm.less';
@@ -62,6 +62,22 @@ export default class Drive extends React.Component {
         ]);
     }
 
+    setBadgeBackgroundColor(code) {
+        let color = ''
+        switch (code){
+            case 20:
+            case 30:
+                color = '#ff5b05';
+                break;
+            case 40:
+                color = '#690';
+                break;
+            default:
+                color = '#ccc'
+        }
+        return color;
+    }
+
     render() {
         let {data} = this.state;
         if (!data) {
@@ -76,6 +92,22 @@ export default class Drive extends React.Component {
                     <div className="order-sub-content">
                         <h1>{data.name}</h1>
                         <ul>
+                            <li>
+                                <div className="order-s-label">
+                                    试驾车型：
+                                </div>
+                                <div className="order-s-date">
+                                    <span style={{verticalAlign: 'middle'}}>{data.carbrandName} {data.carmodel}</span>
+                                    <Badge text={data.activityStatusStr}
+                                           hot
+                                           style={{
+                                               marginLeft: 10,
+                                               verticalAlign: 'middle',
+                                               backgroundColor: this.setBadgeBackgroundColor(data.activityStatus)
+                                           }}
+                                    />
+                                </div>
+                            </li>
                             <li>
                                 <div className="order-s-label">
                                     试驾时间：
@@ -145,7 +177,7 @@ export default class Drive extends React.Component {
                             <li>4.其他其他其他；</li>
                         </ol>*/}
                             </div>
-                        </div>:
+                        </div> :
                         <div></div>
 
                 }
