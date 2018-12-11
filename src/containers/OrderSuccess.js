@@ -49,7 +49,7 @@ export default class OrderSuccess extends React.Component {
     componentDidUpdate() {
 
         if (this.state.data && this.state.data.qrCodeVerifyUrl) {
-            QRCode.toCanvas(document.getElementById('canvas'), this.state.data.qrCodeVerifyUrl, function (error) {
+            QRCode.toCanvas(document.getElementById('canvas'), this.state.data.successCode, function (error) {
                 if (error) console.error(error)
                 console.log('success!');
             })

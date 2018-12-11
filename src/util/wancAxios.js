@@ -3,8 +3,8 @@ import qs from 'qs';
 import {Toast} from 'antd-mobile'
 import pubsub from '../util/pubsub'
 import {isWeiXin} from "./util";
-//axios.defaults.baseURL = 'http://wanchi.xiechangqing.cn';
-axios.defaults.baseURL = '';
+//axios.defaults.baseURL = '';
+axios.defaults.baseURL = location.host == 'wanchi.xiechangqing.cn' ? 'http://wanchi.xiechangqing.cn':'http://wc.xiechangqing.cn';
 axios.interceptors.request.use(function (request) {
     let token = localStorage.getItem('wanchi-ACCESS-TOKEN')
     let userName = localStorage.getItem('wanchi-ACCESS-USER')
