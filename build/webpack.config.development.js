@@ -101,7 +101,7 @@ module.exports = {
         hot: true,
         proxy: {
             '/rest/*': {
-                target: 'http://wanchi.xiechangqing.cn',
+                target: 'http://wc.xiechangqing.cn',
                 //target: 'http://192.168.1.100:8014',
                 //target: 'httlogin-note-buttonp://wc.xiechangqing.cn',
                 changeOrigin: true,

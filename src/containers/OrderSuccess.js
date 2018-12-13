@@ -46,12 +46,10 @@ export default class OrderSuccess extends React.Component {
 
     }
 
-    componentDidUpdate() {
-
-        if (this.state.data && this.state.data.qrCodeVerifyUrl) {
+    updateCode() {
+        if (this.state.data && this.state.data.successCode) {
             QRCode.toCanvas(document.getElementById('canvas'), this.state.data.successCode, function (error) {
-                if (error) console.error(error)
-                console.log('success!');
+                //if (error) console.error(error)
             })
         }
     }
@@ -60,6 +58,8 @@ export default class OrderSuccess extends React.Component {
         let ret = await getOrderDetail({orderId})
         this.setState({
             data: ret.body
+        },()=>{
+            this.updateCode();
         });
         /*if(ret.body.orderStatus == 82){
             this.props.setTitle('已取消');
@@ -122,7 +122,7 @@ export default class OrderSuccess extends React.Component {
                         </ul>
                     </div>
                 </div>
-                {data.qrCodeVerifyUrl ?
+                {data.successCode ?
                     <div className="wanc-module">
                         <div className="wanc-module-title">
                             <span className="title">入场码</span>
@@ -133,7 +133,7 @@ export default class OrderSuccess extends React.Component {
                                     <i className="icon-join-success"></i> : <span></span>
                                 }
 
-                                <canvas id="canvas"></canvas>
+                                <canvas id="canvas" width="150" height="150"></canvas>
                                 <div>{data.successCode}</div>
                                 <div className="note">请在入场时出示（可在已预约的订单中查看）</div>
                             </div>
