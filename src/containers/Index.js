@@ -7,6 +7,7 @@ import WCTabBar from '../components/TabBar';
 import Loading from '../components/Loading'
 import NoData from '../components/NoData'
 import * as homeApi from "../api/home";
+import {isWeiXin} from "../util/util";
 
 function matchStateToProps(state) {
     //...
@@ -32,7 +33,7 @@ export default class Index extends Component {
         driveList: null,
         fourS: [],
         imgHeight: 176,
-
+        style: isWeiXin() ? {'marginTop': 0} : {}
     }
 
 
@@ -76,7 +77,7 @@ export default class Index extends Component {
 
     render() {
         return (
-            <div className="mart70 home-wrap">
+            <div className="mart70 home-wrap" style={{...this.state.style}}>
                 <div className="home-banner">
                     <Carousel
                         autoplay

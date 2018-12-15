@@ -109,6 +109,7 @@ export default class OrderDetail extends React.Component {
     }
 
     submitPay() {
+        localStorage.setItem('flag', 1)
         this.props.history.push({
             pathname: `/order/pay/${this.props.match.params.id}`
         })

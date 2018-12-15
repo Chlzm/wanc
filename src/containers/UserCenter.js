@@ -5,7 +5,7 @@ import * as headerActions from '../actions/header'
 import {List, Button} from 'antd-mobile';
 import WCTabBar from '../components/TabBar';
 import '../assets/css/userCenter.less';
-import {isLogin} from "../api/login";
+import {isLogin,logout} from "../api/login";
 
 function matchStateToProps(state) {
     //...
@@ -104,7 +104,8 @@ export default class UserCenter extends React.Component {
         })
     }
 
-    logout() {
+    async logout() {
+        await logout();
         localStorage.clear();
         this.props.history.push({
             pathname: '/login'

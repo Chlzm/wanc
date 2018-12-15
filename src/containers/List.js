@@ -6,6 +6,7 @@ import {Button, Carousel, Icon} from 'antd-mobile';
 import '../assets/css/list.less';
 import {getTrackList} from "../api/running";
 import format from "format-datetime";
+import {isWeiXin} from "../util/util";
 
 function matchStateToProps(state) {
     //...
@@ -30,6 +31,7 @@ export default class Index extends Component {
         data: {
             activitys: []
         },
+        style: isWeiXin() ? {'marginTop': 0} : {}
         imgHeight: 176,
 
     }
@@ -61,8 +63,9 @@ export default class Index extends Component {
     }
 
     render() {
+        alert(this.state.style)
         return (
-            <div className="home-wrap">
+            <div className="home-wrap" style={{...this.state.style}}>
                 <div className="home-banner">
                     <Carousel
                         autoplay

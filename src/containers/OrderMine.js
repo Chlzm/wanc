@@ -8,6 +8,7 @@ import * as myOrderAPI from "../api/orderMine";
 import Loading from '../components/Loading'
 import NoData from '../components/NoData'
 import '../assets/css/orderMine.less';
+import {isWeiXin} from "../util/util";
 
 const OrderButton = ({status, onClick, id}) => {
     switch (status) {
@@ -72,8 +73,7 @@ export default class OrderMine extends React.Component {
         visible: false,
         finished: false,
         loadingText: '加载中...',
-
-
+        style: isWeiXin() ? {'marginTop': '30px','paddingTop':'0px'} : {},
     }
 
     componentWillMount() {
@@ -289,6 +289,7 @@ export default class OrderMine extends React.Component {
     }
 
     async payOrder(id) {
+        localStorage.setItem('flag', 1)
         this.props.history.push({
             pathname: `/order/pay/${id}`
         })
@@ -325,7 +326,7 @@ export default class OrderMine extends React.Component {
             )
         }
         return (
-            <div className="wan-c-order-mine mart70">
+            <div className="wan-c-order-mine mart70 111" style={{...this.state.style}}>
                 <div className="swiper-container">
                     <div className="swiper-wrapper">
                        {/* <div className={this.state.visible ? 'visible preloader' : 'preloader'}>
@@ -337,7 +338,7 @@ export default class OrderMine extends React.Component {
                                     <div className="order-mine-item swiper-slide swiper-slide-visible">
                                         <div className="omi-head">
                                             <span className="order-no">
-                                                订单号：{item.orderNo}
+                                                订单号11：{item.orderNo}
                                             </span>
                                             <span
                                                 className={"order-state" + " " + this.computedClassName(item.orderStatusStr)}>{item.orderStatusStr}</span>

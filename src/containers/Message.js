@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as headerActions from '../actions/header'
 import '../assets/css/message.less';
 import Loading from '../components/Loading'
+import NoData from '../components/NoData'
 import * as messageAPI from "../api/message";
 
 
@@ -31,6 +32,7 @@ export default class Message extends Component {
             loadingText: '加载中...',
             pageNum: 0,
             pageSize: 10,
+            loaded: false,
         };
         this.scroll = undefined;
     }
@@ -62,7 +64,8 @@ export default class Message extends Component {
             pageSize: this.state.pageSize,
         });
         this.setState({
-            data: [...this.state.data, ...ret.body]
+            data: [...this.state.data, ...ret.body],
+            loaded: true,
         }, this.getListCallback);
     }
 
@@ -158,10 +161,14 @@ export default class Message extends Component {
     }
 
     render() {
-        let {data} = this.state;
+        let {data, loaded} = this.state;
+        if (loaded) {
+            return <NoData text='暂无数据'></NoData>
+        }
         if (!data.length) {
             return <Loading></Loading>
         }
+
         return (
             <div className="wan-c-message">
                 <div className="swiper-container">
@@ -173,9 +180,10 @@ export default class Message extends Component {
                         </li>
                         {this.state.data.map((value, index) => {
                             return (
-                                <li className={"swiper-slide swiper-slide-visible" + (value.noticeIsRead ? " read":"")} onClick={() => {
-                                    this.readNotice(value)
-                                }}>
+                                <li className={"swiper-slide swiper-slide-visible" + (value.noticeIsRead ? " read" : "")}
+                                    onClick={() => {
+                                        this.readNotice(value)
+                                    }}>
                                     <div className="message-title">
                                         <span className="text">【系统升级通告】</span>
                                         <span>2018/05/15  17:12:35</span>

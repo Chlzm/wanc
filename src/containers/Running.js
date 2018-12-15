@@ -8,6 +8,7 @@ import '../assets/css/list.less';
 import * as runningAPI from "../api/running";
 import Loading from '../components/Loading'
 import NoData from '../components/NoData'
+
 function matchStateToProps(state) {
     //...
     return {
@@ -28,17 +29,15 @@ export default class Running extends Component {
     }
 
     state = {
-        data: {
-
-        },
-        imgHeight: 370,
+        data: {},
+        banner: '',
         typeMap: ['试驾场次预约', '跑步预约', '自行车预约', '卡丁车预约', '赛道预约'],
     }
 
     componentWillMount() {
         this.setTitle();
+        this.setBanner();
         this.getList();
-        //this.getRunningList();
     }
 
     componentDidMount() {
@@ -50,8 +49,29 @@ export default class Running extends Component {
         this.props.setTitle(title);
     }
 
-    async getRunningList() {
-        //let ret = await runningAPI.getRunningList()
+    setBanner() {
+        let type = parseInt(this.props.match.params.type);
+        let banner = '';
+        switch (type) {
+            case 1 :
+                banner = require('../assets/images/run.jpg');
+                break;
+            case 2 :
+                banner = require('../assets/images/bicycle.jpg');
+                break;
+            case 3 :
+                banner = require('../assets/images/kdc.jpg');
+                break;
+            case 4 :
+                banner = require('../assets/images/road.jpg');
+                break;
+            default:
+                banner = require('../assets/images/4s.jpg');
+                break;
+        }
+        this.setState({
+            banner,
+        })
     }
 
     /**
@@ -122,10 +142,10 @@ export default class Running extends Component {
 
     render() {
         let {type} = this.props.match.params;
-        if(this.state.data.activitys == undefined){
+        if (this.state.data.activitys == undefined) {
             return <Loading/>
         }
-        if(this.state.data.activitys && this.state.data.activitys.length === 0){
+        if (this.state.data.activitys && this.state.data.activitys.length === 0) {
             return <NoData text="暂无数据"/>
         }
         return (
@@ -135,7 +155,7 @@ export default class Running extends Component {
                         已预约{this.state.data.activityCount}场次，共{this.state.data.userCount}次
                     </div>
                     <div>
-                        <img src={require('../assets/images/car.jpg')} alt=""/>
+                        <img src={this.state.banner} alt=""/>
                     </div>
                 </div>
                 <div className="list-stat">

@@ -31,5 +31,10 @@ export const activityApply = params => post('/rest/activity/activity/apply', par
 
 export const getConfirmDetail = params => post('/rest/activity/detail', params);
 
+export const s4Detail = params => get('/rest/activity/s4apply/detail', params);
+
+
+
+
 
 

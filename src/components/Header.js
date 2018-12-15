@@ -7,6 +7,7 @@ import * as messageActions from '../actions/message'
 import {NavBar, Icon, Badge} from 'antd-mobile';
 import {isLogin} from "../api/login";
 import pubsub from '../util/pubsub'
+import {isAPP, isWeiXin} from '../util/util'
 
 function matchStateToProps(state) {
     //...
@@ -45,6 +46,7 @@ export default class WCTabBar extends Component {
             default:
                 break;
         }
+        ret = !isWeiXin();
         this.setState({
             show: ret
         });
@@ -52,16 +54,27 @@ export default class WCTabBar extends Component {
         this.getNoticeCount();
     }
 
-    /* componentWillMount() {
-
-     }*/
+    setPopState() {
+        if (isAPP()) {
+            return;
+        }
+        window.addEventListener("popstate", function () {
+            if (location.search.indexOf('pay_success') !== -1) {
+                window.history.forward(1);
+            }
+        }, false);
+        window.history.pushState('forward', null, '#');
+        window.history.forward(1);
+    }
 
     componentDidMount() {
         pubsub.subscribe('gotoLogin', (data) => {
             this.props.history.replace({
                 pathname: '/login'
             });
-        })
+        });
+        this.setPopState();
+
     }
 
     async getNoticeCount() {
@@ -112,6 +125,11 @@ export default class WCTabBar extends Component {
                 this.props.history.replace({
                     pathname: '/mine'
                 });
+                break;
+            case '/order/mine':
+                if (location.search.indexOf('pay_success') !== -1) {
+                    location.history.forward(1);
+                }
                 break;
             default:
                 this.props.history.goBack();

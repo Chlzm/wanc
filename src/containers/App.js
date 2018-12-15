@@ -84,7 +84,7 @@ class App extends React.Component {
                     console.log(error)
                 })
                 return;
-            }else{
+            } else {
                 history.goBack()
             }
 
@@ -103,7 +103,7 @@ class App extends React.Component {
                         this.registerCallBack(params.location.pathname);
                         return (
                             <div>
-                                {isWeiXin() ? <div></div> : <Header {...params}></Header>}
+                                <Header {...params} style={{'display': isWeiXin() ? 'none' : 'block'}}></Header>
                                 <Switch key={location.pathname} location={location}>
                                     <Route exact path="/" component={Index}></Route>
                                     <Route exact path="/login" component={Login}></Route>
@@ -114,7 +114,8 @@ class App extends React.Component {
                                     <Route exact path="/subscribe/:type" component={Running}></Route>
                                     <Route exact path="/subscribe/running/detail/:type/:id"
                                            component={OrderRunning}></Route>
-                                    <Route exact path="/subscribe/confirm/:id/:person" component={OrderBicycleConfirm}></Route>
+                                    <Route exact path="/subscribe/confirm/:id/:person/:type?"
+                                           component={OrderBicycleConfirm}></Route>
                                     <Route exact path="/order/car/:id" component={OrderConfirm}></Route>
                                     <Route exact path="/subscribe/success/:id" component={OrderSuccess}></Route>
                                     <Route exact path="/subscribe/notpay/:id" component={OrderDetail}></Route>

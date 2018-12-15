@@ -3,24 +3,28 @@ import qs from 'qs';
 import {Toast} from 'antd-mobile'
 import pubsub from '../util/pubsub'
 import {isWeiXin} from "./util";
+
 //axios.defaults.baseURL = '';
-axios.defaults.baseURL = location.host == 'wanchi.xiechangqing.cn' ? 'http://wanchi.xiechangqing.cn':'http://wc.xiechangqing.cn';
+axios.defaults.baseURL = location.host == 'wanchi.xiechangqing.cn' ? 'http://wanchi.xiechangqing.cn' : 'http://wc.xiechangqing.cn';
+if (location.host.indexOf('192') > -1) {
+    axios.defaults.baseURL = '';
+}
 axios.interceptors.request.use(function (request) {
     let token = localStorage.getItem('wanchi-ACCESS-TOKEN')
     let userName = localStorage.getItem('wanchi-ACCESS-USER')
     request.headers.common["wanchi-ACCESS-TOKEN"] = token || ''
     request.headers.common["wanchi-ACCESS-USER"] = userName || ''
-    if(/\/(login|smslogin)$/.test(request.url)){
+    if (/\/(login|smslogin)$/.test(request.url)) {
         delete request.headers.common["wanchi-ACCESS-TOKEN"];
         delete request.headers.common["wanchi-ACCESS-USER"];
     }
     if (request.url.indexOf('login') != -1 && request.url.indexOf('getcode') != -1) { // 非登录接口
 
         if (!token || !userName) {
-            if(isWeiXin()){
+            if (isWeiXin()) {
                 location.href = "/login"
-            }else{
-                pubsub.publish('gotoLogin',true);
+            } else {
+                pubsub.publish('gotoLogin', true);
             }
         }
 
@@ -33,17 +37,17 @@ axios.interceptors.request.use(function (request) {
 axios.interceptors.response.use(function (response) {
     if (response.data.code == "E1005" || response.data.code == "E1001") {
         localStorage.clear();
-        if(response.config.url.indexOf('login') == -1){
-            if(isWeiXin()){
+        if (response.config.url.indexOf('login') == -1) {
+            if (isWeiXin()) {
                 location.href = "/login"
-            }else{
-                pubsub.publish('gotoLogin',true);
+            } else {
+                pubsub.publish('gotoLogin', true);
             }
             return;
         }
-        Toast.info(response.data.msg,1)
+        Toast.info(response.data.msg, 1.5)
     } else if (response.data.code != "00000" && response.data.msg != null) {
-        Toast.info(response.data.msg,1);
+        Toast.info(response.data.msg, 1.5);
     }
     return Promise.resolve(response.data);
 }, function (error) {

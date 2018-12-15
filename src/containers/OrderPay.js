@@ -46,16 +46,50 @@ export default class OrderPay extends React.Component {
         });
     }
 
+    /*setFlag() {
+        localStorage.setItem('flag', 1)
+    }*/
+
+    removeFlag() {
+        localStorage.setItem('flag', 0)
+    }
+
     componentDidMount() {
         this.isPayFail();
         sessionStorage.setItem("orderId", this.props.match.params.id);
+        this.goToOrderPage();
+    }
+
+    componentWillUnmount() {
+        this.removeFlag();
+
+    }
+
+    goToOrderPage() {
+        if (localStorage.getItem('flag') == 1) {
+            return;
+        }
+        this.props.history.push({
+            pathname: '/order/mine',
+            search: '?pay_success=1'
+        })
     }
 
     isPayFail() {
+        /** @private 支付失败时会有此标记 */
         let hasMessage = location.href.indexOf('message') > -1;
+        /** @private 支付成功时会有些标记 */
+        let successPay = location.href.indexOf('success') > -1;
         if (hasMessage) {
             Toast.fail('支付失败', 2);
+            return;
         }
+        if (successPay) {
+            this.props.history.replace({
+                pathname: `/subscribe/success/${this.props.match.params.id}`
+            })
+        }
+
     }
 
     async getOrderDetail() {
@@ -117,7 +151,7 @@ export default class OrderPay extends React.Component {
         qc.track('alipay', {
             orderinfo: ret.body.result
         }).then(res => {
-            Toast.info('支付中',1)
+            Toast.info('支付中', 1)
             this.appPayCallback(res)
         }).catch(error => {
             console.log(error)
@@ -129,14 +163,18 @@ export default class OrderPay extends React.Component {
             let ret = await getPayResult({orderId: this.props.match.params.id,})
             if (!ret.body) {
                 this.appPayCallback();
-            }else{
-                Toast.info('支付成功',1);
-                setTimeout(()=>{
+            } else {
+                Toast.info('支付成功', 1);
+                setTimeout(() => {
                     Toast.hide();
                     this.props.history.replace({
+                        pathname: `/order/mine`,
+                        search:'?pay_success=1'
+                    });
+                    /*this.props.history.replace({
                         pathname: `/subscribe/success/${this.props.match.params.id}`
-                    })
-                },1000)
+                    })*/
+                }, 1000)
             }
         }
     }
@@ -160,7 +198,6 @@ export default class OrderPay extends React.Component {
         }
         if (isWeiXin()) {   // 微信公众号
             ret = await getOpenId();
-            sessionStorage.setItem("orderId", this.props.match.params.id);
             location.href = ret.body;
         } else {
             ret = await submitPay({
@@ -168,7 +205,11 @@ export default class OrderPay extends React.Component {
                 channel: 'wx',
                 openId: ''
             });
-            location.href = ret.body.redirectUrl;
+            this.removeFlag();
+            setTimeout(() => {
+                location.href = ret.body.redirectUrl;
+            }, 100);
+
         }
 
     }

@@ -195,21 +195,27 @@ export default class RunningDetail extends React.Component {
                             <span className="highlight">{data.applyStatusStr}</span>
                         </li>
                     </ul>
-                    <div className="order-running-agree" >
+                    <div className="order-running-agree">
                         {/* <Checkbox.AgreeItem>携带儿童 <span>(140cm以下)</span></Checkbox.AgreeItem>*/}
-                        <div className="subscribe-number">
-                            <div>预约名额：（ 剩余名额: {data.remainUserNum} ）</div>
-                            <div>
-                                <Stepper
-                                    style={{width: '100%', minWidth: '100px'}}
-                                    showNumber
-                                    max={data.remainUserNum}
-                                    min={1}
-                                    value={this.state.person}
-                                    onChange={this.onChange}
-                                />
+                        {this.props.match.params.type == 1 ?
+                            <div></div>
+                            :
+                            <div className="subscribe-number">
+                                <div>预约名额：（ 剩余名额: {data.remainUserNum} ）</div>
+                                <div>
+                                    <Stepper
+                                        style={{width: '100%', minWidth: '100px'}}
+                                        showNumber
+                                        max={data.remainUserNum}
+                                        min={1}
+                                        value={this.state.person}
+                                        onChange={this.onChange}
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        }
+
+
                     </div>
                 </div>
                 {
@@ -226,7 +232,7 @@ export default class RunningDetail extends React.Component {
                             <li>4.其他其他其他；</li>
                         </ol>*/}
                         </div>
-                    </div>: <div></div>
+                    </div> : <div></div>
                 }
 
                 <div className="order-running-button">

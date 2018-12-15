@@ -38,23 +38,39 @@ export default class Index extends Component {
     }
 
     onChange = (files, type, index) => {
-        uploadImage({
-            filecontent: files[0].url.split(',')[1],
-        }).then(ret => {
-            let strUserInfo = localStorage.getItem('wanchi-USER-INFO');
-            let objUserInfo = JSON.parse(strUserInfo);
-            objUserInfo.userHeadPic = ret.body;
-            localStorage.setItem('wanchi-USER-INFO', JSON.stringify(objUserInfo))
-            this.setState({
-                files,
-            });
-            Toast.info('修改成功',1);
-            setTimeout(() => {
-                this.props.history.replace({
-                    pathname: '/information'
-                })
-            }, 1000)
-        })
+        var self = this;
+        var cvs = document.getElementById("photo");
+        var ctx = cvs.getContext("2d");
+        var img = new Image();
+        cvs.width = 300;
+        cvs.height = 300;
+        ctx.clearRect(0, 0, 1000, 1000);
+        img.src = files[0].url;
+        img.onload = function () {
+            let size = img.width < img.height ? img.width : img.height;
+            ctx.drawImage(img, 0, 0, size, size, 0, 0, 300, 300);
+            uploadImage({
+                filecontent: cvs.toDataURL("img/jpeg").split(',')[1]//files[0].url.split(',')[1],
+            }).then(ret => {
+
+                let strUserInfo = localStorage.getItem('wanchi-USER-INFO');
+                let objUserInfo = JSON.parse(strUserInfo);
+                objUserInfo.userHeadPic = ret.body;
+                localStorage.setItem('wanchi-USER-INFO', JSON.stringify(objUserInfo))
+                /*this.setState({
+                    files,
+                });*/
+                Toast.info('修改成功', 1);
+                setTimeout(() => {
+                    self.props.history.replace({
+                        pathname: '/information'
+                    })
+                }, 1000)
+            }).catch(e=>{
+
+            })
+        };
+
 
     }
 
@@ -69,6 +85,7 @@ export default class Index extends Component {
                     selectable={this.state.files.length < 1}
                     accept="image/gif,image/jpeg,image/jpg,image/png"
                 />
+                <canvas id="photo" className="photo"></canvas>
             </div>
         )
     }

@@ -39,34 +39,85 @@ export default class OrderConfirm extends React.Component {
     }
 
     async getDetail() {
-        /*let ret = await getOrderDetail({
-            orderId: this.props.match.params.id
-        });*/
-        let ret = await runningAPI.getConfirmDetail({
-            id: this.props.match.params.id
-        });
+        let ret = {}
+        if (this.props.match.params.type === "0") {
+            let detail = await runningAPI.get4SDetail({
+                id: this.props.match.params.id,
+            });
+            ret = JSON.parse(sessionStorage.getItem('fill'));
+            ret = {
+                body: {
+                    ...detail.body,
+                    ...ret,
+                    isBusiness: true,
+                }
+            }
+        } else {
+            ret = await runningAPI.getConfirmDetail({
+                id: this.props.match.params.id
+            });
+        }
+
         this.setState({
             detail: ret.body
         });
+
     }
-    submit() {
-        runningAPI.activityApply({
+
+    async submit() {
+        // 防重复点击
+        if (this.state.doSubmit) {
+            return;
+        }
+        this.props.match.params.type === '0' ? this.makeForBusiness() : this.makeForOther()
+    }
+
+    async makeForOther() {
+        let params = {
             id: this.props.match.params.id,
             usercount: this.props.match.params.person,
             paymoney: this.state.detail.discountPrice,
-        }).then(ret => {
-            this.setState({
-                doSubmit: false,
-            });
-            if (ret.code != "00000") {
-                return;
-            }
+        }
+        let ret = await runningAPI.activityApply(params);
+        if (ret.code !== '00000') {
+            return;
+        }
+        this.setState({
+            doSubmit: false,
+        }, () => {
+            localStorage.setItem('flag', 1)
             this.props.history.push({
                 pathname: `/order/pay/${ret.body.orderId}`
             });
-        })
-
+        });
     }
+
+    async makeForBusiness() {
+        let fill = JSON.parse(sessionStorage.getItem('fill'));
+        let params = {
+            id: this.props.match.params.id,
+            s4name: fill.s4name,
+            applyusername: fill.applyusername,
+            phone: fill.phone,
+            carbrandid: fill.carbrandid,
+            carmodel: fill.carmodel,
+            usercount: fill.usercount,
+            applyendtime: fill.applyendtime,
+        }
+        let ret = await runningAPI.apply4S(params);
+        if (ret.code !== '00000') {
+            return;
+        }
+        this.setState({
+            doSubmit: false,
+        }, () => {
+            localStorage.setItem('flag', 1)
+            this.props.history.push({
+                pathname: `/order/pay/${ret.body.orderId}`
+            });
+        });
+    }
+
     render() {
         const {detail} = this.state;
         if (!detail) {
@@ -76,7 +127,7 @@ export default class OrderConfirm extends React.Component {
             <div className="order-confirm">
                 <div className="order-subscribe-info">
                     <div className="order-sub-img">
-                            <img src={detail.imgUrl}/>
+                        <img src={detail.imgUrl}/>
                     </div>
                     <div className="order-sub-content">
                         <h1>{detail.name}</h1>
@@ -117,31 +168,32 @@ export default class OrderConfirm extends React.Component {
                         </div>*/}
                     </div>
                 </div>
-                {detail.s4applyDetail ?
+                {detail && detail.isBusiness ?
                     <ul className="order-owner">
                         <li>
                             <div className="order-owner-label">联系人：</div>
-                            <div className="order-owner-content">{detail.s4applyDetail.applyUsername} {detail.s4applyDetail.phone.replace(/\s/g,'')}</div>
+                            <div
+                                className="order-owner-content">{detail.name} {detail.phone.replace(/\s/g, '')}</div>
                         </li>
                         <li>
                             <div className="order-owner-label">预约单位：</div>
-                            <div className="order-owner-content">{detail.s4applyDetail.s4Name}</div>
+                            <div className="order-owner-content">{detail.s4name}</div>
                         </li>
                         <li>
                             <div className="order-owner-label">试驾品牌：</div>
-                            <div className="order-owner-content">{detail.s4applyDetail.carbrandName}</div>
+                            <div className="order-owner-content">{detail.carbrandname}</div>
                         </li>
                         <li>
                             <div className="order-owner-label">试驾车型：</div>
-                            <div className="order-owner-content">{detail.s4applyDetail.carmodel}</div>
+                            <div className="order-owner-content">{detail.carmodel}</div>
                         </li>
                         <li>
                             <div className="order-owner-label">最少试驾人数：</div>
-                            <div className="order-owner-content">{detail.s4applyDetail.minUserCount}</div>
+                            <div className="order-owner-content">{detail.usercount}</div>
                         </li>
                         <li>
                             <div className="order-owner-label">客户报名截止：</div>
-                            <div className="order-owner-content">{detail.s4applyDetail.applyEndTimeStr}</div>
+                            <div className="order-owner-content">{detail.applyEndTimeStr}</div>
                         </li>
                         {/* <li>
                         <div className="order-owner-label">订单金额：</div>
@@ -163,7 +215,7 @@ export default class OrderConfirm extends React.Component {
                         <div className="order-owner-label">手机号码：</div>
                         <div className="order-owner-content">{userInfo.username}</div>
                     </li>*/}
-                    </ul>:<div></div>
+                    </ul> : <div></div>
                 }
 
                 <div className="order-confirm-submit">
@@ -171,7 +223,7 @@ export default class OrderConfirm extends React.Component {
                         总金额：<em>¥{detail.discountPrice}</em>
                     </div>
                     <div className="order-submit-button">
-                        <Button type="primary" onClick={()=>{
+                        <Button type="primary" onClick={() => {
                             this.submit()
                         }}>提交订单</Button>
                     </div>

@@ -3,12 +3,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as fillActions from '../actions/orderFill'
 import * as headerActions from '../actions/header'
-import { Button, List, InputItem, Icon, Stepper, DatePicker} from 'antd-mobile';
+import {Button, List, InputItem, Icon, Stepper, DatePicker} from 'antd-mobile';
 import '../assets/css/orderFill.less';
 import format from 'format-datetime';
 import {apply4S, get4SDetail} from "../api/running";
 import Loading from '../components/Loading'
 import pubsub from '../util/pubsub'
+
 function matchStateToProps(state) {
     //...
     return {
@@ -36,7 +37,7 @@ export default class OrderFill extends React.Component {
         applyusername: '',
         phone: '',
         carbrandid: 1,
-        carbrandname:'',
+        carbrandname: '',
         carmodel: '',
         usercount: 0,
         paymoney: '',
@@ -46,10 +47,10 @@ export default class OrderFill extends React.Component {
     componentWillMount() {
         this.props.setTitle('填写预约单');
         this.getOrderDetail();
-        pubsub.subscribe('mes',({id,name})=>{
+        pubsub.subscribe('mes', ({id, name}) => {
             this.setState({
-                carbrandid:id,
-                carbrandname:name
+                carbrandid: id,
+                carbrandname: name
             })
         })
     }
@@ -68,7 +69,7 @@ export default class OrderFill extends React.Component {
 
     change = (value, stateName) => {
         let o = {...this.state};
-        switch (stateName){
+        switch (stateName) {
             case 's4name':
                 this.props.setName(value);
                 break;
@@ -87,37 +88,30 @@ export default class OrderFill extends React.Component {
             case 'applyendtime':
                 this.props.setTime(value);
                 break;
-                //o[stateName] = format(value, 'yyyy-MM-dd HH:mm') + ':00'
-                //o.time = value;
             default:
                 o[stateName] = value;
                 this.setState(o);
                 break;
         }
-       /* o[stateName] = value;
-        if (stateName === 'applyendtime') {
-
-        }*/
 
     }
 
     async submit() {
         let fill = this.props.state.fill;
-        let ret = await apply4S({
+        sessionStorage.setItem('fill', JSON.stringify({
             id: this.state.id,
+            carbrandname: this.state.carbrandname,
             s4name: fill.s4name,
             applyusername: fill.applyusername,
-            phone:fill.phone,
+            phone: fill.phone,
             carbrandid: this.state.carbrandid,
-            carmodel:fill.carmodel,
+            carmodel: fill.carmodel,
             usercount: fill.usercount,
             applyendtime: format(fill.time, 'yyyy-MM-dd HH:mm') + ':00',
+        }));
+        this.props.history.push({
+            pathname: `/subscribe/confirm/${this.state.id}/${fill.usercount}/0`
         });
-        if(ret.code === "00000"){
-            this.props.history.push({
-                pathname:`/subscribe/confirm/${ret.body.orderId}`
-            })
-        }
     }
 
     goBrandPage = () => {
@@ -157,30 +151,33 @@ export default class OrderFill extends React.Component {
                         }}>4S店名称：</InputItem>
                     </List>
                     <List>
-                        <InputItem placeholder="请输入预约人姓名" value={this.props.state.fill.applyusername} onChange={(value) => {
-                            this.change(value, 'applyusername')
-                        }}>预约人：</InputItem>
+                        <InputItem placeholder="请输入预约人姓名" value={this.props.state.fill.applyusername}
+                                   onChange={(value) => {
+                                       this.change(value, 'applyusername')
+                                   }}>预约人：</InputItem>
                     </List>
                     <List>
-                        <InputItem type="phone" placeholder="请输入联系方式" value={this.props.state.fill.phone} onChange={(value) => {
-                            this.change(value, 'phone')
-                        }}>联系方式：</InputItem>
+                        <InputItem type="phone" placeholder="请输入联系方式" value={this.props.state.fill.phone}
+                                   onChange={(value) => {
+                                       this.change(value, 'phone')
+                                   }}>联系方式：</InputItem>
                     </List>
                 </div>
-                <div className="order-fill-module" style={{"marginTop":0}}>
+                <div className="order-fill-module" style={{"marginTop": 0}}>
                     <div className="order-fill-title" onClick={() => {
                         this.goBrandPage()
                     }}>
                         <span>试驾品牌</span>
                         <div>
-                            <span>{this.state.carbrandname || "选择品牌" }</span>
+                            <span>{this.state.carbrandname || "选择品牌"}</span>
                             <Icon type="right"></Icon>
                         </div>
                     </div>
                     <List>
-                        <InputItem placeholder="多种车型，用逗号“，”隔开" value={this.props.state.fill.carmodel} onChange={(value) => {
-                            this.change(value, 'carmodel')
-                        }}>试驾车型：</InputItem>
+                        <InputItem placeholder="多种车型，用逗号“，”隔开" value={this.props.state.fill.carmodel}
+                                   onChange={(value) => {
+                                       this.change(value, 'carmodel')
+                                   }}>试驾车型：</InputItem>
                     </List>
                     <List>
                         <List.Item extra={

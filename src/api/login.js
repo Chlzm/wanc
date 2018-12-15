@@ -12,3 +12,4 @@ export const getCode = params => post('/rest/account/getcode', params);
 
 export const isLogin = params => get('/rest/account/islogin', params);
 
+export const logout = params => get('/rest/account/logout', params);
