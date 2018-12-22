@@ -184,7 +184,7 @@ export default class OrderSuccess extends React.Component {
 
                 <div className="wanc-module">
                     <div className="wanc-module-title">
-                        <span className="title">实付金额</span>
+                        <span className="title">订单金额</span>
                         <span className="price">¥{data.paymoney}</span>
                     </div>
                     <div className="wanc-module-content">

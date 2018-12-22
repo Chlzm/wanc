@@ -55,9 +55,9 @@ export default class WCTabBar extends Component {
     }
 
     setPopState() {
-        if (isAPP()) {
-            return;
-        }
+        // if (isAPP()) {
+        //     return;
+        // }
         window.addEventListener("popstate", function () {
             if (location.search.indexOf('pay_success') !== -1) {
                 window.history.forward(1);
@@ -126,11 +126,11 @@ export default class WCTabBar extends Component {
                     pathname: '/mine'
                 });
                 break;
-            case '/order/mine':
+            /*case '/mine':
                 if (location.search.indexOf('pay_success') !== -1) {
                     location.history.forward(1);
                 }
-                break;
+                break;*/
             default:
                 this.props.history.goBack();
                 break;

@@ -78,7 +78,7 @@ export default class Pay extends Component {
                         // 使用以上方式判断前端返回,微信团队郑重提示：
                         // res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
                         //location.href = `/subscribe/success/${sessionStorage.getItem("orderId")}?pay_success=1`
-                        location.href = '/order/mine?pay_success=1'
+                        location.href = '/mine?pay_success=1'
                     } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
                         location.href = `/order/pay/${sessionStorage.getItem("orderId")}?message=支付失败`
                     } else if (res.err_msg == "get_brand_wcpay_request:fail") {

@@ -222,9 +222,9 @@ export default class RunningDetail extends React.Component {
                     data.specialDesc ? <div className="wanc-module">
                         <div className="order-running-other">
                             <span className="title">其他事项说明：</span>
-                            <div className="description">
+                            <pre className="description">
                                 {data.specialDesc}
-                            </div>
+                            </pre>
                             {/*<ol>
                             <li>1.如发生意外事件；</li>
                             <li>2.如提供免费午餐；</li>

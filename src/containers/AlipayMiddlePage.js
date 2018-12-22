@@ -70,7 +70,9 @@ export default class AlipayMiddlePage extends Component {
                 clearInterval(loop);
                 if(payResult.success){
                     this.props.history.replace({
-                        pathname:`/subscribe/success/${payResult.orderid}`
+                        pathname: `/mine`,
+                        search:'?pay_success=1'
+                        //pathname:`/subscribe/success/${payResult.orderid}`
                     });
                 }else{
                     this.props.history.replace({

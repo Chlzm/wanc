@@ -70,9 +70,9 @@ export default class OrderPay extends React.Component {
             return;
         }
         this.props.history.push({
-            pathname: '/order/mine',
+            pathname: '/mine',
             search: '?pay_success=1'
-        })
+        });
     }
 
     isPayFail() {
@@ -85,9 +85,15 @@ export default class OrderPay extends React.Component {
             return;
         }
         if (successPay) {
-            this.props.history.replace({
-                pathname: `/subscribe/success/${this.props.match.params.id}`
-            })
+            setTimeout(()=>{
+                this.props.history.push({
+                    pathname: '/mine',
+                    search: '?pay_success=1'
+                });
+            },1000)
+            // this.props.history.replace({
+            //     pathname: `/subscribe/success/${this.props.match.params.id}`
+            // })
         }
 
     }
@@ -168,7 +174,7 @@ export default class OrderPay extends React.Component {
                 setTimeout(() => {
                     Toast.hide();
                     this.props.history.replace({
-                        pathname: `/order/mine`,
+                        pathname: `/mine`,
                         search:'?pay_success=1'
                     });
                     /*this.props.history.replace({

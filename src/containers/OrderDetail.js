@@ -190,7 +190,7 @@ export default class OrderDetail extends React.Component {
                         <span>-¥{data.diffMoney}</span>
                     </li>
                     <li className="price">
-                        <span>实付金额</span>
+                        <span>订单金额</span>
                         <span>¥{data.paymoney}</span>
                     </li>
                 </ul>

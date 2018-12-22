@@ -162,7 +162,7 @@ export default class Message extends Component {
 
     render() {
         let {data, loaded} = this.state;
-        if (loaded) {
+        if (loaded && data && data.length === 0) {
             return <NoData text='暂无数据'></NoData>
         }
         if (!data.length) {

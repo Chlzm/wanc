@@ -220,7 +220,7 @@ export default class OrderConfirm extends React.Component {
 
                 <div className="order-confirm-submit">
                     <div className="order-price">
-                        总金额：<em>¥{detail.discountPrice}</em>
+                        总金额：<em>¥{detail.discountPrice * this.props.match.params.person}</em>
                     </div>
                     <div className="order-submit-button">
                         <Button type="primary" onClick={() => {
